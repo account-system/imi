@@ -24,16 +24,7 @@
 
           <!-- ======================================= -->
           <li class="header">User</li>
-          <li>
-            <a href="{{ url('').'/logout' }}" onclick="event.preventDefault();
-              document.getElementById('logout-form').submit();">
-              <i class="fa fa-btn fa-sign-out"></i><span>Logout</span>
-            </a>
-
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>  
-          </li>
+          <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
         </ul>
       </section>
       <!-- /.sidebar -->
