@@ -8,13 +8,20 @@ use Illuminate\Support\Facades\Password;
 trait SendsPasswordResetEmails
 {
     /**
+    * The information we send to the view
+    * @var string
+    */
+    protected $data = [];
+
+    /**
      * Display the form to request a password reset link.
      *
      * @return \Illuminate\Http\Response
      */
     public function showLinkRequestForm()
     {
-        return view('auth.passwords.email');
+        $this->data['title'] = 'Reset Password';
+        return view('auth.passwords.email',$this->data);
     }
 
     /**

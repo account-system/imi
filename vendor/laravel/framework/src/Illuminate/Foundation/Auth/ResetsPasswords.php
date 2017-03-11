@@ -12,6 +12,12 @@ trait ResetsPasswords
     use RedirectsUsers;
 
     /**
+    * The information we send to the view
+    * @var string
+    */
+    protected $data = [];
+
+    /**
      * Display the password reset view for the given token.
      *
      * If no token is present, display the link request form.
@@ -22,7 +28,8 @@ trait ResetsPasswords
      */
     public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.passwords.reset')->with(
+        $this->data['title'] = 'Reset Password';
+        return view('auth.passwords.reset',$this->data)->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     /**
+    *The information we send to the view
+    */
+    protected $data = []; 
+    
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -23,6 +28,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $this->data['title'] = 'Dashboard';
+        return view('dashboard',$this->data);
     }
 }

@@ -10,13 +10,20 @@ trait AuthenticatesUsers
     use RedirectsUsers, ThrottlesLogins;
 
     /**
+    * The information we send to the view
+    * @var string
+    */
+    protected $data = [];
+
+    /**
      * Show the application's login form.
      *
      * @return \Illuminate\Http\Response
      */
     public function showLoginForm()
     {
-        return view('auth.login');
+        $this->data['title'] = 'Login';
+        return view('auth.login',$this->data);
     }
 
     /**
