@@ -31,4 +31,5 @@ class DashboardController extends Controller
         $this->data['title'] = 'Dashboard';
         return view('dashboard',$this->data);
     }
+
 }
