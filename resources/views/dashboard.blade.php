@@ -26,3 +26,9 @@
         </div>
     </div>
 @endsection
+
+@section('after_scripts')
+<script>
+   
+</script>
+@endsection

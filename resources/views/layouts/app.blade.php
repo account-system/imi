@@ -13,6 +13,9 @@
     @yield('before_styles')
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -100,6 +103,8 @@
     <!-- jQuery 2.2.0 -->
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{ asset('vendor/adminlte') }}/plugins/jQuery/jQuery-2.2.0.min.js"><\/script>')</script>
+    <!-- jQuery fullscreen -->
+    <script src="{{ asset('js/jquery.fullscreen.min.js') }}"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/bootstrap.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/pace/pace.min.js"></script>
@@ -126,6 +131,18 @@
           {
             $(this).parents('li').addClass('active');
           }
+        });
+
+        // Set event fullsscreen
+        $("#fullscreen").click(function(){
+          if($('body').fullscreen()){
+            $.fullscreen.exit();
+            return false;
+          }else{
+            $('body').fullscreen();
+            return false;   
+          }
+               
         });
     </script> 
 

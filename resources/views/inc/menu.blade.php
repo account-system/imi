@@ -25,6 +25,7 @@
           <li><a href="{{ url('').'/register' }}">Register</a></li>
           @endif
         @else
+          <li><a href="#" id="fullscreen"><i class="fa fa-arrows-alt"></i> Full Screen</a></li>
           <li><a href="{{ route('logout') }}"><i class="fa fa-btn fa-sign-out"></i> Logout</a></li>    
         @endif
 
