@@ -26,12 +26,12 @@
               <a href="#"><i class="icon fa fa-desktop"></i><span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{{ url('').'/customer-type' }}"><i class="ion ion-person-add"></i> <span>Customer Type</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/customerlist') }}"><i class="fa fa-th-list"></i> <span>Customer List</span></a></li><hr>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/customerlist') }}"><i class="fa fa-th-list"></i> <span>Customer List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custreport') }}"><i class="fa  fa-cog"></i> <span>Customer Report</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custbalance') }}"><i class="fa  fa-gear"></i> <span>Customer Balance Report</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custar') }}"><i class="fa  fa-gear"></i> <span>Customer Payment Report(A/R)</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
+                <li style="border-bottom: 2px inset #eee;"><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment') }}"><i class="fa fa-calendar"></i> <span>Appointment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/appointmentreport') }}"><i class="fa fa-calendar"></i> <span>Appointment Report</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/invoice') }}"><i class="fa fa-file-text-o"></i> <span>Issue Invoice</span></a></li>
