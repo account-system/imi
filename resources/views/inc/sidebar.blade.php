@@ -31,7 +31,7 @@
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custbalance') }}"><i class="fa  fa-gear"></i> <span>Customer Balance Report</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custar') }}"><i class="fa  fa-gear"></i> <span>Customer Payment Report(A/R)</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li><hr>
+                <li style="border-bottom: 2px inset #eee;"><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment') }}"><i class="fa fa-calendar"></i> <span>Appointment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/appointmentreport') }}"><i class="fa fa-calendar"></i> <span>Appointment Report</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/invoice') }}"><i class="fa fa-file-text-o"></i> <span>Issue Invoice</span></a></li>
