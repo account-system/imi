@@ -3,32 +3,42 @@
  @yield('before_styles')
 
  @section('content')
-
-    <div id="example">
-            <div id="grid"></div>
+	 <div id="example">
+        <style>
+            .k-multicheck-wrap {
+                overflow-x: hidden;
+            }
+        </style>
+    <div class="demo-section k-content wide">
+        <div id="client"></div>
     </div>
-@endsection()
-		@section('after_scripts')
+   
 
-             <script>
-                $(document).ready(function () {
-                    var crudServiceBaseUrl = "https://demos.telerik.com/kendo-ui/service",
-                        dataSource = new kendo.data.DataSource({
+@endsection()
+@section('after_scripts')
+
+           
+            <script>
+             $(document).ready(function() {
+                    var telerikWebServiceBase ="https://demos.telerik.com/kendo-ui/service/";
+
+                    $("#client").kendoGrid({
+                        dataSource: {
                             transport: {
                                 read:  {
-                                    url: crudServiceBaseUrl + "/Products",
+                                    url: telerikWebServiceBase + "/Products",
                                     dataType: "jsonp"
                                 },
                                 update: {
-                                    url: crudServiceBaseUrl + "/Products/Update",
+                                    url: telerikWebServiceBase + "/Products/Update",
                                     dataType: "jsonp"
                                 },
                                 destroy: {
-                                    url: crudServiceBaseUrl + "/Products/Destroy",
+                                    url: telerikWebServiceBase + "/Products/Destroy",
                                     dataType: "jsonp"
                                 },
                                 create: {
-                                    url: crudServiceBaseUrl + "/Products/Create",
+                                    url: telerikWebServiceBase + "/Products/Create",
                                     dataType: "jsonp"
                                 },
                                 parameterMap: function(options, operation) {
@@ -44,28 +54,33 @@
                                     id: "ID",
                                     fields: {
                                         ID: { editable: false, nullable: true },
+                                        AccountType: { type: "search", validation: { required: true, min: 1} },
+                                        SubOf: { type: "search", validation: { min: 0, required: true } },
                                         Name: { validation: { required: true } },
-                                        AccountType: { type: "number", validation: { required: true, min: 1} },
-                                        Code: { type: "boolean" }                                        
+                                        Code: { validation: { required: true } },
+                                        Description: { validation: { required: true } }
+                                        
                                     }
                                 }
                             }
-                        });
-
-                    $("#grid").kendoGrid({
-                        dataSource: dataSource,
+                        },
+                        filterable: true,
                         pageable: true,
                         height: 550,
                         toolbar: ["create"],
                         columns: [
-                            { field: "Name", title:"Name", format: "{0:c}", width: "250px" },
-                            { field: "AccountType", title:"Account Type", width: "120px" },
-                            { field: "Code", width: "120px" },
-                            { command: ["edit", "destroy"], title: "&nbsp;", width: "110px" }],
+                        	{ field: "AccountType", title: "Account Type", format: "{0:c}", width: 120, filterable: { multi: true } },
+                        	{ field: "SubOf", title: "Sub Of", width: 120, filterable: { multi: true } },
+                            { field: "Name", filterable: { multi: true, search: true, search: true } },
+                            { field: "Code", title: "Code", width: 120, filterable: { multi: true } },
+                            { field: "Description", width: 120, filterable: { multi: true, dataSource: [{ Discontinued: true }, { Discontinued: false }]} },
+                            { command: ["edit","destroy"], title: "&nbsp;", width: 180}],
                         editable: "popup"
                     });
-                });
+});
+
             </script>
+
 
         @endsection()
     
