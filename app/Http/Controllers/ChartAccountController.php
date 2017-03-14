@@ -5,8 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ChartofAccount extends Controller
+class ChartAccountController extends Controller
 {
+    /**
+    *The information we send to the view
+    */
+    protected $data = []; 
+    
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +29,8 @@ class ChartofAccount extends Controller
      */
     public function index()
     {
-        //
+        $this->data['title'] = 'Chart Account';
+        return view('pages.accounts.chart',$this->data);
     }
 
     /**

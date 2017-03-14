@@ -104,7 +104,7 @@
               <a href="#"><i class="fa fa-book"></i><span>Account</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/accounttype') }}"><i class="fa fa-user-plus"></i> <span>Account Type</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/chart') }}"><i class="fa fa-bar-chart"></i> <span>Chart Account</span></a></li>
+                <li><a href="{{ url('').'/accounts/chart' }}"><i class="fa fa-bar-chart"></i> <span>Chart Account</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/journalentry') }}"><i class="fa fa-database"></i> <span>Journal Entry</span></a></li>
               </ul>
           </li>
