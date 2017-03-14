@@ -13,14 +13,17 @@
     @yield('before_styles')
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+   
 
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/skins/_all-skins.min.css">
+
 
     <!-- Kendo UI style -->
      <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bootstrap/css/kendo.common-bootstrap.min.css">
@@ -94,11 +97,16 @@
 
     @yield('before_scripts')
 
-    <!-- jQuery 2.2.0 -->
-    <script src="{{ asset('js/jquery.min.js') }}"></script>  
+    <!-- jQuery -->
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/kendo.all.min.js"></script>
+    <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
+
+     <!-- jQuery fullscreen -->
+    <script src="{{ asset('js/jquery.fullscreen.min.js') }}"></script>
 
     <!-- page script -->
     <script type="text/javascript">
@@ -119,6 +127,18 @@
           {
             $(this).parents('li').addClass('active');
           }
+        });
+
+        // Set event fullsscreen
+        $("#fullscreen").click(function(){
+          if($('body').fullscreen()){
+            $.fullscreen.exit();
+            return false;
+          }else{
+            $('body').fullscreen();
+            return false;   
+          }
+               
         });
     </script> 
 
