@@ -25,7 +25,7 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-desktop"></i><span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/customertype') }}"><i class="ion ion-person-add"></i> <span>Customer Type</span></a></li>
+                <li><a href="{{ url('').'/customer-type' }}"><i class="ion ion-person-add"></i> <span>Customer Type</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/customerlist') }}"><i class="fa fa-th-list"></i> <span>Customer List</span></a></li><hr>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custreport') }}"><i class="fa  fa-cog"></i> <span>Customer Report</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/custbalance') }}"><i class="fa  fa-gear"></i> <span>Customer Balance Report</span></a></li>
