@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ChartAccountController extends Controller
+class CustomerListController extends Controller
 {
-    /**
+     /**
     *The information we send to the view
     */
     protected $data = []; 
@@ -29,8 +29,8 @@ class ChartAccountController extends Controller
      */
     public function index()
     {
-        $this->data['title'] = 'Chart Account';
-        return view('pages.chart-account',$this->data);
+        $this->data['title'] = 'Customer List';
+        return view('pages.customer-list',$this->data);
     }
 
     /**

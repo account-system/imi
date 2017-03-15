@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AccountTypesTableSeeder' => $baseDir . '/database/seeds/AccountTypesTableSeeder.php',
     'CrateOrdersTotalsTable' => $baseDir . '/database/migrations/2017_03_13_034141_crate_orders_totals_table.php',
     'CreateAccountChartsTable' => $baseDir . '/database/migrations/2017_03_13_011702_create_account_charts_table.php',
     'CreateAccountCompanysTable' => $baseDir . '/database/migrations/2017_03_13_012541_create_account_companys_table.php',
@@ -32,6 +33,7 @@ return array(
     'CreateConfigurationGroupsTable' => $baseDir . '/database/migrations/2017_03_13_023950_create_configuration_groups_table.php',
     'CreateConfigurationsTable' => $baseDir . '/database/migrations/2017_03_13_023837_create_configurations_table.php',
     'CreateCurrenciesTable' => $baseDir . '/database/migrations/2017_03_13_024221_create_currencies_table.php',
+    'CreateCustomerListTable' => $baseDir . '/database/migrations/2017_03_15_044713_create_customer_list_table.php',
     'CreateCustomerTypesTable' => $baseDir . '/database/migrations/2017_03_13_024336_create_customer_types_table.php',
     'CreateCustomersBasketsTable' => $baseDir . '/database/migrations/2017_03_13_024629_create_customers_baskets_table.php',
     'CreateCustomersInfosTable' => $baseDir . '/database/migrations/2017_03_13_025112_create_customers_infos_table.php',

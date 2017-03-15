@@ -24,94 +24,110 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-desktop"></i><span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/customer-type' }}"><i class="ion ion-person-add"></i> <span>Customer Type</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/customerlist') }}"><i class="fa fa-th-list"></i> <span>Customer List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/custreport') }}"><i class="fa  fa-cog"></i> <span>Customer Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/custbalance') }}"><i class="fa  fa-gear"></i> <span>Customer Balance Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/custar') }}"><i class="fa  fa-gear"></i> <span>Customer Payment Report(A/R)</span></a></li>
-                <li style="border-bottom: 2px inset #eee;"><a href="{{ url(config('backpack.base.route_prefix').'/custpayment') }}"><i class="fa  fa-gear"></i> <span>Customer Payment</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment') }}"><i class="fa fa-calendar"></i> <span>Appointment</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/appointmentreport') }}"><i class="fa fa-calendar"></i> <span>Appointment Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/invoice') }}"><i class="fa fa-file-text-o"></i> <span>Issue Invoice</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/payment') }}"><i class="fa fa-usd"></i> <span>Issue Invcoice Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/invoice') }}"><i class="fa fa-external-link"></i> <span>Daily Case Report</span></a></li>
+                <li><a href="{{ url('').'/customer-type' }}"><span>Customer Type</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/customer-list' }}"><span>Customer List</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/receipt-payment') }}"><span>Receipt Payment</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment') }}"><span>Appointment</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/create-invoice') }}"><span>Create Invoice</span></a></li>
               </ul>
           </li>
           <!-- ==== Setup Staff ==================================== -->
           <li class="treeview">
-              <a href="#"><i class="icon fa fa-table"></i><span>Staff</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="icon fa fa-table"></i><span>Employee</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/setupstaff') }}"><i class="fa fa-th-list"></i> <span>Staff List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/staffpayroll') }}"><i class="fa fa-male"></i> <span>Staff Payroll </span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/staffreport') }}"><i class="fa fa-external-link"></i> <span>Staff Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/payrollreport') }}"><i class="fa fa-cog"></i> <span>Payroll Report</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-staff') }}"><span>Staff List</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/staff-payroll') }}"><span>Staff Payroll </span></a></li>
               </ul>
           </li>
           <!-- ====== Setup Doctor ================================ -->
           <li class="treeview">
               <a href="#"><i class="fa fa-user-md"></i><span>Doctor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctortype') }}"><i class="fa fa-child"></i> <span>Doctor Type</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctorlist') }}"><i class="fa fa fa-th-list"></i> <span>Doctor List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctorexspen') }}"><i class="fa fa-cog"></i> <span>Doctor Expense</span></a></li> 
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctorreport') }}"><i class="fa fa-cog"></i> <span>Doctor Report</span></a></li> 
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-type') }}"><span>Doctor Type</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-list') }}"><span>Doctor List</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-expenes') }}"><span>Doctor Expense</span></a></li> 
               </ul>
           </li>
           <!-- ====== Setup vendor ================================ -->
           <li class="treeview">
               <a href="#"><i class="icon fa fa-file-text-o"></i><span>Vendor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendortype') }}"><i class="ion ion-ios-people-outline"></i> <span>Vendor Type</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendorlist') }}"><i class="fa fa fa-th-list"></i> <span>Vendor List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendorpayment') }}"><i class="fa fa fa-th-list"></i> <span>Vendor Payment(A/P)</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendorpaymentreport') }}"><i class="fa fa fa-th-list"></i> <span>Vendor Payment Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendorbalancereport') }}"><i class="fa fa fa-th-list"></i> <span>Vendor Balance Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/purchase') }}"><i class="ion ion-ios-cart-outline"></i> <span>Purchase</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendorpayment') }}"><i class="fa fa-external-link"></i> <span>Purchase Detail Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/purchasesummary') }}"><i class="fa fa-cog"></i> <span>Purchase Summary Report</span></a></li> 
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendor-type') }}"><span>Vendor Type</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/vendor-list') }}"><span>Vendor List</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/pay-bills') }}"><span>Pay Bills</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/enter-bills') }}"><span>Enter Bills</span></a></li>
               </ul>
           </li>
           <!-- ====== Setup Item ================================ -->
           <li class="treeview">
               <a href="#"><i class="icon fa fa-cubes"></i><span>Item</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/service') }}"><i class="fa fa-gears"></i> <span>Setup Service</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/producttpye') }}"><i class="fa  fa-expeditedssl"></i> <span>Product Type</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/productlist') }}"><i class="fa fa fa-th-list"></i> <span>Product List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/stockuot') }}"><i class="fa fa-shopping-cart"></i> <span>Stock Out</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/stock') }}"><i class="fa fa-cog"></i> <span>Stock Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/stockoutdetail') }}"><i class="fa fa-cog"></i> <span>Stock Out Detail Report</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/salereport') }}"><i class="fa fa-external-link"></i> <span>Stock Out Summary Report</span></a></li>
-              </ul>
-          </li>
-
-          <!-- ====== Report ================================ -->
-          <li class="treeview">
-              <a href="#"><i class="fa fa-leanpub"></i><span>Report</span> <i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/journal') }}"><i class="fa fa-bar-chart-o"></i> <span>Journal</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/accpayable') }}"><i class="fa fa-bar-chart-o"></i> <span>Account Payable</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/generalledger') }}"><i class="fa fa-bar-chart-o"></i> <span>General Ledger</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/balence') }}"><i class="fa fa-area-chart"></i> <span>Balance Sheet</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/cashflow') }}"><i class="fa  fa-pie-chart"></i> <span>Cash Flow</span></a></li>
-                 <li><a href="{{ url(config('backpack.base.route_prefix').'/income') }}"><i class="fa fa-money"></i> <span>Income Statement</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/item-type') }}"><span>Item Type</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/item-type') }}"><span>Item Type</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/sale') }}"><span>Sale</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-service') }}"><span>Setup Services</span></a></li>
               </ul>
           </li>
           <!-- ====== Account ================================ -->
           <li class="treeview">
-              <a href="#"><i class="fa fa-book"></i><span>Account</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="fa fa-usd"></i><span>Account</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/account-type') }}"><span>Account Type</span></a></li>
+                  <li><a href="{{ url('').'/chart-account' }}"><span>Chart Account</span></a></li>
+                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/journal-entry') }}"><span>Making Journal Entry</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/pose-exspen') }}"><span>Pose Exspen</span></a></li>
+                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/pose-income') }}"><span>Pose Income</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/income-type') }}"><span>Income Type</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/expense-type') }}"><span>Income Expense</span></a></li>
+                </ul>
+          </li>
+            <!-- ====== Report ================================ -->
+          <li class="treeview">
+              <a href="#"><i class="fa fa-list-alt"></i><span>Report</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/accounttype') }}"><i class="fa fa-user-plus"></i> <span>Account Type</span></a></li>
-                <li><a href="{{ url('').'/accounts/chart' }}"><i class="fa fa-bar-chart"></i> <span>Chart Account</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/journalentry') }}"><i class="fa fa-database"></i> <span>Journal Entry</span></a></li>
+                               
+                <!-- ====== Account ======================================= -->
+               
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-report') }}"><span>Doctor Report</span></a></li>
+                  <li><a href="#"><span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment-report') }}"><span>Appointment Report</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix').'/customer-ap') }}"><span>Customer Payment Report(A/P)</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix').'/customer-report') }}"><span>Customer Report</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix').'/customer-balance') }}"><span>Customer Balance Report</span></a></li>
+                        <li><a href="{{ url(config('backpack.base.route_prefix').'/invoice-register') }}"><span>Invoice Register</span></a></li>
+                    </ul>
+                  </li>
+
+                <!-- ==== Customer ====================================== -->
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/sale-summary') }}"><span>Sale Summary Report</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/staff-report') }}"><span>Staff Report</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/payroll-report') }}"><span>Payroll Report</span></a></li>
+                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/staff-report') }}"><span>Paybills Report</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/vendor-balance-report') }}"><span>Vendor Balance Report</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'bill-detail-report') }}"><span>Bill Detail Report</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/bill-sum-report') }}"><span>Bill Summary Report</span></a></li> 
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/daily-report') }}"><span>Daily Cash Report</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/stock-report') }}"><span>Stock Report</span></a></li>                        
+                
+                <!-- ======== Financial ==================================== -->
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="#"><span>Financial</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/balance-sheet') }}"><span>Balance Sheet</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/journal') }}"><span>Journal</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/cashflow') }}"><span>Cash Flow</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/general-ledger') }}"><span>General Ledger</span></a></li>
+                  <li><a href="{{ url(config('backpack.base.route_prefix').'/income-statement') }}"><span>Income Statement</span></a></li>
+                </ul>
+                </li>
+                <!-- ============================== -->
               </ul>
           </li>
            <!-- ====== Users ================================ -->
           <li class="treeview">
               <a href="#"><i class="icon fa fa-user"></i><span>Users</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/listuser') }}"><i class="fa fa-th-list"></i> <span>List Users</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/listuser') }}"><span>List Users</span></a></li>
               </ul>
           </li>
           <!-- ============================================= -->

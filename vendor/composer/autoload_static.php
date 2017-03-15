@@ -319,6 +319,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
     );
 
     public static $classMap = array (
+        'AccountTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AccountTypesTableSeeder.php',
         'CrateOrdersTotalsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_034141_crate_orders_totals_table.php',
         'CreateAccountChartsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_011702_create_account_charts_table.php',
         'CreateAccountCompanysTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_012541_create_account_companys_table.php',
@@ -345,6 +346,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
         'CreateConfigurationGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_023950_create_configuration_groups_table.php',
         'CreateConfigurationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_023837_create_configurations_table.php',
         'CreateCurrenciesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024221_create_currencies_table.php',
+        'CreateCustomerListTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_15_044713_create_customer_list_table.php',
         'CreateCustomerTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024336_create_customer_types_table.php',
         'CreateCustomersBasketsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024629_create_customers_baskets_table.php',
         'CreateCustomersInfosTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_025112_create_customers_infos_table.php',
