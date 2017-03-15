@@ -24,6 +24,12 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/chat-account', 'ChartAccountController@index');
+Route::get('/chart-account', 'ChartAccountController@index');
 
-Route::get('/customer-type','CustomerTypeController@index');
+Route::get('/customer-type', 'CustomerTypeController@view');
+Route::group(['prefix' => 'customer-type'], function () {
+    Route::get('/get', 'CustomerTypeController@get');
+    Route::post('/store', 'CustomerTypeController@store');
+    Route::post('/update', 'CustomerTypeController@update');
+    Route::post('/destroy', 'CustomerTypeController@destroy');
+});

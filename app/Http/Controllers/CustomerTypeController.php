@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\CustomerType;
 
 class CustomerTypeController extends Controller
 {
@@ -26,20 +28,21 @@ class CustomerTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function view()
     {
         $this->data['title'] = 'Customer Type';
         return view('pages.customer-type',$this->data);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Get a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function get()
     {
-        //
+        $customerTypes = CustomerType::all();
+        return Response()->Json($customerTypes);  
     }
 
     /**
@@ -50,51 +53,82 @@ class CustomerTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $customertypesRequest = json_decode($request->input('models'));
+  
+        foreach ($customertypesRequest as $key => $customertypeRequest) {
+            try {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+                $customerTypeObject = new CustomerType();
+                $customerTypeObject->name = $customertypeRequest->name;
+                $customerTypeObject->description = $customertypeRequest->description;
+                $customerTypeObject->enabled = $customertypeRequest->enabled;
+                $customerTypeObject->created_by = auth::id();
+                $customerTypeObject->updated_by = auth::id();
+                $customerTypeObject->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+                $customertypesResponse[]= $customerTypeObject;
+
+            } catch (Exception $e) {
+                
+            }
+        }
+
+        return Response()->Json($customertypesResponse);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $customertypesRequest = json_decode($request->input('models'));
+  
+        foreach ($customertypesRequest as $key => $customertypeRequest) {
+            try {
+
+                $customerTypeObject = CustomerType::findOrFail($customertypeRequest->id);
+                $customerTypeObject->name = $customertypeRequest->name;
+                $customerTypeObject->description = $customertypeRequest->description;
+                $customerTypeObject->enabled = $customertypeRequest->enabled;
+                $customerTypeObject->updated_by = auth::id();
+                $customerTypeObject->save();
+
+                $customertypesResponse[]= $customerTypeObject;
+
+            } catch (Exception $e) {
+                
+            }
+        }
+
+        return Response()->Json($customertypesResponse);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $customertypesRequest = json_decode($request->input('models'));
+  
+        foreach ($customertypesRequest as $key => $customertypeRequest) {
+            try {
+
+                $customerTypeObject = CustomerType::findOrFail($customertypeRequest->id);
+                $customerTypeObject->delete();
+
+                $customertypesResponse[]= $customertypeRequest;
+
+            } catch (Exception $e) {
+                
+            }
+        }
+
+        return Response()->Json($customertypesResponse);
     }
 }

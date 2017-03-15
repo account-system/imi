@@ -15,9 +15,9 @@ class CreateCustomerTypesTable extends Migration
     {
         Schema::create('customer_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',200);
+            $table->string('name',35);
             $table->string('description',200)->nullable();
-            $table->boolean('status');
+            $table->boolean('enabled');
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
