@@ -24,6 +24,7 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/chat-account', 'ChartAccountController@index');
+Route::get('/chart-account', 'ChartAccountController@index');
 
 Route::get('/customer-type','CustomerTypeController@index');
+Route::get('/customer-list','CustomerListController@index');
