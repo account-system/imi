@@ -18,8 +18,8 @@ class CreateCustomerTypesTable extends Migration
             $table->string('generate_id',60);
             $table->string('name',60);
             $table->string('description',200)->nullable();
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

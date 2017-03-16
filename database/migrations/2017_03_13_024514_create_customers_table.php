@@ -27,8 +27,8 @@ class CreateCustomersTable extends Migration
             $table->string('relative_tel',35)->nullable();
             $table->string('detail',200)->nullable();
             $table->string('address',200)->nullable();
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }
