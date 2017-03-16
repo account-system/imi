@@ -17,7 +17,7 @@ class CreateDoctorExpensesTable extends Migration
             $table->increments('id');
             $table->date('expense_date');
             $table->integer('invoice_no');
-            $table->string('labo',35)->nullable;
+            $table->string('labo',35)->nullable();
             $table->integer('doctor_id');
             $table->integer('cusotmer_id');
             $table->string('description',200);
