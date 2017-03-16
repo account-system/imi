@@ -15,6 +15,12 @@ class CreateAccountChartsTable extends Migration
     {
         Schema::create('account_charts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('account_code');
+            $table->integer('account_type_id');
+            $table->string('name',35);
+            $table->boolean('stutas');
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
         });
     }

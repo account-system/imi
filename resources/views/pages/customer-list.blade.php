@@ -17,11 +17,11 @@
       <div class="col-md-12">
         <div class="box box-default">
           <div class="box-header with-border">
-            <div class="box-title">Customer Type</div>
+            <div class="box-title">Customer List</div>
           </div>
 
           <div class="box-body">
-
+            
 
           </div><!-- /box-body-->
         </div><!-- /box box-default-->

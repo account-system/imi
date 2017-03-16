@@ -18,9 +18,9 @@ class CreateCustomersTable extends Migration
             $table->integer('customer_type_id');
             $table->integer('brand_id');
             $table->integer('country_id');
-            $table->string('first_name',200);
-            $table->string('last_name',200);
-            $table->string('sex',200);
+            $table->string('first_name',35);
+            $table->string('last_name',35);
+            $table->string('sex',35);
             $table->date('dob');
             $table->string('tel',200)->nullable();
             $table->string('email',200)->nullable();
@@ -29,8 +29,8 @@ class CreateCustomersTable extends Migration
             $table->string('detail',200)->nullable();
             $table->string('address',200)->nullable();
             $table->boolean('status');
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

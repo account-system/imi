@@ -18,8 +18,8 @@ class CreateCustomerTypesTable extends Migration
             $table->string('name',200);
             $table->string('description',200)->nullable();
             $table->boolean('status');
-            $table->integer('created_by');
-            $table->integer('updated_by');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

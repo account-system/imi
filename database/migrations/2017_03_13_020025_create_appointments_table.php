@@ -15,6 +15,14 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointment', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('invoice_id');
+            $table->integer('invoice_no');
+            $table->integer('customer_id');
+            $table->string('customer_name');
+            $table->integer('cusotmer_telephone');
+            $table->boolean('stutas');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }
