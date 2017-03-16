@@ -24,14 +24,4 @@ class CustomerType extends Model
         
     ]; 
 
-    /**
-     * Set the customer type's generate id.
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setGenerateIdAttribute()
-    {
-        $this->attributes['generate_id'] = $this->attributes['id'];
-    }	
 }

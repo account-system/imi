@@ -15,7 +15,6 @@ class CreateCustomerTypesTable extends Migration
     {
         Schema::create('customer_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('generate_id',60);
             $table->string('name',60);
             $table->string('description',200)->nullable();
             $table->integer('created_by')->nullable();

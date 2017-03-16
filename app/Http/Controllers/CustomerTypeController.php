@@ -61,7 +61,6 @@ class CustomerTypeController extends Controller
                 $customerTypeObject = new CustomerType();
                 $customerTypeObject->name = $customertypeRequest->name;
                 $customerTypeObject->description = $customertypeRequest->description;
-                $customerTypeObject->enabled = $customertypeRequest->enabled;
                 $customerTypeObject->created_by = auth::id();
                 $customerTypeObject->updated_by = auth::id();
                 $customerTypeObject->save();
@@ -92,7 +91,6 @@ class CustomerTypeController extends Controller
                 $customerTypeObject = CustomerType::findOrFail($customertypeRequest->id);
                 $customerTypeObject->name = $customertypeRequest->name;
                 $customerTypeObject->description = $customertypeRequest->description;
-                $customerTypeObject->enabled = $customertypeRequest->enabled;
                 $customerTypeObject->updated_by = auth::id();
                 $customerTypeObject->save();
 

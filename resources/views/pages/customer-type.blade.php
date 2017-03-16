@@ -106,7 +106,7 @@
                             description: { nullable: true, validation: {
                                   descriptionvalidation: function (input) {
                                       if (input.is("[name='description']") && input.val() != "") {
-                                          input.attr("data-descriptionvalidation-msg", "Name should start with capital letter");
+                                          input.attr("data-descriptionvalidation-msg", "description should start with capital letter");
                                           return /^[A-Z]/.test(input.val());
                                       }
 
