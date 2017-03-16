@@ -95,8 +95,8 @@
                                       return true;
                                   },
                                   maxlength:function(input) { 
-                                    if (input.is("[name='name']") && input.val().length > 35) {
-                                       input.attr("data-maxlength-msg", "Max length is 35");
+                                    if (input.is("[name='name']") && input.val().length > 60) {
+                                       input.attr("data-maxlength-msg", "Max length is 60");
                                        return false;
                                     }                                   
                                     return true;
@@ -120,8 +120,7 @@
                                     return true;
                                   }
                               } 
-                            },
-                            enabled: { type: "boolean" }                      
+                            }                     
                         }
                     }
                 }
@@ -147,7 +146,6 @@
             columns: [
                 { field:"name", title: " Name" },
                 { field: "description", title: " Description"},
-                { field: "enabled", title: " Enabled" },
                 { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
             editable: "popup"
         });
