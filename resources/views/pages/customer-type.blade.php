@@ -171,8 +171,8 @@
             }  
         });
 
-        $("#txtMultiSearch").keypress(function(e){
-          if(e.which == 13){
+        $("#txtMultiSearch").keyup(function(e){
+         
             var q = $('#txtMultiSearch').val();
 
             $("#grid").data("kendoGrid").dataSource.filter({
@@ -196,7 +196,7 @@
 
               ]
             });  
-          }
+         
         });
     });
   </script>

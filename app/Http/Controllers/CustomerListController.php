@@ -86,7 +86,7 @@ class CustomerListController extends Controller
     public function update(Request $request, $id)
     {
         //
-    }
+    }  
 
     /**
      * Remove the specified resource from storage.

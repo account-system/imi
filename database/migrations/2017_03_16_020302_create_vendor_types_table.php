@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDoctorListsTable extends Migration
+class CreateVendorTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,11 @@ class CreateDoctorListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctor_lists', function (Blueprint $table) {
+        Schema::create('vendor_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('doctor_type_id');
             $table->string('name',35);
-            $table->string('sex',10);
-            $table->string('addrress',200);
-            $table->integer('phone');
-            $table->integer('price');
-            $table->string('type',35)->nullable();
-            $table->string('detial',200)->nullable();
-            $table->string('action',35)->nullable();
-            $table->boolean('stutas');
+            $table->string('description',200)->nullable();
+            $table->boolean('status');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
@@ -38,6 +31,6 @@ class CreateDoctorListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctor_lists');
+        Schema::dropIfExists('vendor_types');
     }
 }
