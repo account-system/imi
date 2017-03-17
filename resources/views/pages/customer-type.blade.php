@@ -45,7 +45,16 @@
 
 @section('after_scripts')
   <script>
-     $(document).ready(function () {
+    $(document).ready(function () {
+      /**
+      *It's status data for customer type
+      *
+      */
+      var statuses = [
+        {value: "ENABLED", text: "ENABLED"},
+        {value: "DISABLED", text: "DISABLED"}
+      ];
+
         var crudServiceBaseUrl = "{{url('')}}",
             dataSource = new kendo.data.DataSource({
                 transport: {
@@ -120,6 +129,8 @@
                                     return true;
                                   }
                               } 
+                            },
+                            status: { field: "status", type: "string", defaultValue: "ENABLED" 
                             }                     
                         }
                     }
@@ -146,8 +157,18 @@
             columns: [
                 { field:"name", title: " Name" },
                 { field: "description", title: " Description"},
+                { field: "status", values: statuses, title: "Status" },
                 { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-            editable: "popup"
+            editable: "popup",
+            edit: function (e) {
+              if (e.model.isNew()) {
+                  e.container.data("kendoWindow").title('Add New Customer Type');
+                  $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+              }
+              else {
+                  e.container.data("kendoWindow").title('Edit Customer Type');
+              }
+            }  
         });
 
         $("#txtMultiSearch").keypress(function(e){
@@ -166,12 +187,17 @@
                     field   : "description",
                     operator: "contains",
                     value   : q
+                },
+                {
+                    field   : "status",
+                    operator: "eq",
+                    value   : q
                 }
+
               ]
             });  
           }
         });
- 
     });
   </script>
   <script type="text/x-kendo-template" id="template">
