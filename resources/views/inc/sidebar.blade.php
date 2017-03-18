@@ -35,15 +35,16 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-table"></i><span>Employee</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-staff') }}"><span>Staff List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/staff-payroll') }}"><span>Staff Payroll </span></a></li>
+                <li><a href="{{ url('').'/employee-types' }}"><span>Employee Type</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-staff') }}"><span>Employee List</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/staff-payroll') }}"><span>Employee Payroll </span></a></li>
               </ul>
           </li>
           <!-- ====== Setup Doctor ================================ -->
           <li class="treeview">
               <a href="#"><i class="fa fa-user-md"></i><span>Doctor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-type') }}"><span>Doctor Type</span></a></li>
+                <li><a href="{{ url('').'/doctor-type' }}"><span>Doctor Type</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-list') }}"><span>Doctor List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-expenes') }}"><span>Doctor Expense</span></a></li> 
               </ul>
@@ -52,7 +53,7 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-file-text-o"></i><span>Vendor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/vendor-type') }}"><span>Vendor Type</span></a></li>
+                <li><a href="{{ url('').'/vendor-types' }}"><span>Vendor Type</span></a></li>
                 <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/vendor-list') }}"><span>Vendor List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/pay-bills') }}"><span>Pay Bills</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/enter-bills') }}"><span>Enter Bills</span></a></li>
@@ -62,7 +63,7 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-cubes"></i><span>Item</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/item-type') }}"><span>Item Type</span></a></li>
+                <li><a href="{{ url('').'/categoriess' }}"><span>Item Type</span></a></li>
                 <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/item-list') }}"><span>Item List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/sale') }}"><span>Sale</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-service') }}"><span>Setup Services</span></a></li>
