@@ -56,7 +56,7 @@ class CategoriessController extends Controller
      */
     public function get()
     {
-        $vendorType = MasterType::find($this->categoriesTable)->masterTypeDetails()->get();
+        $vendorType = MasterType::find($this->categoriesTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($vendorType);
     }
 

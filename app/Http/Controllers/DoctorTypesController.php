@@ -59,7 +59,7 @@ class DoctorTypesController extends Controller
      */
     public function get()
     {
-        $doctorType = MasterType::find($this->doctorTypeTable)->masterTypeDetails()->get();
+        $doctorType = MasterType::find($this->doctorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($doctorType);
     }
 
