@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\CustomerType;
+use App\MasterType;
+use App\MasterTypeDetail;
 
 class CustomerTypeController extends Controller
 {
     /**
+    *The customer type table
+    *@var int
+    */
+    private $customerTypeTable = 1;
+
+    /**
+    *The status of customer
+    *@var array
+    */
+    private $status = ['ENABLED','DISABLED'];
+
+    /**
     *The information we send to the view
+    *@var array
     */
     protected $data = []; 
     
@@ -41,8 +55,8 @@ class CustomerTypeController extends Controller
      */
     public function get()
     {
-        $customerTypes = CustomerType::all();
-        return Response()->Json($customerTypes);  
+        $customerTypes = MasterType::find($this->customerTypeTable)->masterTypeDetails()->get();
+        return Response()->Json($customerTypes);
     }
 
     /**
@@ -58,7 +72,9 @@ class CustomerTypeController extends Controller
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
 
-                $customerTypeObject = new CustomerType();
+                $customerTypeObject = new MasterTypeDetail();
+                $customerTypeObject->master_type_id = $this->customerTypeTable;
+
                 $customerTypeObject->name = $customertypeRequest->name;
                 $customerTypeObject->description = $customertypeRequest->description;
                 $customerTypeObject->status = $customertypeRequest->status;
@@ -89,7 +105,7 @@ class CustomerTypeController extends Controller
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
 
-                $customerTypeObject = CustomerType::findOrFail($customertypeRequest->id);
+                $customerTypeObject = MasterTypeDetail::findOrFail($customertypeRequest->id);
                 $customerTypeObject->name = $customertypeRequest->name;
                 $customerTypeObject->description = $customertypeRequest->description;
                 $customerTypeObject->status = $customertypeRequest->status;
@@ -119,7 +135,7 @@ class CustomerTypeController extends Controller
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
 
-                $customerTypeObject = CustomerType::findOrFail($customertypeRequest->id);
+                $customerTypeObject = MasterTypeDetail::findOrFail($customertypeRequest->id);
                 $customerTypeObject->delete();
 
                 $customertypesResponse[]= $customertypeRequest;
