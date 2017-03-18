@@ -346,7 +346,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
         'CreateConfigurationGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_023950_create_configuration_groups_table.php',
         'CreateConfigurationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_023837_create_configurations_table.php',
         'CreateCurrenciesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024221_create_currencies_table.php',
-        'CreateCustomerTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024336_create_customer_types_table.php',
+        'CreateCustomerTypeTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_17_072019_create_customer_type_table.php',
         'CreateCustomersBasketsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024629_create_customers_baskets_table.php',
         'CreateCustomersInfosTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_025112_create_customers_infos_table.php',
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_13_024514_create_customers_table.php',

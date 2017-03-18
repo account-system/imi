@@ -33,7 +33,7 @@ return array(
     'CreateConfigurationGroupsTable' => $baseDir . '/database/migrations/2017_03_13_023950_create_configuration_groups_table.php',
     'CreateConfigurationsTable' => $baseDir . '/database/migrations/2017_03_13_023837_create_configurations_table.php',
     'CreateCurrenciesTable' => $baseDir . '/database/migrations/2017_03_13_024221_create_currencies_table.php',
-    'CreateCustomerTypesTable' => $baseDir . '/database/migrations/2017_03_13_024336_create_customer_types_table.php',
+    'CreateCustomerTypeTable' => $baseDir . '/database/migrations/2017_03_17_072019_create_customer_type_table.php',
     'CreateCustomersBasketsTable' => $baseDir . '/database/migrations/2017_03_13_024629_create_customers_baskets_table.php',
     'CreateCustomersInfosTable' => $baseDir . '/database/migrations/2017_03_13_025112_create_customers_infos_table.php',
     'CreateCustomersTable' => $baseDir . '/database/migrations/2017_03_13_024514_create_customers_table.php',
