@@ -54,7 +54,7 @@
               <a href="#"><i class="icon fa fa-file-text-o"></i><span>Vendor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{{ url('').'/vendor-types' }}"><span>Vendor Type</span></a></li>
-                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/vendor-list') }}"><span>Vendor List</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/vendor-lists' }}"><span>Vendor List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/pay-bills') }}"><span>Pay Bills</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/enter-bills') }}"><span>Enter Bills</span></a></li>
               </ul>
@@ -73,7 +73,6 @@
           <li class="treeview">
               <a href="#"><i class="fa fa-usd"></i><span>Account</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                  <li><a href="{{ url(config('backpack.base.route_prefix').'/account-type') }}"><span>Account Type</span></a></li>
                   <li><a href="{{ url('').'/chart-account' }}"><span>Chart Account</span></a></li>
                   <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/journal-entry') }}"><span>Making Journal Entry</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/pose-exspen') }}"><span>Pose Exspen</span></a></li>

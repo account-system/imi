@@ -18,12 +18,6 @@ class VendorTypesController extends Controller
     private $vendorTypeTable = 4;
 
     /**
-    *The status of endor
-    *@var array
-    */
-    private $status = ['ENABLED','DISABLED'];
-
-    /**
     *The information we send to the view
     *@var array
     */
@@ -58,6 +52,17 @@ class VendorTypesController extends Controller
     public function get()
     {
         $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
+        return Response()->Json($vendorType);
+    }
+
+    /**
+     * Get a listing of the resource for dropdownlist.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lists()
+    {
+        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
         return Response()->Json($vendorType);
     }
 

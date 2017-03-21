@@ -16,12 +16,6 @@ class CustomerTypeController extends Controller
     private $customerTypeTable = 1;
 
     /**
-    *The status of customer
-    *@var array
-    */
-    private $status = ['ENABLED','DISABLED'];
-
-    /**
     *The information we send to the view
     *@var array
     */
@@ -58,7 +52,16 @@ class CustomerTypeController extends Controller
         $customerTypes = MasterTypeDetail::where('master_type_id',$this->customerTypeTable)->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($customerTypes);
     }
-
+    /**
+     * Get a listing of the resource for dropdownlist.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lists()
+    {
+        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
+        return Response()->Json($vendorType);
+    }
     /**
      * Store a newly created resource in storage.
      *

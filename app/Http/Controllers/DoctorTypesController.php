@@ -20,12 +20,6 @@ class DoctorTypesController extends Controller
     private $doctorTypeTable = 3;
 
     /**
-    *The status of Doctor
-    *@var array
-    */
-    private $status = ['ENABLED','DISABLED'];
-
-    /**
     *The information we send to the view
     *@var array
     */
@@ -62,7 +56,16 @@ class DoctorTypesController extends Controller
         $doctorType = MasterType::find($this->doctorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($doctorType);
     }
-
+    /**
+     * Get a listing of the resource for dropdownlist.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lists()
+    {
+        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
+        return Response()->Json($vendorType);
+    }
     /**
      * Store a newly created resource in storage.
      *

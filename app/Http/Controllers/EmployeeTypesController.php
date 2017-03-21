@@ -17,12 +17,6 @@ class EmployeeTypesController extends Controller
     private $employeeTypeTable = 2;
 
     /**
-    *The status of employee
-    *@var array
-    */
-    private $status = ['ENABLED','DISABLED'];
-
-    /**
     *The information we send to the view
     *@var array
     */
@@ -59,7 +53,16 @@ class EmployeeTypesController extends Controller
         $employeeType = MasterType::find($this->employeeTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($employeeType);
     }
-
+    /**
+     * Get a listing of the resource for dropdownlist.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lists()
+    {
+        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
+        return Response()->Json($vendorType);
+    }
     /**
      * Store a newly created resource in storage.
      *
