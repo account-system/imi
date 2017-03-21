@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AccountTypesTableSeeder' => $baseDir . '/database/seeds/AccountTypesTableSeeder.php',
+    'CreateAccountTypesTable' => $baseDir . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
+    'CreateCustomersTable' => $baseDir . '/database/migrations/2017_03_21_012024_create_customers_table.php',
     'CreateMasterTypeDetailsTable' => $baseDir . '/database/migrations/2017_03_18_024540_create_master_type_details_table.php',
     'CreateMasterTypesTable' => $baseDir . '/database/migrations/2017_03_18_024410_create_master_types_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
