@@ -56,16 +56,6 @@ Route::group(['prefix' => 'doctor-type'], function () {
     Route::post('/destroy', 'DoctorTypesController@destroy');
 });
 
-// Route Controller Vendor Type
-Route::get('/vendor-types', 'VendorTypesController@view');
-Route::group(['prefix' => 'vendor-types'], function () {
-    Route::get('/get', 'VendorTypesController@get');
-    Route::get('/list', 'VendorTypesController@lists');
-    Route::post('/store', 'VendorTypesController@store');
-    Route::post('/update', 'VendorTypesController@update');
-    Route::post('/destroy', 'VendorTypesController@destroy');
-});
-
 // Route Controller Category
 Route::get('/categoriess', 'CategoriessController@view');
 Route::group(['prefix' => 'categoriess'], function () {
@@ -76,12 +66,41 @@ Route::group(['prefix' => 'categoriess'], function () {
     Route::post('/destroy', 'CategoriessController@destroy');
 });
 
-// Route Controller Category
-Route::get('/vendor-lists', 'VendorController@view');
-Route::group(['prefix' => 'vendor-lists'], function () {
+// Route vendor type
+Route::group(['prefix' => 'vendor-type'], function () {
+    Route::get('/', 'VendorTypeController@view');
+    Route::get('/get', 'VendorTypeController@get');
+    Route::get('/list', 'VendorTypeController@getList');
+    Route::post('/store', 'VendorTypeController@store');
+    Route::post('/update', 'VendorTypeController@update');
+    Route::post('/destroy', 'VendorTypeController@destroy');
+});
+// Route vendor list
+Route::group(['prefix' => 'vendor-list'], function () {
+    Route::get('/', 'VendorController@view');
     Route::get('/get', 'VendorController@get');
-    Route::get('/list', 'VendorController@lists');
     Route::post('/store', 'VendorController@store');
     Route::post('/update', 'VendorController@update');
     Route::post('/destroy', 'VendorController@destroy');
+});
+
+// Route vendor list
+Route::group(['prefix' => 'branch'], function () {
+    //Route::get('/', 'BranchController@view');
+    //Route::get('/get', 'BranchController@get');
+    Route::get('/list', 'BranchController@getList');
+    Route::get('/list-foreign-key-column', 'BranchController@getForeignKeyColumn');
+    //Route::post('/store', 'BranchController@store');
+    //Route::post('/update', 'BranchController@update');
+    //Route::post('/destroy', 'BranchController@destroy');
+});
+
+// Route country
+Route::group(['prefix' => 'country'], function () {
+    //Route::get('/', 'CountryController@view');
+    //Route::get('/get', 'CountryController@get');
+    Route::get('/list', 'CountryController@getList');
+    Route::post('/store', 'CountryController@store');
+    //Route::post('/update', 'CountryController@update');
+    //Route::post('/destroy', 'CountryController@destroy');
 });

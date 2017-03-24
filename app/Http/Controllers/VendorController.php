@@ -3,20 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Status;
+use App\Http\Controllers\VendorTypeController;
+use App\MasterType;
+use App\Vendor;
 use Illuminate\Http\Request;
-use App\MasterTypeDetail;
-use App\VendorList;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
-	/**
-    *The vendor type table
-    *@var int
-    */
-    private $vendorTypeTable = 4;
-
 	/**
     *The information we send to the view
     *@var array
@@ -39,8 +34,10 @@ class VendorController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Vendor List';
-        return view('pages.vendor-lists',$this->data);
+        $this->data['title']            =   'Vendor List';
+        $this->data['vendorTypeList']   =   VendorTypeController::getVendorTypeList(null)->content();
+        
+        return view('pages.vendor-list',$this->data);
     }
 
     /**
@@ -50,8 +47,10 @@ class VendorController extends Controller
      */
     public function get()
     {
-        $vendors = Vendor::find($this->vendorlists)->vendorTypeTable()->get()->sortByDesc('created_at')->values()->all();
-        return Response()->Json($vendorlist);
+        $vendors = Vendor::all()->sortByDesc('created_at')->values()->all();
+        
+
+        return Response()->Json($vendors);
     }
 
 
@@ -63,42 +62,40 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
-        $vendortypesRequest = json_decode($request->input('models'));
+        $vendorsRequest = json_decode($request->input('models'));
   
-        foreach ($vendortypesRequest as $key => $vendorlistRequest) {
+        foreach ($vendorsRequest as $key => $vendorRequest) {
             try {
 
-            	$vendorListObject = new VendorList();
-          
-                // $vendorListObject = new MasterTypeDetail();
-                // $vendorListObject->master_type_id = $this->vendorlists;
-            	$vendorListObject->vendor_type_id = $vendorlistRequest->vendor_type_id;
-                $vendorListObject->branch_id = $vendorlistRequest->branch_id;
-                $vendorListObject->company_name = $vendorlistRequest->company_name;
-                $vendorListObject->contact_name = $vendorlistRequest->contact_name;
-                $vendorListObject->cantact_title = $vendorlistRequest->cantact_title;
-                $vendorListObject->phone = $vendorlistRequest->phone;
-                $vendorListObject->email = $vendorlistRequest->email;
-                $vendorListObject->fax = $vendorlistRequest->fax;
-                $vendorListObject->country = $vendorlistRequest->country;
-                $vendorListObject->city = $vendorlistRequest->city;
-                $vendorListObject->region = $vendorlistRequest->region;
-                $vendorListObject->postal_code = $vendorlistRequest->postal_code;
-                $vendorListObject->address = $vendorlistRequest->address;
-                $vendorListObject->detail = $vendorlistRequest->detail;
-                $vendorListObject->status = $vendorlistRequest->status;
-                $vendorListObject->created_by = auth::id();
-                $vendorListObject->updated_by = auth::id();
-                $vendorListObject->save();
+            	$vendorObject = new Vendor();
 
-                $vendorlistsResponse[]= $vendorListObject;
+            	$vendorObject->vendor_type_id 	=	$vendorRequest->vendor_type_id;
+                $vendorObject->branch_id 		= 	$vendorRequest->branch_id;
+                $vendorObject->company_name 	= 	$vendorRequest->company_name;
+                $vendorObject->contact_name 	= 	$vendorRequest->contact_name;
+                $vendorObject->cantact_title 	= 	$vendorRequest->cantact_title;
+                $vendorObject->phone 			= 	$vendorRequest->phone;
+                $vendorObject->email 			= 	$vendorRequest->email;
+                $vendorObject->country_id       = 	$vendorRequest->country_id;
+                $vendorObject->city_id 			= 	$vendorRequest->city_id;
+                $vendorObject->region 			= 	$vendorRequest->region;
+                $vendorObject->postal_code 		= 	$vendorRequest->postal_code;
+                $vendorObject->address 			= 	$vendorRequest->address;
+                $vendorObject->detail 			= 	$vendorRequest->detail;
+                $vendorObject->status 			= 	$vendorRequest->status;
+                $vendorObject->created_by 		= 	auth::id();
+                $vendorObject->updated_by 		= 	auth::id();
+
+                $vendorObject->save();
+
+                $vendorsResponse[]= $vendorObject;
 
             } catch (Exception $e) {
                 
             }
         }
 
-        return Response()->Json($vendorlistsResponse);
+        return Response()->Json($vendorsResponse);
     }
 
     /**
@@ -109,39 +106,40 @@ class VendorController extends Controller
      */
     public function update(Request $request)
     {
-        $vendortypesRequest = json_decode($request->input('models'));
+        $vendorsRequest = json_decode($request->input('models'));
   
-        foreach ($vendortypesRequest as $key => $vendorlistRequest) {
+        foreach ($vendorsRequest as $key => $vendorRequest) {
             try {
 
-                // $vendorListObject = MasterTypeDetail::findOrFail($vendorlistRequest->id);
-                $vendorListObject = new VendorList();
-                $vendorListObject->vendor_type_id = $vendorlistRequest->vendor_type_id;
-                $vendorListObject->branch_id = $vendorlistRequest->branch_id;
-                $vendorListObject->company_name = $vendorlistRequest->company_name;
-                $vendorListObject->contact_name = $vendorlistRequest->contact_name;
-                $vendorListObject->cantact_title = $vendorlistRequest->cantact_title;
-                $vendorListObject->phone = $vendorlistRequest->phone;
-                $vendorListObject->email = $vendorlistRequest->email;
-                $vendorListObject->fax = $vendorlistRequest->fax;
-                $vendorListObject->country = $vendorlistRequest->country;
-                $vendorListObject->city = $vendorlistRequest->city;
-                $vendorListObject->region = $vendorlistRequest->region;
-                $vendorListObject->postal_code = $vendorlistRequest->postal_code;
-                $vendorListObject->address = $vendorlistRequest->address;
-                $vendorListObject->detail = $vendorlistRequest->detail;
-                $vendorListObject->status = $vendorlistRequest->status;
-                $vendorListObject->updated_by = auth::id();
-                $vendorListObject->save();
+                $vendorObject 					= 	Vendor::findOrFail($vendorRequest->id);
 
-                $vendorlistsResponse[]= $vendorListObject;
+                $vendorObject->vendor_type_id 	=	$vendorRequest->vendor_type_id;
+                $vendorObject->branch_id 		= 	$vendorRequest->branch_id;
+                $vendorObject->company_name 	= 	$vendorRequest->company_name;
+                $vendorObject->contact_name 	= 	$vendorRequest->contact_name;
+                $vendorObject->cantact_title 	= 	$vendorRequest->cantact_title;
+                $vendorObject->phone 			= 	$vendorRequest->phone;
+                $vendorObject->email 			= 	$vendorRequest->email;
+                $vendorObject->country_id       =   $vendorRequest->country_id;
+                $vendorObject->city_id          =   $vendorRequest->city_id;
+                $vendorObject->region 			= 	$vendorRequest->region;
+                $vendorObject->postal_code 		= 	$vendorRequest->postal_code;
+                $vendorObject->address 			= 	$vendorRequest->address;
+                $vendorObject->detail 			= 	$vendorRequest->detail;
+                $vendorObject->status 			= 	$vendorRequest->status;
+                $vendorObject->updated_by 		= 	auth::id();
 
+                $vendorObject->save();
+
+                $vendorsResponse[]= $vendorObject;
+
+                
             } catch (Exception $e) {
                 
             }
         }
 
-        return Response()->Json($vendorlistsResponse);
+        return Response()->Json($vendorsResponse);
     }
 
     /**
@@ -152,23 +150,23 @@ class VendorController extends Controller
      */
     public function destroy(Request $request)
     {
-        $vendortypesRequest = json_decode($request->input('models'));
+        $vendorsRequest = json_decode($request->input('models'));
   
-        foreach ($vendortypesRequest as $key => $vendorlistRequest) {
+        foreach ($vendorsRequest as $key => $vendorRequest) {
             try {
 
-                //$vendorListObject = MasterTypeDetail::findOrFail($vendorlistRequest->id);
+                $vendorObject		=	Vendor::findOrFail($vendorRequest->id);
+
+                $vendorObject->delete();
+
+                $vendorsResponse[]	= 	$vendorRequest;
+
                 
-                $vendorListObject = new VendorList();
-                $vendorListObject->delete();
-
-                $vendorlistsResponse[]= $vendorlistRequest;
-
             } catch (Exception $e) {
                 
             }
         }
 
-        return Response()->Json($vendorlistsResponse);
+        return Response()->Json($vendorsResponse);
     }
 }
