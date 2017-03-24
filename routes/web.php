@@ -70,7 +70,7 @@ Route::group(['prefix' => 'categoriess'], function () {
 Route::group(['prefix' => 'vendor-type'], function () {
     Route::get('/', 'VendorTypeController@view');
     Route::get('/get', 'VendorTypeController@get');
-    Route::get('/list', 'VendorTypeController@getList');
+    Route::get('/list/{option}', 'VendorTypeController@getList');
     Route::post('/store', 'VendorTypeController@store');
     Route::post('/update', 'VendorTypeController@update');
     Route::post('/destroy', 'VendorTypeController@destroy');
@@ -88,8 +88,7 @@ Route::group(['prefix' => 'vendor-list'], function () {
 Route::group(['prefix' => 'branch'], function () {
     //Route::get('/', 'BranchController@view');
     //Route::get('/get', 'BranchController@get');
-    Route::get('/list', 'BranchController@getList');
-    Route::get('/list-foreign-key-column', 'BranchController@getForeignKeyColumn');
+    Route::get('/list/{option}', 'BranchController@getList');
     //Route::post('/store', 'BranchController@store');
     //Route::post('/update', 'BranchController@update');
     //Route::post('/destroy', 'BranchController@destroy');
@@ -99,7 +98,7 @@ Route::group(['prefix' => 'branch'], function () {
 Route::group(['prefix' => 'country'], function () {
     //Route::get('/', 'CountryController@view');
     //Route::get('/get', 'CountryController@get');
-    Route::get('/list', 'CountryController@getList');
+    Route::get('/list/{option}', 'CountryController@getList');
     Route::post('/store', 'CountryController@store');
     //Route::post('/update', 'CountryController@update');
     //Route::post('/destroy', 'CountryController@destroy');

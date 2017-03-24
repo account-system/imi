@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class BranchController extends Controller
 {
     /**
-    *The branch table
-    *
-    *@var int
-    */
+     *The branch table
+     *
+     *@var int
+     */
     private $branchTable = 6;
 
     /**
-    *The information we send to the view
-    *
-    *@var array
-    */
+     *The information we send to the view
+     *
+     *@var array
+     */
     protected $data = []; 
     
     /**
@@ -43,6 +43,7 @@ class BranchController extends Controller
     public function view()
     {
         $this->data['title'] = 'Branch';
+
         return view('pages.branch',$this->data);
     }
 
@@ -59,19 +60,19 @@ class BranchController extends Controller
     }
 
     /**
-     * Get a listing of the resource that contains(id, name).
+     * Get a listing of the resource that contains(value, text).
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList(Request $request)
+    public function getList($option=null)
     {
-        $branchs        =   MasterType::find($this->branchTable)->masterDetails();
+        $branchs = MasterType::find($this->branchTable)->masterDetails();
 
-        if($request->input('option')=='filter'){
-            $branchs    =   $branchs->where('status',Status::Enabled); 
+        if($option == 'filter'){
+            $branchs = $branchs->where('status',Status::Enabled); 
         }
         
-        $branchs        =   $branchs->get(['id','name'])->sortBy('name')->values()->all();
+        $branchs = $branchs->get(['id as value','name as text'])->sortBy('text')->values()->all();
 
         return Response()->Json($branchs);
     }
@@ -90,7 +91,7 @@ class BranchController extends Controller
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
 
-                $branchObject                   =   new MasterDetail();
+                $branchObject = new MasterDetail();
 
                 $branchObject->master_type_id   =   $this->vendorTypeTable;
                 $branchObject->name             =   $branchRequest->name;
@@ -101,7 +102,7 @@ class BranchController extends Controller
 
                 $branchObject->save();
 
-                $branchsResponse[]              =   $branchObject;
+                $branchsResponse[] = $branchObject;
 
             } catch (Exception $e) {
                 
@@ -124,7 +125,7 @@ class BranchController extends Controller
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
 
-                $branchObject               =   MasterDetail::findOrFail($branchRequest->id);
+                $branchObject = MasterDetail::findOrFail($branchRequest->id);
 
                 $branchObject->name         =   $branchRequest->name;
                 $branchObject->description  =   $branchRequest->description;
@@ -133,7 +134,7 @@ class BranchController extends Controller
 
                 $branchObject->save();
 
-                $branchsResponse[]          = $branchObject;
+                $branchsResponse[] = $branchObject;
 
             } catch (Exception $e) {
                 
@@ -156,11 +157,11 @@ class BranchController extends Controller
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
 
-                $branchObject           =   MasterTypeDetail::findOrFail($branchRequest->id);
+                $branchObject = MasterTypeDetail::findOrFail($branchRequest->id);
 
                 $branchObject->delete();
 
-                $branchsResponse[]      =   $branchRequest;
+                $branchsResponse[] = $branchRequest;
 
             } catch (Exception $e) {
                 

@@ -166,9 +166,9 @@
       var crudBaseUrl = "{{url('')}}";
 
       //It's status data
-      var statuses = [
-        {id: "Enabled", name: "Enabled"},
-        {id: "Disabled", name: "Disabled"}
+      var statusDataSource = [
+        {value: "Enabled", text: "Enabled"},
+        {value: "Disabled", text: "Disabled"}
       ];
 
       // To make Pace works on Ajax calls
@@ -176,10 +176,10 @@
 
       // Ajax calls should always have the CSRF token attached to them, otherwise they won't work
       $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-          });
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
       
       // Set active state on menu element
       var current_url = window.location.href;
@@ -205,23 +205,22 @@
       function statusDataBinding()
       {
         $("#status").kendoDropDownList({
-            dataTextField: "id",
-            dataValueField: "name",
-            dataSource: statuses,
-            index: 0
-          });
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: statusDataSource  
+        });
       }
 
       //Create branch dropdownlist 
       function branchDataBinding(){
         $("#branch").kendoDropDownList({
           optionLabel: "Select branch...",
-          dataValueField: "id",
-          dataTextField: "name",
+          dataValueField: "value",
+          dataTextField: "text",
           dataSource: {
             transport: {
               read: {
-                url: crudBaseUrl+"/branch/list?option=filter",
+                url: crudBaseUrl+"/branch/list/filter",
                 type: "GET",
                 dataType: "json"
               }
@@ -235,13 +234,13 @@
         $("#country").kendoDropDownList({
           filter: "startswith",
           optionLabel: "Select country...",
-          dataValueField: "id",
-          dataTextField: "name",
+          dataValueField: "value",
+          dataTextField: "text",
           dataSource: {
             batch: true,
             transport: {
               read: {
-                url: crudBaseUrl + "/country/list?option=filter",
+                url: crudBaseUrl + "/country/list/filter",
                 type: "GET",
                 dataType: "json"
               },
@@ -260,7 +259,7 @@
               model: {
                 id: "id",
                 fields: {
-                  id: { type: "number" },
+                  id: { type: "number"},
                   name: { type: "string" },
                   description: {type: "string", nullable: true},
                   status: {type: "string", defaultValue: "Enabled"}
@@ -282,7 +281,7 @@
             id: 0,
             name: value,
             description: null,
-            status: "Enabled"
+            status: 'Enabled'
           });
 
           dataSource.one("sync", function() {

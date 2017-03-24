@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class VendorTypeController extends Controller
 {
     /**
-    *The vendor type table
-    *
-    *@var int
-    */
+     *The vendor type table
+     *
+     *@var int
+     */
     private $vendorTypeTable = 4;
 
     /**
-    *The information we send to the view
-    *
-    *@var array
-    */
+     *The information we send to the view
+     *
+     *@var array
+     */
     protected $data = []; 
     
     /**
@@ -36,17 +36,6 @@ class VendorTypeController extends Controller
     }
 
     /**
-     * Display a listing of the resource that contains(value, text).
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public static function getVendorTypeList($option=null)
-    {
-        $vendorTypeController = new VendorTypeController;        
-        return $vendorTypeController->getList($option);
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -54,6 +43,7 @@ class VendorTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Vendor Type';
+
         return view('pages.vendor-type',$this->data);
     }
 
@@ -82,7 +72,7 @@ class VendorTypeController extends Controller
             $vendorTypes = $vendorTypes->where('status',Status::Enabled); 
         }
         
-        $vendorTypes = $vendorTypes->get(['id as value','name as text'])->sortBy('name')->values()->all();
+        $vendorTypes = $vendorTypes->get(['id as value','name as text'])->sortBy('text')->values()->all();
 
         return Response()->Json($vendorTypes);
     }
@@ -101,12 +91,14 @@ class VendorTypeController extends Controller
             try {
 
                 $vendorTypeObject = new MasterDetail();
-                $vendorTypeObject->master_type_id = $this->vendorTypeTable;
-                $vendorTypeObject->name = $vendortypeRequest->name;
-                $vendorTypeObject->description = $vendortypeRequest->description;
-                $vendorTypeObject->status = $vendortypeRequest->status;
-                $vendorTypeObject->created_by = auth::id();
-                $vendorTypeObject->updated_by = auth::id();
+
+                $vendorTypeObject->master_type_id   =   $this->vendorTypeTable;
+                $vendorTypeObject->name             =   $vendortypeRequest->name;
+                $vendorTypeObject->description      =   $vendortypeRequest->description;
+                $vendorTypeObject->status           =   $vendortypeRequest->status;
+                $vendorTypeObject->created_by       =   auth::id();
+                $vendorTypeObject->updated_by       =   auth::id();
+
                 $vendorTypeObject->save();
 
                 $vendortypesResponse[] = $vendorTypeObject;
@@ -133,10 +125,11 @@ class VendorTypeController extends Controller
             try {
 
                 $vendorTypeObject = MasterDetail::findOrFail($vendortypeRequest->id);
-                $vendorTypeObject->name = $vendortypeRequest->name;
-                $vendorTypeObject->description = $vendortypeRequest->description;
-                $vendorTypeObject->status = $vendortypeRequest->status;
-                $vendorTypeObject->updated_by = auth::id();
+
+                $vendorTypeObject->name         =   $vendortypeRequest->name;
+                $vendorTypeObject->description  =   $vendortypeRequest->description;
+                $vendorTypeObject->status       =   $vendortypeRequest->status;
+                $vendorTypeObject->updated_by   =   auth::id();
                 $vendorTypeObject->save();
 
                 $vendortypesResponse[] = $vendorTypeObject;
@@ -163,6 +156,7 @@ class VendorTypeController extends Controller
             try {
 
                 $vendorTypeObject = MasterDetail::findOrFail($vendortypeRequest->id);
+
                 $vendorTypeObject->delete();
 
                 $vendortypesResponse[] = $vendortypeRequest;

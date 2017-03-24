@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\Auth;
 class CountryController extends Controller
 {
     /**
-    *The country table
-    *
-    *@var int
-    */
+     *The country table
+     *
+     *@var int
+     */
     private $countryTable = 7;
 
     /**
-    *The information we send to the view
-    *
-    *@var array
-    */
+     *The information we send to the view
+     *
+     *@var array
+     */
     protected $data = []; 
     
     /**
@@ -43,6 +43,7 @@ class CountryController extends Controller
     public function view()
     {
         $this->data['title'] = 'Country';
+
         return view('pages.country',$this->data);
     }
 
@@ -59,19 +60,19 @@ class CountryController extends Controller
     }
 
     /**
-     * Get a listing of the resource that contains(id, name).
+     * Get a listing of the resource that contains(value, text).
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList(Request $request)
+    public function getList($option=null)
     {
         $countries = MasterType::find($this->countryTable)->masterDetails();
 
-        if($request->input('option')=='filter'){
+        if($option == 'filter'){
             $countries = $countries->where('status',Status::Enabled); 
         }
         
-        $countries = $countries->get(['id','name'])->sortBy('name')->values()->all();
+        $countries = $countries->get(['id as value','name as text'])->sortBy('text')->values()->all();
 
         return Response()->Json($countries);
     }
@@ -89,7 +90,7 @@ class CountryController extends Controller
         foreach ($countriesRequest as $key => $countryRequest) {
             try {
 
-                $countryObject                  =   new MasterDetail();
+                $countryObject = new MasterDetail();
 
                 $countryObject->master_type_id  =   $this->countryTable;
                 $countryObject->name            =   $countryRequest->name;
@@ -100,7 +101,7 @@ class CountryController extends Controller
 
                 $countryObject->save();
 
-                $countriesResponse[]            =   $countryObject;
+                $countriesResponse[] = $countryObject;
 
             } catch (Exception $e) {
                 
@@ -123,7 +124,7 @@ class CountryController extends Controller
         foreach ($countriesRequest as $key => $countryRequest) {
             try {
 
-                $countryObject              =   MasterDetail::findOrFail($countryRequest->id);
+                $countryObject = MasterDetail::findOrFail($countryRequest->id);
 
                 $countryObject->name        =   $countryRequest->name;
                 $countryObject->description =   $countryRequest->description;
@@ -132,7 +133,7 @@ class CountryController extends Controller
 
                 $countryObject->save();
 
-                $countriesResponse[]        =   $countryObject;
+                $countriesResponse[] = $countryObject;
 
             } catch (Exception $e) {
                 
@@ -155,11 +156,11 @@ class CountryController extends Controller
         foreach ($countriesRequest as $key => $countryRequest) {
             try {
 
-                $countryObject              =   MasterDetail::findOrFail($countryRequest->id);
+                $countryObject = MasterDetail::findOrFail($countryRequest->id);
 
                 $countryObject->delete();
 
-                $countriesResponse[]        =   $countryRequest;
+                $countriesResponse[] = $countryRequest;
 
             } catch (Exception $e) {
                 
