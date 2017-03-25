@@ -137,7 +137,7 @@
         columns: [
             { field:"name", title: " Name" },
             { field: "description", title: " Description"},
-            { field: "status", values: statuses, title: "Status" },
+            { field: "status", values: statusDataSource, title: "Status" },
             { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
         editable: {
           mode: "popup",

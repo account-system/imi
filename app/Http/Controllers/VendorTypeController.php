@@ -55,7 +55,7 @@ class VendorTypeController extends Controller
     public function get()
     {
         $vendorTypes = MasterType::find($this->vendorTypeTable)->masterDetails()->get()->sortByDesc('created_at')->values()->all();
-
+        
         return Response()->Json($vendorTypes);
     }
 

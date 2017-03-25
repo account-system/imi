@@ -13,4 +13,12 @@ class MasterType extends Model
     {
         return $this->hasMany('App\MasterDetail');
     }
+
+    /**
+     * Get all city records belong to cities table.
+     */
+    public function cities()
+    {
+        return $this->hasMany('App\MasterDetail');
+    }
 }
