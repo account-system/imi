@@ -54,7 +54,7 @@ class CountryController extends Controller
      */
     public function get()
     {
-        $countries = MasterType::find($this->countryTable)->masterDetails()->get()->sortByDesc('created_at')->values()->all();
+        $countries = MasterType::find($this->countryTable)->countries()->get()->sortByDesc('created_at')->values()->all();
 
         return Response()->Json($countries);
     }
@@ -66,7 +66,7 @@ class CountryController extends Controller
      */
     public function getList($option=null)
     {
-        $countries = MasterType::find($this->countryTable)->masterDetails();
+        $countries = MasterType::find($this->countryTable)->countries();
 
         if($option == 'filter'){
             $countries = $countries->where('status',Status::Enabled); 
