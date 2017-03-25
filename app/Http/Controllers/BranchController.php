@@ -54,7 +54,7 @@ class BranchController extends Controller
      */
     public function get()
     {
-        $branchs = MasterType::find($this->branchTable)->masterDetails()->get()->sortByDesc('created_at')->values()->all();
+        $branchs = MasterType::find($this->branchTable)->branchRecords()->get()->sortByDesc('created_at')->values()->all();
 
         return Response()->Json($branchs);
     }
@@ -66,7 +66,7 @@ class BranchController extends Controller
      */
     public function getList($option=null)
     {
-        $branchs = MasterType::find($this->branchTable)->masterDetails();
+        $branchs = MasterType::find($this->branchTable)->branchRecords();
 
         if($option == 'filter'){
             $branchs = $branchs->where('status',Status::Enabled); 

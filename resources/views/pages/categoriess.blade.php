@@ -45,96 +45,90 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-      /**
-      *It's status data for customer type
-      *
-      */
-      var statuses = [
-        {value: "ENABLED", text: "ENABLED"},
-        {value: "DISABLED", text: "DISABLED"}
-      ];
 
         var crudServiceBaseUrl = "{{url('')}}",
-            dataSource = new kendo.data.DataSource({
-                transport: {
-                    read:  {
-                        url: crudServiceBaseUrl + "/categoriess/get",
-                        type: "GET",
-                        dataType: "json"
-                    },
-                    update: {
-                        url: crudServiceBaseUrl + "/categoriess/update",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    destroy: {
-                        url: crudServiceBaseUrl + "/categoriess/destroy",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    create: {
-                        url: crudServiceBaseUrl + "/categoriess/store",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    parameterMap: function(options, operation) {
-                        if (operation !== "read" && options.models) {
-                            return {models: kendo.stringify(options.models)};
-                        }
-                    }
+          dataSource = new kendo.data.DataSource({
+            transport: {
+              read:  {
+                url: crudBaseUrl + "/categoriess/get",
+                  type: "GET",
+                  dataType: "json"
                 },
-                batch: true,
-                pageSize: 20,
-                schema: {
-                    model: {
-                        id: "id",
-                        fields: {
-                            id: { editable: false, nullable: true },
-                            name: {
-                              type: "string",
-                              validation: {
-                                  required: true,
-                                  namevalidation: function (input) {
-                                      if (input.is("[name='name']") && input.val() != "") {
-                                          input.attr("data-namevalidation-msg", "Name should start with capital letter");
-                                          return /^[A-Z]/.test(input.val());
-                                      }
-
-                                      return true;
-                                  },
-                                  maxlength:function(input) { 
-                                    if (input.is("[name='name']") && input.val().length > 60) {
-                                       input.attr("data-maxlength-msg", "Max length is 60");
-                                       return false;
-                                    }                                   
-                                    return true;
-                                  }
-                              }
-                            },
-                            description: { nullable: true, validation: {
-                                  descriptionvalidation: function (input) {
-                                      if (input.is("[name='description']") && input.val() != "") {
-                                          input.attr("data-descriptionvalidation-msg", "description should start with capital letter");
-                                          return /^[A-Z]/.test(input.val());
-                                      }
-
-                                      return true;
-                                  },
-                                  maxlength:function(input) { 
-                                    if (input.is("[name='description']") && input.val().length > 200) {
-                                       input.attr("data-maxlength-msg", "Max length is 200");
-                                       return false;
-                                    }                                   
-                                    return true;
-                                  }
-                              } 
-                            },
-                            status: { field: "status", type: "string", defaultValue: "ENABLED" 
-                            }                     
-                        }
-                    }
+              update: {
+                url: crudBaseUrl + "/categoriess/update",
+                  type: "Post",
+                  dataType: "json"
+                },
+              destroy: {
+                url: crudBaseUrl + "/categoriess/destroy",
+                  type: "Post",
+                  dataType: "json"
+                },
+              create: {
+                url: crudBaseUrl + "/categoriess/store",
+                  type: "Post",
+                  dataType: "json"
+                },
+              parameterMap: function(options, operation) {
+                if (operation !== "read" && options.models) {
+                  return {models: kendo.stringify(options.models)};
+                  }
                 }
-            });
+              },
+            batch: true,
+            pageSize: 20,
+              schema: {
+               model: {
+                  id: "id",
+              fields: {
+                  id: { editable: false, nullable: true },
+                            name: {
+                            type: "string",
+                      validation: {
+                        required: true,
+                    namevalidation: function (input) {
+                        if (input.is("[name='name']") && input.val() != "") {
+                          input.attr("data-namevalidation-msg", "Name should start with capital letter");
+                          return /^[A-Z]/.test(input.val());
+                        }
+                        return true;
+                    },
+                    maxlength:function(input) { 
+                        if (input.is("[name='name']") && input.val().length > 60) {
+                          input.attr("data-maxlength-msg", "Max length is 60");
+                          return false;
+                        }                                   
+                        return true;
+                      }
+                    }
+                  },
+                description: { nullable: true, validation: {
+                  descriptionvalidation: function (input) {
+                      if (input.is("[name='description']") && input.val() != "") {
+                          input.attr("data-descriptionvalidation-msg", "description should start with capital letter");
+                          return /^[A-Z]/.test(input.val());
+                      }
+
+                      return true;
+                  },
+                  maxlength:function(input) { 
+                    if (input.is("[name='description']") && input.val().length > 200) {
+                       input.attr("data-maxlength-msg", "Max length is 200");
+                       return false;
+                      }                                   
+                      return true;
+                    }
+                  } 
+                },
+                status: { 
+                  field: "status",
+                  type: "string", 
+                  defaultValue: "Enabled" 
+                }                     
+              }
+            }
+          }
+        });
 
         $("#grid").kendoGrid({
             dataSource: dataSource,
@@ -152,63 +146,61 @@
               buttonCount: 5
             },
             height: 550,
-            toolbar: [{name: "create"},{template: kendo.template($("#template").html())}],
+            toolbar: [{name: "create"},{template: kendo.template($("#textbox-multi-search").html())}],
             columns: [
                 { field:"name", title: " Name" },
                 { field: "description", title: " Description"},
-                { field: "status", values: statuses, title: "Status" },
+                { field: "status", values: statusDataSource, title: "Status" },
                 { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-            editable: "popup",
-            edit: function (e) {
-              if (e.model.isNew()) {
-                  e.container.data("kendoWindow").title('Add New Category');
-                  $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-              }
-              else {
-                  e.container.data("kendoWindow").title('Edit Category');
-              }
-            }  
-        });
+            editable: {
+          mode: "popup",
+          window: {
+            width: "600px"   
+          },
+          template: kendo.template($("#popup-editor-type").html())
+        },
+        edit: function (e) {
+          //Call function status data binding 
+          statusDataBinding();
 
-        $("#txtMultiSearch").keyup(function(e){
-         
-            var q = $('#txtMultiSearch').val();
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
+              e.container.data("kendoWindow").title('Add New Vendor Type');
+              $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+          }
+          else {
+              e.container.data("kendoWindow").title('Edit Vendor Type');
+          }
+        }  
+      });
 
-            $("#grid").data("kendoGrid").dataSource.filter({
-              logic  : "or",
-              filters: [
-                {
-                    field   : "name",
-                    operator: "contains",
-                    value   : q
-                },
-                {
-                    field   : "description",
-                    operator: "contains",
-                    value   : q
-                },
-                {
-                    field   : "status",
-                    operator: "eq",
-                    value   : q
-                }
+      $("#txtMultiSearch").keyup(function(e){
+       
+        var q = $('#txtMultiSearch').val();
 
-              ]
-            });  
-         
-        });
+        $("#grid").data("kendoGrid").dataSource.filter({
+          logic  : "or",
+          filters: [
+            {
+                field   : "name",
+                operator: "contains",
+                value   : q
+            },
+            {
+                field   : "description",
+                operator: "contains",
+                value   : q
+            },
+            {
+                field   : "status",
+                operator: "eq",
+                value   : q
+            }
+
+          ]
+        });  
+      });
+
     });
-  </script>
-  <script type="text/x-kendo-template" id="template">
-      <div class="toolbar-search">
-        <ul class="fieldlist">   
-          <li>
-              <span class="k-textbox k-space-left">
-                  <input type="text" id="txtMultiSearch" placeholder="Search..." />
-                  <a href="\\#" class="k-icon k-i-search">&nbsp;</a>
-              </span>
-          </li>  
-        </ul>
-      </div>
   </script>   
 @endsection

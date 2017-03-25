@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\MasterTypeDetail;
+use App\MasterDetail;
 use App\MasterType;
 
-class CategoriessController extends Controller
+class CategoryController extends Controller
 {
     /**
     *The category type table
@@ -39,7 +39,7 @@ class CategoriessController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Category Product';
+        $this->data['title'] = 'Category';
         return view('pages.categoriess',$this->data);
     }
 
@@ -50,8 +50,8 @@ class CategoriessController extends Controller
      */
     public function get()
     {
-        $vendorType = MasterType::find($this->categoriesTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
-        return Response()->Json($vendorType);
+        $category = MasterType::find($this->categoriesTable)->categoryRecords()->get()->sortByDesc('created_at')->values()->all();
+        return Response()->Json($category);
     }
     /**
      * Get a listing of the resource for dropdownlist.
@@ -60,8 +60,14 @@ class CategoriessController extends Controller
      */
     public function lists()
     {
-        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
-        return Response()->Json($vendorType);
+        $category = MasterType::find($this->category)->categoryRecords();
+
+        if($option == 'filter'){
+            $category = $category->where('status',Status::Enabled); 
+        }
+        $category = $category->get(['id as value','name as text'])->sortBy('text')->values()->all();
+        
+        return Response()->Json($category);
     }
     /**
      * Store a newly created resource in storage.
@@ -76,14 +82,14 @@ class CategoriessController extends Controller
         foreach ($categoriessRequest as $key => $categoriesRequest) {
             try {
 
-                $categoriesObject = new MasterTypeDetail();
-                $categoriesObject->master_type_id = $this->categoriesTable;
+                $categoriesObject = new MasterDetail();
 
-                $categoriesObject->name = $categoriesRequest->name;
-                $categoriesObject->description = $categoriesRequest->description;
-                $categoriesObject->status = $categoriesRequest->status;
-                $categoriesObject->created_by = auth::id();
-                $categoriesObject->updated_by = auth::id();
+                $categoriesObject->master_type_id   = $this->categoriesTable;
+                $categoriesObject->name             = $categoriesRequest->name;
+                $categoriesObject->description      = $categoriesRequest->description;
+                $categoriesObject->status           = $categoriesRequest->status;
+                $categoriesObject->created_by       = auth::id();
+                $categoriesObject->updated_by       = auth::id();
                 $categoriesObject->save();
 
                 $categoriesResponse[]= $categoriesObject;
@@ -109,14 +115,14 @@ class CategoriessController extends Controller
         foreach ($categoriessRequest as $key => $categoriesRequest) {
             try {
 
-                $categoriesObject = MasterTypeDetail::findOrFail($categoriesRequest->id);
-                $categoriesObject->name = $categoriesRequest->name;
-                $categoriesObject->description = $categoriesRequest->description;
-                $categoriesObject->status = $categoriesRequest->status;
-                $categoriesObject->updated_by = auth::id();
+                $categoriesObject = MasterDetail::findOrFail($categoriesRequest->id);
+                $categoriesObject->name         = $categoriesRequest->name;
+                $categoriesObject->description  = $categoriesRequest->description;
+                $categoriesObject->status       = $categoriesRequest->status;
+                $categoriesObject->updated_by   = auth::id();
                 $categoriesObject->save();
 
-                $categoriesResponse[]= $categoriesObject;
+                $categoriesResponse[]   = $categoriesObject;
 
             } catch (Exception $e) {
                 
@@ -139,7 +145,7 @@ class CategoriessController extends Controller
         foreach ($categoriessRequest as $key => $categoriesRequest) {
             try {
 
-                $categoriesObject = MasterTypeDetail::findOrFail($categoriesRequest->id);
+                $categoriesObject = MasterDetail::findOrFail($categoriesRequest->id);
                 $categoriesObject->delete();
 
                 $categoriesResponse[]= $categoriesRequest;

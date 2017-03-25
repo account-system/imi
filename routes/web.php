@@ -26,44 +26,44 @@ Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/chart-account', 'ChartAccountController@index');
 
-// Route Controller Customer Type
+// Route Customer Type
 Route::get('/customer-type', 'CustomerTypeController@view');
 Route::group(['prefix' => 'customer-type'], function () {
     Route::get('/get', 'CustomerTypeController@get');
-    Route::get('/list', 'CustomerTypeController@lists');
+    Route::get('/list/{option}', 'CustomerTypeController@getlist');
     Route::post('/store', 'CustomerTypeController@store');
     Route::post('/update', 'CustomerTypeController@update');
     Route::post('/destroy', 'CustomerTypeController@destroy');
 });
 
-// Route Controller Employee Type
-Route::get('/employee-types', 'EmployeeTypesController@view');
+// Route Employee Type
+Route::get('/employee-types', 'EmployeeTypeController@view');
 Route::group(['prefix' => 'employee-types'], function () {
-    Route::get('/get', 'EmployeeTypesController@get');
-    Route::get('/list', 'EmployeeTypesController@lists');
-    Route::post('/store', 'EmployeeTypesController@store');
-    Route::post('/update', 'EmployeeTypesController@update');
-    Route::post('/destroy', 'EmployeeTypesController@destroy');
+    Route::get('/get', 'EmployeeTypeController@get');
+    Route::get('/list', 'EmployeeTypeController@lists');
+    Route::post('/store', 'EmployeeTypeController@store');
+    Route::post('/update', 'EmployeeTypeController@update');
+    Route::post('/destroy', 'EmployeeTypeController@destroy');
 });
 
-// Route Controller Doctor Type
-Route::get('/doctor-type', 'DoctorTypesController@view');
+// Route Doctor Type
+Route::get('/doctor-type', 'DoctorTypeController@view');
 Route::group(['prefix' => 'doctor-type'], function () {
-    Route::get('/get', 'DoctorTypesController@get');
-    Route::get('/list', 'DoctorTypesController@lists');
-    Route::post('/store', 'DoctorTypesController@store');
-    Route::post('/update', 'DoctorTypesController@update');
-    Route::post('/destroy', 'DoctorTypesController@destroy');
+    Route::get('/get', 'DoctorTypeController@get');
+    Route::get('/list', 'DoctorTypeController@lists');
+    Route::post('/store', 'DoctorTypeController@store');
+    Route::post('/update', 'DoctorTypeController@update');
+    Route::post('/destroy', 'DoctorTypeController@destroy');
 });
 
-// Route Controller Category
-Route::get('/categoriess', 'CategoriessController@view');
+// Route  Category
+Route::get('/categoriess', 'CategoryController@view');
 Route::group(['prefix' => 'categoriess'], function () {
-    Route::get('/get', 'CategoriessController@get');
-    Route::get('/list', 'CategoriessController@lists');
-    Route::post('/store', 'CategoriessController@store');
-    Route::post('/update', 'CategoriessController@update');
-    Route::post('/destroy', 'CategoriessController@destroy');
+    Route::get('/get', 'CategoryController@get');
+    Route::get('/list', 'CategoryController@lists');
+    Route::post('/store', 'CategoryController@store');
+    Route::post('/update', 'CategoryController@update');
+    Route::post('/destroy', 'CategoryController@destroy');
 });
 
 // Route vendor type
@@ -103,4 +103,24 @@ Route::group(['prefix' => 'country'], function () {
     //Route::post('/update', 'CountryController@update');
     //Route::post('/destroy', 'CountryController@destroy');
 });
+
+// Route customer list
+Route::group(['prefix' => 'customer'], function () {
+    Route::get('/', 'CustomerController@view');
+    Route::get('/get', 'CustomerController@get');
+    Route::get('/list/{option}', 'CustomerController@getList');
+    Route::post('/store', 'CustomerController@store');
+    Route::post('/update', 'CustomerController@update');
+    Route::post('/destroy', 'CustomerController@destroy');
+});
+
+// Route Employee list
+Route::group(['prefix' => 'employee-lists'], function () {
+    Route::get('/', 'EmployeeController@view');
+    Route::get('/get', 'EmployeeController@get');
+    Route::post('/store', 'EmployeeController@store');
+    Route::post('/update', 'EmployeeController@update');
+    Route::post('/destroy', 'EmployeeController@destroy');
+});
+
 

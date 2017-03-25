@@ -24,8 +24,7 @@
       <h1>Employee Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
-        <li class="active">Employee</li>
-        <li class="active">Type</li>
+        <li class="active">Employee Type</li>
       </ol>
     </section>
 @endsection
@@ -46,15 +45,6 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-      /**
-      *It's status data for customer type
-      *
-      */
-      var statuses = [
-        {value: "ENABLED", text: "ENABLED"},
-        {value: "DISABLED", text: "DISABLED"}
-      ];
-
         var crudServiceBaseUrl = "{{url('')}}",
             dataSource = new kendo.data.DataSource({
                 transport: {
@@ -130,8 +120,11 @@
                                   }
                               } 
                             },
-                            status: { field: "status", type: "string", defaultValue: "ENABLED" 
-                            }                     
+                            status: { 
+                            field: "status", 
+                            type: "string", 
+                            defaultValue: "Enabled" 
+                           }  
                         }
                     }
                 }
@@ -153,63 +146,61 @@
               buttonCount: 5
             },
             height: 550,
-            toolbar: [{name: "create"},{template: kendo.template($("#template").html())}],
+            toolbar: [{name: "create"},{template: kendo.template($("#textbox-multi-search").html())}],
             columns: [
                 { field:"name", title: " Name" },
                 { field: "description", title: " Description"},
-                { field: "status", values: statuses, title: "Status" },
+                { field: "status", values: statusDataSource, title: "Status" },
                 { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-            editable: "popup",
-            edit: function (e) {
-              if (e.model.isNew()) {
-                  e.container.data("kendoWindow").title('Add New Employee Type');
-                  $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-              }
-              else {
-                  e.container.data("kendoWindow").title('Edit Employee Type');
-              }
-            }  
-        });
+            editable:{
+              mode: "popup",
+              window: {
+                width: "600px"   
+              },
+              template: kendo.template($("#popup-editor-type").html())
+            },
+           edit: function (e) {
+          //Call function status data binding 
+          statusDataBinding();
 
-        $("#txtMultiSearch").keyup(function(e){
-         
-            var q = $('#txtMultiSearch').val();
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
+              e.container.data("kendoWindow").title('Add New Vendor Type');
+              $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+          }
+          else {
+              e.container.data("kendoWindow").title('Edit Vendor Type');
+          }
+        }  
+      });
 
-            $("#grid").data("kendoGrid").dataSource.filter({
-              logic  : "or",
-              filters: [
-                {
-                    field   : "name",
-                    operator: "contains",
-                    value   : q
-                },
-                {
-                    field   : "description",
-                    operator: "contains",
-                    value   : q
-                },
-                {
-                    field   : "status",
-                    operator: "eq",
-                    value   : q
-                }
+      $("#txtMultiSearch").keyup(function(e){
+       
+        var q = $('#txtMultiSearch').val();
 
-              ]
-            });  
-         
-        });
+        $("#grid").data("kendoGrid").dataSource.filter({
+          logic  : "or",
+          filters: [
+            {
+                field   : "name",
+                operator: "contains",
+                value   : q
+            },
+            {
+                field   : "description",
+                operator: "contains",
+                value   : q
+            },
+            {
+                field   : "status",
+                operator: "eq",
+                value   : q
+            }
+
+          ]
+        });  
+      });
+      
     });
-  </script>
-  <script type="text/x-kendo-template" id="template">
-      <div class="toolbar-search">
-        <ul class="fieldlist">   
-          <li>
-              <span class="k-textbox k-space-left">
-                  <input type="text" id="txtMultiSearch" placeholder="Search..." />
-                  <a href="\\#" class="k-icon k-i-search">&nbsp;</a>
-              </span>
-          </li>  
-        </ul>
-      </div>
   </script>   
 @endsection
