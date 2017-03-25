@@ -9,8 +9,8 @@ class MasterType extends Model
     /**
      * Get the master type details belong to master type.
      */
-    public function masterTypeDetails()
+    public function masterDetails()
     {
-        return $this->hasMany('App\MasterTypeDetail');
+        return $this->hasMany('App\MasterDetail');
     }
 }

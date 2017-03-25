@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountTypesTable extends Migration
+class CreateMasterSubDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateAccountTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_types', function (Blueprint $table) {
+        Schema::create('master_sub_details', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('master_detail_id')->unsigned();
             $table->string('name',60);
-            $table->enum('type',['Assets','Equity','Expenses','Liabilities','Revenue']);
-            $table->integer('min_code')->default(null);
-            $table->integer('max_code')->default(null);
-            $table->enum('status',['Enabled','Disbled'])->default('Enabled');
+            $table->string('description',200)->nullable()->default(null);
+            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();
@@ -33,6 +32,6 @@ class CreateAccountTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_types');
+        Schema::dropIfExists('master_sub_details');
     }
 }

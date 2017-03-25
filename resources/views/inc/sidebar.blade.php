@@ -53,10 +53,10 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-file-text-o"></i><span>Vendor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/vendor-types' }}"><span>Vendor Type</span></a></li>
-                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/vendor-lists' }}"><span>Vendor List</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/pay-bills') }}"><span>Pay Bills</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/enter-bills') }}"><span>Enter Bills</span></a></li>
+                <li><a href="{{ url('').'/vendor-type' }}"><span>Vendor Type</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/vendor-list' }}"><span>Vendor List</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/pay-bill') }}"><span>Pay Bill</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/enter-bill') }}"><span>Enter Bill</span></a></li>
               </ul>
           </li>
           <!-- ====== Setup Item ================================ -->
@@ -66,7 +66,7 @@
                 <li><a href="{{ url('').'/categoriess' }}"><span>Item Type</span></a></li>
                 <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/item-list') }}"><span>Item List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/sale') }}"><span>Sale</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-service') }}"><span>Setup Services</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-service') }}"><span>Setup Service</span></a></li>
               </ul>
           </li>
           <!-- ====== Account ================================ -->
@@ -103,7 +103,7 @@
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/sale-summary') }}"><span>Sale Summary Report</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/staff-report') }}"><span>Staff Report</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/payroll-report') }}"><span>Payroll Report</span></a></li>
-                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/staff-report') }}"><span>Paybills Report</span></a></li>
+                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/staff-report') }}"><span>Paybill Report</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/vendor-balance-report') }}"><span>Vendor Balance Report</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'bill-detail-report') }}"><span>Bill Detail Report</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/bill-sum-report') }}"><span>Bill Summary Report</span></a></li> 
@@ -125,9 +125,9 @@
           </li>
            <!-- ====== Users ================================ -->
           <li class="treeview">
-              <a href="#"><i class="icon fa fa-user"></i><span>Users</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="icon fa fa-user"></i><span>User</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/listuser') }}"><span>List Users</span></a></li>
+                <li><a href="{{ url(config('backpack.base.route_prefix').'/user-list') }}"><span>User List</span></a></li>
               </ul>
           </li>
           <!-- ============================================= -->

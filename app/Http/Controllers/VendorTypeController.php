@@ -3,24 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\MasterTypeDetail;
+use App\Http\Controllers\Helpers\Status;
+use App\MasterDetail;
 use App\MasterType;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-
-class VendorTypesController extends Controller
+class VendorTypeController extends Controller
 {
     /**
-    *The vendor type table
-    *@var int
-    */
+     *The vendor type table
+     *
+     *@var int
+     */
     private $vendorTypeTable = 4;
 
     /**
-    *The information we send to the view
-    *@var array
-    */
+     *The information we send to the view
+     *
+     *@var array
+     */
     protected $data = []; 
     
     /**
@@ -41,7 +43,8 @@ class VendorTypesController extends Controller
     public function view()
     {
         $this->data['title'] = 'Vendor Type';
-        return view('pages.vendor-types',$this->data);
+
+        return view('pages.vendor-type',$this->data);
     }
 
     /**
@@ -51,19 +54,27 @@ class VendorTypesController extends Controller
      */
     public function get()
     {
-        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
-        return Response()->Json($vendorType);
+        $vendorTypes = MasterType::find($this->vendorTypeTable)->masterDetails()->get()->sortByDesc('created_at')->values()->all();
+
+        return Response()->Json($vendorTypes);
     }
 
     /**
-     * Get a listing of the resource for dropdownlist.
+     * Get a listing of the resource that contains(value, text).
      *
      * @return \Illuminate\Http\Response
      */
-    public function lists()
+    public function getList($option=null)
     {
-        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
-        return Response()->Json($vendorType);
+        $vendorTypes = MasterType::find($this->vendorTypeTable)->masterDetails();
+
+        if($option == 'filter'){
+            $vendorTypes = $vendorTypes->where('status',Status::Enabled); 
+        }
+        
+        $vendorTypes = $vendorTypes->get(['id as value','name as text'])->sortBy('text')->values()->all();
+
+        return Response()->Json($vendorTypes);
     }
 
     /**
@@ -79,17 +90,18 @@ class VendorTypesController extends Controller
         foreach ($vendortypesRequest as $key => $vendortypeRequest) {
             try {
 
-                $vendorTypeObject = new MasterTypeDetail();
-                $vendorTypeObject->master_type_id = $this->vendorTypeTable;
+                $vendorTypeObject = new MasterDetail();
 
-                $vendorTypeObject->name = $vendortypeRequest->name;
-                $vendorTypeObject->description = $vendortypeRequest->description;
-                $vendorTypeObject->status = $vendortypeRequest->status;
-                $vendorTypeObject->created_by = auth::id();
-                $vendorTypeObject->updated_by = auth::id();
+                $vendorTypeObject->master_type_id   =   $this->vendorTypeTable;
+                $vendorTypeObject->name             =   $vendortypeRequest->name;
+                $vendorTypeObject->description      =   $vendortypeRequest->description;
+                $vendorTypeObject->status           =   $vendortypeRequest->status;
+                $vendorTypeObject->created_by       =   auth::id();
+                $vendorTypeObject->updated_by       =   auth::id();
+
                 $vendorTypeObject->save();
 
-                $vendortypesResponse[]= $vendorTypeObject;
+                $vendortypesResponse[] = $vendorTypeObject;
 
             } catch (Exception $e) {
                 
@@ -112,14 +124,15 @@ class VendorTypesController extends Controller
         foreach ($vendortypesRequest as $key => $vendortypeRequest) {
             try {
 
-                $vendorTypeObject = MasterTypeDetail::findOrFail($vendortypeRequest->id);
-                $vendorTypeObject->name = $vendortypeRequest->name;
-                $vendorTypeObject->description = $vendortypeRequest->description;
-                $vendorTypeObject->status = $vendortypeRequest->status;
-                $vendorTypeObject->updated_by = auth::id();
+                $vendorTypeObject = MasterDetail::findOrFail($vendortypeRequest->id);
+
+                $vendorTypeObject->name         =   $vendortypeRequest->name;
+                $vendorTypeObject->description  =   $vendortypeRequest->description;
+                $vendorTypeObject->status       =   $vendortypeRequest->status;
+                $vendorTypeObject->updated_by   =   auth::id();
                 $vendorTypeObject->save();
 
-                $vendortypesResponse[]= $vendorTypeObject;
+                $vendortypesResponse[] = $vendorTypeObject;
 
             } catch (Exception $e) {
                 
@@ -142,10 +155,11 @@ class VendorTypesController extends Controller
         foreach ($vendortypesRequest as $key => $vendortypeRequest) {
             try {
 
-                $vendorTypeObject = MasterTypeDetail::findOrFail($vendortypeRequest->id);
+                $vendorTypeObject = MasterDetail::findOrFail($vendortypeRequest->id);
+
                 $vendorTypeObject->delete();
 
-                $vendortypesResponse[]= $vendortypeRequest;
+                $vendortypesResponse[] = $vendortypeRequest;
 
             } catch (Exception $e) {
                 

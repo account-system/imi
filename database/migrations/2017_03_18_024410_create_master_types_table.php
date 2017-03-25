@@ -17,7 +17,7 @@ class CreateMasterTypesTable extends Migration
             $table->increments('id');
             $table->string('name',60);
             $table->string('description',200)->nullable()->default(null);
-            $table->enum('status',['ENABLED','DISABLED'])->default('ENABLED');
+            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();

@@ -3,172 +3,178 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Status;
+use App\Http\Controllers\VendorTypeController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CountryController;
+use App\MasterType;
+use App\Vendor;
 use Illuminate\Http\Request;
-use App\MasterTypeDetail;
-use App\VendorList;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
 	/**
-    *The vendor type table
-    *@var int
-    */
-    private $vendorTypeTable = 4;
+	 *The information we send to the view
+	 *@var array
+	 */
+		protected $data = []; 
+		
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function view()
+	{
+		$this->data['title'] = 'Vendor List';
+
+		$vedorTypeController = new VendorTypeController;
+		$this->data['vendorTypes'] = $vedorTypeController->getList()->content();
+
+		$branchController = new BranchController;
+		$this->data['branches'] = $branchController->getList()->content();
+		
+		$countryController = new CountryController;
+		$this->data['countries'] = $countryController->getList()->content();
+
+		return view('pages.vendor-list',$this->data);
+	}
 
 	/**
-    *The information we send to the view
-    *@var array
-    */
-    protected $data = []; 
-    
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function view()
-    {
-        $this->data['title'] = 'Vendor List';
-        return view('pages.vendor-lists',$this->data);
-    }
+	 * Get a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function get()
+	{
+		$vendors = Vendor::all()->sortByDesc('created_at')->values()->all();
 
-    /**
-     * Get a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function get()
-    {
-        $vendors = Vendor::find($this->vendorlists)->vendorTypeTable()->get()->sortByDesc('created_at')->values()->all();
-        return Response()->Json($vendorlist);
-    }
+		return Response()->Json($vendors);
+	}
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $vendortypesRequest = json_decode($request->input('models'));
-  
-        foreach ($vendortypesRequest as $key => $vendorlistRequest) {
-            try {
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		$vendorsRequest = json_decode($request->input('models'));
 
-            	$vendorListObject = new VendorList();
-          
-                // $vendorListObject = new MasterTypeDetail();
-                // $vendorListObject->master_type_id = $this->vendorlists;
-            	$vendorListObject->vendor_type_id = $vendorlistRequest->vendor_type_id;
-                $vendorListObject->branch_id = $vendorlistRequest->branch_id;
-                $vendorListObject->company_name = $vendorlistRequest->company_name;
-                $vendorListObject->contact_name = $vendorlistRequest->contact_name;
-                $vendorListObject->cantact_title = $vendorlistRequest->cantact_title;
-                $vendorListObject->phone = $vendorlistRequest->phone;
-                $vendorListObject->email = $vendorlistRequest->email;
-                $vendorListObject->fax = $vendorlistRequest->fax;
-                $vendorListObject->country = $vendorlistRequest->country;
-                $vendorListObject->city = $vendorlistRequest->city;
-                $vendorListObject->region = $vendorlistRequest->region;
-                $vendorListObject->postal_code = $vendorlistRequest->postal_code;
-                $vendorListObject->address = $vendorlistRequest->address;
-                $vendorListObject->detail = $vendorlistRequest->detail;
-                $vendorListObject->status = $vendorlistRequest->status;
-                $vendorListObject->created_by = auth::id();
-                $vendorListObject->updated_by = auth::id();
-                $vendorListObject->save();
+		foreach ($vendorsRequest as $key => $vendorRequest) {
+			try {
 
-                $vendorlistsResponse[]= $vendorListObject;
+				$vendorObject = new Vendor();
 
-            } catch (Exception $e) {
-                
-            }
-        }
+				$vendorObject->vendor_type_id 	= 	$vendorRequest->vendor_type_id;
+				$vendorObject->branch_id 		= 	$vendorRequest->branch_id;
+				$vendorObject->company_name 	= 	$vendorRequest->company_name;
+				$vendorObject->contact_name 	= 	$vendorRequest->contact_name;
+				$vendorObject->cantact_title 	= 	$vendorRequest->cantact_title;
+				$vendorObject->phone 			= 	$vendorRequest->phone;
+				$vendorObject->email 			= 	$vendorRequest->email;
+				$vendorObject->country_id 		= 	$vendorRequest->country_id;
+				$vendorObject->city_id 			= 	$vendorRequest->city_id;
+				$vendorObject->region 			=   $vendorRequest->region;
+				$vendorObject->postal_code     	=   $vendorRequest->postal_code;
+				$vendorObject->address         	=   $vendorRequest->address;
+				$vendorObject->detail          	=   $vendorRequest->detail;
+				$vendorObject->status          	=   $vendorRequest->status;
+				$vendorObject->created_by      	=   auth::id();
+				$vendorObject->updated_by      	=   auth::id();
 
-        return Response()->Json($vendorlistsResponse);
-    }
+				$vendorObject->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        $vendortypesRequest = json_decode($request->input('models'));
-  
-        foreach ($vendortypesRequest as $key => $vendorlistRequest) {
-            try {
+				$vendorsResponse[] = $vendorObject;
 
-                // $vendorListObject = MasterTypeDetail::findOrFail($vendorlistRequest->id);
-                $vendorListObject = new VendorList();
-                $vendorListObject->vendor_type_id = $vendorlistRequest->vendor_type_id;
-                $vendorListObject->branch_id = $vendorlistRequest->branch_id;
-                $vendorListObject->company_name = $vendorlistRequest->company_name;
-                $vendorListObject->contact_name = $vendorlistRequest->contact_name;
-                $vendorListObject->cantact_title = $vendorlistRequest->cantact_title;
-                $vendorListObject->phone = $vendorlistRequest->phone;
-                $vendorListObject->email = $vendorlistRequest->email;
-                $vendorListObject->fax = $vendorlistRequest->fax;
-                $vendorListObject->country = $vendorlistRequest->country;
-                $vendorListObject->city = $vendorlistRequest->city;
-                $vendorListObject->region = $vendorlistRequest->region;
-                $vendorListObject->postal_code = $vendorlistRequest->postal_code;
-                $vendorListObject->address = $vendorlistRequest->address;
-                $vendorListObject->detail = $vendorlistRequest->detail;
-                $vendorListObject->status = $vendorlistRequest->status;
-                $vendorListObject->updated_by = auth::id();
-                $vendorListObject->save();
+			} catch (Exception $e) {
+					
+			}
+		}
 
-                $vendorlistsResponse[]= $vendorListObject;
+		return Response()->Json($vendorsResponse);
+	}
 
-            } catch (Exception $e) {
-                
-            }
-        }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request)
+	{
+		$vendorsRequest = json_decode($request->input('models'));
 
-        return Response()->Json($vendorlistsResponse);
-    }
+		foreach ($vendorsRequest as $key => $vendorRequest) {
+			try {
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-        $vendortypesRequest = json_decode($request->input('models'));
-  
-        foreach ($vendortypesRequest as $key => $vendorlistRequest) {
-            try {
+				$vendorObject = Vendor::findOrFail($vendorRequest->id);
 
-                //$vendorListObject = MasterTypeDetail::findOrFail($vendorlistRequest->id);
-                
-                $vendorListObject = new VendorList();
-                $vendorListObject->delete();
+				$vendorObject->vendor_type_id	=   $vendorRequest->vendor_type_id;
+				$vendorObject->branch_id        =   $vendorRequest->branch_id;
+				$vendorObject->company_name   	=   $vendorRequest->company_name;
+				$vendorObject->contact_name   	=   $vendorRequest->contact_name;
+				$vendorObject->cantact_title  	=   $vendorRequest->cantact_title;
+				$vendorObject->phone            =   $vendorRequest->phone;
+				$vendorObject->email            =   $vendorRequest->email;
+				$vendorObject->country_id     	=   $vendorRequest->country_id;
+				$vendorObject->city_id        	=   $vendorRequest->city_id;
+				$vendorObject->region           =   $vendorRequest->region;
+				$vendorObject->postal_code    	=   $vendorRequest->postal_code;
+				$vendorObject->address          =   $vendorRequest->address;
+				$vendorObject->detail           =   $vendorRequest->detail;
+				$vendorObject->status           =   $vendorRequest->status;
+				$vendorObject->updated_by     	=   auth::id();
 
-                $vendorlistsResponse[]= $vendorlistRequest;
+				$vendorObject->save();
 
-            } catch (Exception $e) {
-                
-            }
-        }
+				$vendorsResponse[] = $vendorObject;
+					
+			} catch (Exception $e) {
+					
+			}
+		}
 
-        return Response()->Json($vendorlistsResponse);
-    }
+		return Response()->Json($vendorsResponse);
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Request $request)
+	{
+		$vendorsRequest = json_decode($request->input('models'));
+
+		foreach ($vendorsRequest as $key => $vendorRequest) {
+			try {
+
+				$vendorObject = Vendor::findOrFail($vendorRequest->id);
+
+				$vendorObject->delete();
+
+				$vendorsResponse[] = $vendorRequest;
+
+					
+			} catch (Exception $e) {
+					
+			}
+		}
+
+		return Response()->Json($vendorsResponse);
+	}
 }

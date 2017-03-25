@@ -41,6 +41,47 @@
     <!-- BackPack Base CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}">
 
+    <!-- Global css use in this application -->
+    <style type="text/css">
+
+    .toolbar-search {
+        float: right;
+        margin-right: 12px;
+      }
+      .fieldlist {
+        margin: 0;
+        padding: 0;
+      }
+
+      .text-box-search{
+        width: 220px;
+      }    
+      
+      /*Column grid*/
+      .col-12{
+        float: left;
+        width: 97%;
+        padding: 0% 2% 2% 1%;
+      }
+      .col-6{
+        float: left;
+        width: 47%;
+        padding: 0% 2% 2% 1%;
+      }
+      .col-3{
+        float: left;
+        width: 23%;
+        padding: 0% 2% 2% 1%;
+      }
+      input.k-textbox{
+        text-indent: .5em;
+      }
+      .k-edit-form-container{
+        width: 100%; 
+      }
+
+    </style>
+
     @yield('after_styles')
 
 </head>
@@ -118,37 +159,176 @@
 
     <!-- page script -->
     <script type="text/javascript">
-        // To make Pace works on Ajax calls
-        $(document).ajaxStart(function() { Pace.restart(); });
+      
+      /*Global variable use in this application*/
 
-        // Ajax calls should always have the CSRF token attached to them, otherwise they won't work
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //crud base url
+      var crudBaseUrl = "{{url('')}}";
+
+      //It's status data
+      var statusDataSource = [
+        {value: "Enabled", text: "Enabled"},
+        {value: "Disabled", text: "Disabled"}
+      ];
+
+      // To make Pace works on Ajax calls
+      $(document).ajaxStart(function() { Pace.restart(); });
+
+      // Ajax calls should always have the CSRF token attached to them, otherwise they won't work
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      
+      // Set active state on menu element
+      var current_url = window.location.href;
+      $("ul.sidebar-menu li a").each(function() {
+        if ($(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href')))
+        {
+          $(this).parents('li').addClass('active');
+        }
+      });
+
+      // Set event fullsscreen
+      $("#fullscreen").click(function(){
+        if($('body').fullscreen()){
+          $.fullscreen.exit();
+          return false;
+        }else{
+          $('body').fullscreen();
+          return false;   
+        }     
+      });
+
+      //Create status dropdownlist
+      function statusDataBinding()
+      {
+        $("#status").kendoDropDownList({
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: statusDataSource  
+        });
+      }
+
+      //Create branch dropdownlist 
+      function branchDataBinding(){
+        $("#branch").kendoDropDownList({
+          optionLabel: "Select branch...",
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: {
+            transport: {
+              read: {
+                url: crudBaseUrl+"/branch/list/filter",
+                type: "GET",
+                dataType: "json"
+              }
+            }
+          }
+        }); 
+      }
+
+      //Create country dropdownlist 
+      function countryDataBinding(){
+        $("#country").kendoDropDownList({
+          filter: "startswith",
+          optionLabel: "Select country...",
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: {
+            batch: true,
+            transport: {
+              read: {
+                url: crudBaseUrl + "/country/list/filter",
+                type: "GET",
+                dataType: "json"
+              },
+              create: {
+                url: crudBaseUrl + "/country/store",
+                type: "POST",
+                dataType: "jsonp"
+              },
+              parameterMap: function(options, operation) {
+                if (operation !== "read" && options.models) {
+                  return {models: kendo.stringify(options.models)};
                 }
-            });
-        
-        // Set active state on menu element
-        var current_url = window.location.href;
-        $("ul.sidebar-menu li a").each(function() {
-          if ($(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href')))
-          {
-            $(this).parents('li').addClass('active');
-          }
-        });
+              }
+            },
+            schema: {
+              model: {
+                id: "id",
+                fields: {
+                  id: { type: "number"},
+                  name: { type: "string" },
+                  description: {type: "string", nullable: true},
+                  status: {type: "string", defaultValue: "Enabled"}
+                }
+              }
+            }
+          },
+          noDataTemplate: $("#noDataCountryTemplate").html()
+        }); 
+      }
 
-        // Set event fullsscreen
-        $("#fullscreen").click(function(){
-          if($('body').fullscreen()){
-            $.fullscreen.exit();
-            return false;
-          }else{
-            $('body').fullscreen();
-            return false;   
-          }
-               
-        });
-    </script> 
+      /*Create new country*/
+      function addNew(widgetId, value) {
+        var widget = $("#" + widgetId).getKendoDropDownList();
+        var dataSource = widget.dataSource;
+
+        if (confirm("Are you sure?")) {
+          dataSource.add({
+            id: 0,
+            name: value,
+            description: null,
+            status: 'Enabled'
+          });
+
+          dataSource.one("sync", function() {
+              widget.select(dataSource.view().length - 1);
+          });
+
+          dataSource.sync();
+          dataSource.read();
+        } 
+      }
+
+    </script>
+
+    <!-- Create new country when no data found --> 
+    <script id="noDataCountryTemplate" type="text/x-kendo-tmpl">
+        <div>
+            No data found. Do you want to add new country - '#: instance.filterInput.val() #' ?
+        </div>
+        <br />
+        <button class="k-button" onclick="addNew('#: instance.element[0].id #', '#: instance.filterInput.val() #')">Add new country</button>
+    </script>
+
+    <!-- Create textbox multi search toolbar for input HTML element --> 
+    <script type="text/x-kendo-template" id="textbox-multi-search">
+      <div class="toolbar-search">
+        <span class="k-textbox k-space-left text-box-search">
+            <input type="text" id="txtMultiSearch" placeholder="Search..." />
+            <a href="\\#" class="k-icon k-i-search">&nbsp;</a>
+        </span>
+      </div>
+  </script> 
+
+  <!-- Customize popup editor type --> 
+  <script id="popup-editor-type" type="text/x-kendo-template">
+    <div class="col-12">
+      <label for="name">Name</label>
+      <input type="text" name="Name" class="k-textbox" placeholder="Enter name" data-bind="value:name" required  style="width: 100%;"/> 
+    </div>
+    <div class="col-12">
+      <label for="description">Description</label>
+      <textarea class="k-textbox" name="Description" placeholder="Enter description" data-bind="value:description" style="width: 100%;"/></textarea> 
+    </div>
+    <div class="col-6">
+      <label for="status">Status</label>
+      <input id="status" data-bind="value:status"  style="width: 100%;" />
+    </div>
+</script>     
 
     @include('inc.alerts')
 

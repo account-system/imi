@@ -30,7 +30,11 @@ class MasterTypesTableSeeder extends Seeder
         	),
         	array(
 	            'name' => 'branches',
-        	)
+        	),
+            array(
+                'name' => 'countries',
+            )
+
     	);
 
     	foreach ($masterTypes as $key => $masterType) {
