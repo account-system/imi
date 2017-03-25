@@ -54,7 +54,7 @@ class VendorTypeController extends Controller
      */
     public function get()
     {
-        $vendorTypes = MasterType::find($this->vendorTypeTable)->masterDetails()->get()->sortByDesc('created_at')->values()->all();
+        $vendorTypes = MasterType::find($this->vendorTypeTable)->vendorTypeRecords()->get()->sortByDesc('created_at')->values()->all();
         
         return Response()->Json($vendorTypes);
     }
@@ -66,7 +66,7 @@ class VendorTypeController extends Controller
      */
     public function getList($option=null)
     {
-        $vendorTypes = MasterType::find($this->vendorTypeTable)->masterDetails();
+        $vendorTypes = MasterType::find($this->vendorTypeTable)->vendorTypeRecords();
 
         if($option == 'filter'){
             $vendorTypes = $vendorTypes->where('status',Status::Enabled); 

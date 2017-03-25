@@ -15,6 +15,7 @@ class CreateMasterSubDetailsTable extends Migration
     {
         Schema::create('master_sub_details', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('master_type_id')->unsigned();
             $table->integer('master_detail_id')->unsigned();
             $table->string('name',60);
             $table->string('description',200)->nullable()->default(null);
