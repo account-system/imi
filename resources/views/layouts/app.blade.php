@@ -231,7 +231,7 @@
 
       //Create country dropdownlist 
       function countryDataBinding(){
-        $("#country").kendoDropDownList({
+        var countries = $("#country").kendoDropDownList({
           filter: "startswith",
           optionLabel: "Select country...",
           dataValueField: "value",
@@ -267,8 +267,24 @@
               }
             }
           },
-          noDataTemplate: $("#noDataCountryTemplate").html()
-        }); 
+          noDataTemplate: $("#noDataCountryTemplate").html(),
+          change: function(){
+            var cities = $("#city").data("kendoDropDownList");
+
+            if(countries.value()==''){
+              cities.select(0);
+              alert(cities.value());
+              cities.enable(false);
+              
+            }else{
+              var urlCitiesByCounty =  crudBaseUrl + "/city/list/filter/" + countries.value();
+              cities.dataSource.transport.options.read.url = urlCitiesByCounty;
+              cities.dataSource.read();
+              cities.enable(true);
+            }
+            
+          }
+        }).data("kendoDropDownList"); 
       }
 
       /*Create new country*/
@@ -293,6 +309,22 @@
         } 
       }
 
+      //Create country dropdownlist 
+      function cityDataBinding(){
+        $("#city").kendoDropDownList({
+          filter: "startswith",
+          autoBind: false,
+          optionLabel: "Select province or city...",
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: {
+            type: "json",
+            transport: {
+              read: crudBaseUrl + "/city/list/filter"
+            }
+          }
+        }).data("kendoDropDownList");
+      }
     </script>
 
     <!-- Create new country when no data found --> 

@@ -66,14 +66,17 @@ class BranchController extends Controller
      */
     public function getList($option=null)
     {
-        $branchs = MasterType::find($this->branchTable)->branchRecords();
+        $branchs = [];
 
         if($option == 'filter'){
-            $branchs = $branchs->where('status',Status::Enabled); 
+            //Get all city records filter status = enabled
+            $branchs = MasterType::find($this->branchTable)->branchRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+     
+        }elseif ($option == 'all') {
+            //Get all city records
+            $branchs = MasterType::find($this->branchTable)->branchRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
-        $branchs = $branchs->get(['id as value','name as text'])->sortBy('text')->values()->all();
-
         return Response()->Json($branchs);
     }
 

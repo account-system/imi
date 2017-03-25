@@ -103,3 +103,14 @@ Route::group(['prefix' => 'country'], function () {
     //Route::post('/update', 'CountryController@update');
     //Route::post('/destroy', 'CountryController@destroy');
 });
+
+// Route city
+Route::group(['prefix' => 'city'], function () {
+    //Route::get('/', 'CityController@view');
+    //Route::get('/get', 'CityController@get');
+    Route::get('/list/{option}', 'CityController@getList');
+     Route::get('/list/{option}/{countryId}', 'CityController@getListCityByCountry');
+    Route::post('/store', 'CityController@store');
+    //Route::post('/update', 'CityController@update');
+    //Route::post('/destroy', 'CityController@destroy');
+});

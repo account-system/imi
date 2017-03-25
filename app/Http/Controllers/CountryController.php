@@ -66,14 +66,18 @@ class CountryController extends Controller
      */
     public function getList($option=null)
     {
-        $countries = MasterType::find($this->countryTable)->countryRecords();
+        
+        $countries = [];
 
         if($option == 'filter'){
-            $countries = $countries->where('status',Status::Enabled); 
+            //Get all city records filter status = enabled
+            $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+     
+        }elseif ($option == 'all') {
+            //Get all city records
+            $countries = MasterType::find($this->countryTable)->countryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
-        $countries = $countries->get(['id as value','name as text'])->sortBy('text')->values()->all();
-
         return Response()->Json($countries);
     }
 

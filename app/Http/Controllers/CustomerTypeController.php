@@ -49,7 +49,7 @@ class CustomerTypeController extends Controller
      */
     public function get()
     {
-        $customerTypes = MasterTypeDetail::where('master_type_id',$this->customerTypeTable)->get()->sortByDesc('created_at')->values()->all();
+        $customerTypes = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($customerTypes);
     }
     /**
