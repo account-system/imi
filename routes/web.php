@@ -76,12 +76,4 @@ Route::group(['prefix' => 'categoriess'], function () {
     Route::post('/destroy', 'CategoriessController@destroy');
 });
 
-// Route Controller Category
-Route::get('/vendor-lists', 'VendorController@view');
-Route::group(['prefix' => 'vendor-lists'], function () {
-    Route::get('/get', 'VendorController@get');
-    Route::get('/list', 'VendorController@lists');
-    Route::post('/store', 'VendorController@store');
-    Route::post('/update', 'VendorController@update');
-    Route::post('/destroy', 'VendorController@destroy');
-});
+
