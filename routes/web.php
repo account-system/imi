@@ -66,45 +66,6 @@ Route::group(['prefix' => 'categoriess'], function () {
     Route::post('/destroy', 'CategoriessController@destroy');
 });
 
-<<<<<<< .mine
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
 // Route vendor type
 Route::group(['prefix' => 'vendor-type'], function () {
     Route::get('/', 'VendorTypeController@view');
@@ -142,4 +103,4 @@ Route::group(['prefix' => 'country'], function () {
     //Route::post('/update', 'CountryController@update');
     //Route::post('/destroy', 'CountryController@destroy');
 });
->>>>>>> .theirs
+
