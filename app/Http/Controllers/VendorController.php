@@ -36,16 +36,19 @@ class VendorController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title'] = 'Vendor List';
+		$this->data['title'] 		= 	'Vendor List';
 
-		$vedorTypeController = new VendorTypeController;
-		$this->data['vendorTypes'] = $vedorTypeController->getList()->content();
+		$vedorTypeController 		= 	new VendorTypeController;
+		$this->data['vendorTypes'] 	= 	$vedorTypeController->getList('all')->content();
 
-		$branchController = new BranchController;
-		$this->data['branches'] = $branchController->getList()->content();
+		$branchController 			= 	new BranchController;
+		$this->data['branches'] 	= 	$branchController->getList('all')->content();
 		
-		$countryController = new CountryController;
-		$this->data['countries'] = $countryController->getList()->content();
+		$countryController 			= 	new CountryController;
+		$this->data['countries'] 	= 	$countryController->getList('all')->content();
+
+		$cityController				=	new cityController;
+		$this->data['cities']		=	$cityController->getList('all')->content();
 
 		return view('pages.vendor-list',$this->data);
 	}

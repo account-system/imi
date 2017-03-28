@@ -43,9 +43,12 @@
       branchDataSource          =   JSON.parse(branchDataSource);
 
       /*Country data source*/
-      var countryDataSource      =   <?php echo json_encode($countries) ?>;
-      countryDataSource          =   JSON.parse(countryDataSource);
-      console.log(countryDataSource);
+      var countryDataSource     =   <?php echo json_encode($countries) ?>;
+      countryDataSource         =   JSON.parse(countryDataSource);
+      
+      /*City data source*/
+      var cityDataSource        =   <?php echo json_encode($cities) ?>;
+      cityDataSource            =   JSON.parse(cityDataSource);
 
       /*Vedor data source*/
       var gridDataSource = new kendo.data.DataSource({
@@ -88,7 +91,7 @@
             },
             vendor_type_id: { 
               field: "vendor_type_id", 
-              type: "number"
+              type: "number",
             },
             branch_id: { 
               field: "branch_id", 
@@ -110,11 +113,13 @@
             },      
             country_id: {
               field: "country_id", 
-              type: "number"
+              type: "number",
+              defaultValue: 0
             },   
             city_id: {
               field: "city_id", 
-              type: "number"      
+              type: "number",
+              defaultValue: 0      
             },
             region: {
             },
@@ -163,7 +168,7 @@
       { field: "phone",title: "Phone" },
       { field: "email",title: "Email" },
       { field: "country_id",title: "Country", values: countryDataSource },
-      { field: "city_id",title: "City" },
+      { field: "city_id",title: "City", values: cityDataSource },
       { field: "region",title: "Region" },
       { field: "postal_code",title: "Postal Code" },
       { field: "address",title: "Address" },
@@ -187,6 +192,9 @@
       
       //Call function country data binding 
       countryDataBinding();
+
+      //Call function city data binding 
+      cityDataBinding();
 
       //Call function status data binding 
       statusDataBinding();
@@ -300,17 +308,17 @@ function vendorTypeDataBinding(){
 
   <div class="col-12">
     <label for="compay_name">Company Name</label>
-    <input type="text" name="Company name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required  style="width: 100%;"/> 
+    <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The field company name is required" style="width: 100%;"/> 
   </div>
   
   <div class="col-6">
       <label for="vendor_type_id">Vendor Type</label>
-      <input id="vendorType" name="vendor_type_id" data-bind="value:vendor_type_id"  style="width: 100%;" />
+      <input id="vendorType" name="vendor_type" data-bind="value:vendor_type_id" required data-required-msg="The field vendor type is required" style="width: 100%;" />
   </div> 
   
   <div class="col-6">
       <label for="branch_id">Branch</label>
-      <input id="branch" data-bind="value:branch_id" style="width: 100%;" />
+      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
   </div> 
   
   <div class="col-6">
@@ -339,8 +347,8 @@ function vendorTypeDataBinding(){
   </div> 
   
   <div class="col-6">
-      <label for="city_id">City</label>
-      <input id="city" data-bind="value:city_id"  style="width: 100%;" />
+      <label for="city_id">Province/City</label>
+      <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
   </div> 
   
   <div class="col-6">

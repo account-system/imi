@@ -33,6 +33,9 @@ class MasterTypesTableSeeder extends Seeder
         	),
             array(
                 'name' => 'countries',
+            ),
+            array(
+                'name' => 'cities',
             )
 
     	);
