@@ -62,15 +62,24 @@ class CityController extends Controller
     /**
      * Get a listing of the resource that contains(value, text).
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string $option It's filter option
      * @return \Illuminate\Http\Response
      */
-    public function getList($option = null)
+    public function getList($option = null, Request $request=null)
     {
         $cities = [];
 
         if($option == 'filter'){
             //Get all city records filter status = enabled
             $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+
+            //Get all city records filter status = enabled and filter by country
+            $filterQueryParam = $request->input('filter'); 
+            if($filterQueryParam != null){
+                $countryId = $filterQueryParam['filters'][0]['value']; 
+                $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();    
+            }
      
         }elseif ($option == 'all') {
             //Get all city records

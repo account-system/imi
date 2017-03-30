@@ -42,17 +42,17 @@
                   },
                   update: {
                       url: crudServiceBaseUrl + "/vendor-type/update",
-                      type: "Post",
+                      type: "POST",
                       dataType: "json"
                   },
                   destroy: {
                       url: crudServiceBaseUrl + "/vendor-type/destroy",
-                      type: "Post",
+                      type: "POST",
                       dataType: "json"
                   },
                   create: {
                       url: crudServiceBaseUrl + "/vendor-type/store",
-                      type: "Post",
+                      type: "POST",
                       dataType: "json"
                   },
                   parameterMap: function(options, operation) {
@@ -135,8 +135,8 @@
         height: 550,
         toolbar: [{name: "create"},{template: kendo.template($("#textbox-multi-search").html())}],
         columns: [
-            { field:"name", title: " Name" },
-            { field: "description", title: " Description"},
+            { field:"name", title: "Name" },
+            { field: "description", title: "Description"},
             { field: "status", values: statusDataSource, title: "Status" },
             { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
         editable: {

@@ -32,9 +32,7 @@
 @section('after_scripts')     
   <script>
 
-    $(document).ready(function () {
-
-      /*Vedor type data source*/
+    /*Vedor type data source*/
       var vendorTypeDataSource  =   <?php echo json_encode($vendorTypes) ?>;
       vendorTypeDataSource      =   JSON.parse(vendorTypeDataSource);
 
@@ -45,10 +43,12 @@
       /*Country data source*/
       var countryDataSource     =   <?php echo json_encode($countries) ?>;
       countryDataSource         =   JSON.parse(countryDataSource);
-      
+      console.log(countryDataSource);
       /*City data source*/
       var cityDataSource        =   <?php echo json_encode($cities) ?>;
       cityDataSource            =   JSON.parse(cityDataSource);
+
+    $(document).ready(function () {
 
       /*Vedor data source*/
       var gridDataSource = new kendo.data.DataSource({
@@ -113,13 +113,11 @@
             },      
             country_id: {
               field: "country_id", 
-              type: "number",
-              defaultValue: 0
+              type: "number"
             },   
             city_id: {
               field: "city_id", 
-              type: "number",
-              defaultValue: 0      
+              type: "number"
             },
             region: {
             },
@@ -174,7 +172,7 @@
       { field: "address",title: "Address" },
       { field: "detail",title: "Detail" },
       { field: "status", title: "Status", values: statusDataSource },
-      { command: ["edit", "destroy"], title: "Action"}
+      { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
     ],
     editable: {
       mode: "popup",
@@ -184,21 +182,9 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function vendor type data binding 
-      vendorTypeDataBinding();
-
-      //Call function branch data binding 
-      branchDataBinding();
-      
-      //Call function country data binding 
-      countryDataBinding();
-
-      //Call function city data binding 
-      cityDataBinding();
-
-      //Call function status data binding 
-      statusDataBinding();
-
+      //Call function  init dropdownlists
+      initDropDownLists();
+    
       //Customize popup title and button label 
       if (e.model.isNew()) {
         e.container.data("kendoWindow").title('Add New Vendor');
@@ -283,8 +269,9 @@
   });
 });
 
-//Create vendor type dropdownlist 
-function vendorTypeDataBinding(){
+/*Initailize all dropdownlist*/  
+function initDropDownLists(){
+  /*Initailize vendor type dropdownlist*/
   $("#vendorType").kendoDropDownList({
     optionLabel: "Select vendor type...",
     dataValueField: "value",
@@ -298,7 +285,19 @@ function vendorTypeDataBinding(){
         }
       }
     }
-  }); 
+  });
+
+  /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
+
+  /*Initailize country dropdownlist*/
+  initCountryDropDownList();
+
+  /*Initailize city dropdownlist*/
+  initCityDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
 }
 
 </script>
@@ -309,66 +308,71 @@ function vendorTypeDataBinding(){
   <div class="col-12">
     <label for="compay_name">Company Name</label>
     <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The field company name is required" style="width: 100%;"/> 
+    <span class="k-invalid-msg" data-for="compay_name"></span>
   </div>
   
   <div class="col-6">
+    <label for="contact_name">Contact Name</label>
+    <input type="text" class="k-textbox" name="Contact name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The field contact name is required" style="width: 100%;"/>
+  </div>
+  
+  <div class="col-6">
+    <label for="contact_title">Contact Title</label>
+    <input type="text" class="k-textbox" name="contact_title" placeholder="Enter contact title" data-bind="value:contact_title" required data-required-msg="The field contact title is required" style="width: 100%;"/>
+  </div>
+
+  <div class="col-6">
       <label for="vendor_type_id">Vendor Type</label>
       <input id="vendorType" name="vendor_type" data-bind="value:vendor_type_id" required data-required-msg="The field vendor type is required" style="width: 100%;" />
+      <span class="k-invalid-msg" data-for="vendor_type_id"></span>
   </div> 
   
   <div class="col-6">
       <label for="branch_id">Branch</label>
       <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
+      <span class="k-invalid-msg" data-for="branch_id"></span>
   </div> 
   
   <div class="col-6">
-    <label for="contact_name">Contact Name</label>
-    <input type="text" class="k-textbox" name="Contact name" placeholder="Enter contact name" data-bind="value:contact_name" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="contact_title">Contact Title</label>
-    <input type="text" class="k-textbox" name="Contact title" placeholder="Enter contact title" data-bind="value:contact_title" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="Phone" placeholder="Enter phone number" data-bind="value:phone" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="phone" placeholder="Enter phone number" data-bind="value:phone" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="email">Email</label>
-    <input type="text" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
   <div class="col-6">
       <label for="country_id">Country</label>
-      <input id="country" data-bind="value:country_id"  style="width: 100%;" />
+      <input id="country" name="country_id" data-bind="value:country_id"  style="width: 100%;" />
+      <span class="k-invalid-msg" data-for="country_id"></span>
   </div> 
   
   <div class="col-6">
       <label for="city_id">Province/City</label>
-      <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
+      <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
+      <span class="k-invalid-msg" data-for="city_id"></span>
   </div> 
   
   <div class="col-6">
     <label for="region">Region</label>
-    <input type="text" class="k-textbox" name="Region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="postal_code">Postal Code</label>
-    <input type="text" class="k-textbox" name="Postal code" placeholder="Enter city" data-bind="value:city" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" style="width: 100%;"/>
   </div>
   
   <div class="col-12">
     <label for="address">Address</label>
-    <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
+    <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
   </div>
   
   <div class="col-12">
     <label for="detail">Detail</label>
-    <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
+    <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
   </div>
 
   <div class="col-6">

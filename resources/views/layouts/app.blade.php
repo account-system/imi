@@ -201,18 +201,8 @@
         }     
       });
 
-      //Create status dropdownlist
-      function statusDataBinding()
-      {
-        $("#status").kendoDropDownList({
-          dataValueField: "value",
-          dataTextField: "text",
-          dataSource: statusDataSource  
-        });
-      }
-
-      //Create branch dropdownlist 
-      function branchDataBinding(){
+      /*Initailize branch dropdownlist*/ 
+      function initBranchDropDownList(){
         $("#branch").kendoDropDownList({
           optionLabel: "Select branch...",
           dataValueField: "value",
@@ -226,114 +216,60 @@
               }
             }
           }
-        }); 
+        }).data("kendoDropDownList"); 
       }
-
-      //Create country dropdownlist 
-      function countryDataBinding(){
+      
+      /*Initailize country dropdownlist*/
+      function initCountryDropDownList(){
         var countries = $("#country").kendoDropDownList({
+          valuePrimitive: true,
           filter: "startswith",
           optionLabel: "Select country...",
-          dataValueField: "value",
           dataTextField: "text",
+          dataValueField: "value",
           dataSource: {
-            batch: true,
             transport: {
               read: {
                 url: crudBaseUrl + "/country/list/filter",
                 type: "GET",
                 dataType: "json"
-              },
-              create: {
-                url: crudBaseUrl + "/country/store",
-                type: "POST",
-                dataType: "jsonp"
-              },
-              parameterMap: function(options, operation) {
-                if (operation !== "read" && options.models) {
-                  return {models: kendo.stringify(options.models)};
-                }
               }
-            },
-            schema: {
-              model: {
-                id: "id",
-                fields: {
-                  id: { type: "number"},
-                  name: { type: "string" },
-                  description: {type: "string", nullable: true},
-                  status: {type: "string", defaultValue: "Enabled"}
-                }
-              }
-            }
-          },
-          noDataTemplate: $("#noDataCountryTemplate").html(),
-          change: function(){
-            var cities = $("#city").data("kendoDropDownList");
-
-            if(countries.value()==''){
-              cities.select(0);
-              alert(cities.value());
-              cities.enable(false);
-              
-            }else{
-              var urlCitiesByCounty =  crudBaseUrl + "/city/list/filter/" + countries.value();
-              cities.dataSource.transport.options.read.url = urlCitiesByCounty;
-              cities.dataSource.read();
-              cities.enable(true);
-            }
-            
-          }
-        }).data("kendoDropDownList"); 
-      }
-
-      /*Create new country*/
-      function addNew(widgetId, value) {
-        var widget = $("#" + widgetId).getKendoDropDownList();
-        var dataSource = widget.dataSource;
-
-        if (confirm("Are you sure?")) {
-          dataSource.add({
-            id: 0,
-            name: value,
-            description: null,
-            status: 'Enabled'
-          });
-
-          dataSource.one("sync", function() {
-              widget.select(dataSource.view().length - 1);
-          });
-
-          dataSource.sync();
-          dataSource.read();
-        } 
-      }
-
-      //Create country dropdownlist 
-      function cityDataBinding(){
-        $("#city").kendoDropDownList({
-          filter: "startswith",
-          autoBind: false,
-          optionLabel: "Select province or city...",
-          dataValueField: "value",
-          dataTextField: "text",
-          dataSource: {
-            type: "json",
-            transport: {
-              read: crudBaseUrl + "/city/list/filter"
             }
           }
         }).data("kendoDropDownList");
       }
-    </script>
 
-    <!-- Create new country when no data found --> 
-    <script id="noDataCountryTemplate" type="text/x-kendo-tmpl">
-        <div>
-            No data found. Do you want to add new country - '#: instance.filterInput.val() #' ?
-        </div>
-        <br />
-        <button class="k-button" onclick="addNew('#: instance.element[0].id #', '#: instance.filterInput.val() #')">Add new country</button>
+      /*Initailize city dropdownlist*/
+      function initCityDropDownList(){
+        var cities = $("#city").kendoDropDownList({
+          valuePrimitive: true,
+          filter: "startswith",
+          autoBind: false,
+          cascadeFrom: "country",
+          optionLabel: "Select province or city...",
+          dataTextField: "text",
+          dataValueField: "value",
+          dataSource: {
+              type: "json",
+              serverFiltering: true,
+              transport: {
+                  read: crudBaseUrl + "/city/list/filter" 
+              }
+          }
+        }).data("kendoDropDownList"); 
+
+      }
+
+      /*Initailize status dropdownlist*/ 
+      function initStatusDropDownList()
+      {
+        $("#status").kendoDropDownList({
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: statusDataSource  
+        });
+      }
+
     </script>
 
     <!-- Create textbox multi search toolbar for input HTML element --> 
