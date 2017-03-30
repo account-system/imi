@@ -171,10 +171,10 @@
         {value: "Disabled", text: "Disabled"}
       ];
 
-      //It's Gender data
+      //It's gender data
       var genderDataSource = [
-        {value: "male", text: "Male"},
-        {value: "female", text: "Female"}
+        {value: "Male", text: "Male"},
+        {value: "Female", text: "Female"}
       ];
 
       // To make Pace works on Ajax calls
@@ -273,6 +273,16 @@
           dataValueField: "value",
           dataTextField: "text",
           dataSource: statusDataSource  
+        });
+      }
+
+      /*Initailize gender dropdownlist*/ 
+      function initGenderDropDownList()
+      {
+        $("#gender").kendoDropDownList({
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: genderDataSource  
         });
       }
 

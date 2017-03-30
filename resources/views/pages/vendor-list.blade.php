@@ -33,24 +33,24 @@
   <script>
 
     /*Vedor type data source*/
-      var vendorTypeDataSource  =   <?php echo json_encode($vendorTypes) ?>;
-      vendorTypeDataSource      =   JSON.parse(vendorTypeDataSource);
+    var vendorTypeDataSource  =   <?php echo json_encode($vendorTypes) ?>;
+    vendorTypeDataSource      =   JSON.parse(vendorTypeDataSource);
 
-      /*Branch data source*/
-      var branchDataSource      =   <?php echo json_encode($branches) ?>;
-      branchDataSource          =   JSON.parse(branchDataSource);
+    /*Branch data source*/
+    var branchDataSource      =   <?php echo json_encode($branches) ?>;
+    branchDataSource          =   JSON.parse(branchDataSource);
 
-      /*Country data source*/
-      var countryDataSource     =   <?php echo json_encode($countries) ?>;
-      countryDataSource         =   JSON.parse(countryDataSource);
-      console.log(countryDataSource);
-      /*City data source*/
-      var cityDataSource        =   <?php echo json_encode($cities) ?>;
-      cityDataSource            =   JSON.parse(cityDataSource);
+    /*Country data source*/
+    var countryDataSource     =   <?php echo json_encode($countries) ?>;
+    countryDataSource         =   JSON.parse(countryDataSource);
+    
+    /*City data source*/
+    var cityDataSource        =   <?php echo json_encode($cities) ?>;
+    cityDataSource            =   JSON.parse(cityDataSource);
 
     $(document).ready(function () {
 
-      /*Vedor data source*/
+      /*Vendor data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
