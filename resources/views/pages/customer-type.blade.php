@@ -11,8 +11,7 @@
       <h1>Customer Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
-        <li class="active">Customer</li>
-        <li class="active">Type</li>
+        <li class="active">Customer Type</li>
       </ol>
     </section>
 @endsection
@@ -80,7 +79,7 @@
                           },
                           status: { 
                             type: "string", 
-                            defaultValue: "ENABLED" 
+                            defaultValue: "Enabled" 
                           }                     
                       }
                   }
@@ -107,7 +106,7 @@
           columns: [
               { field:"name", title: " Name" },
               { field: "description", title: " Description"},
-              { field: "status", values: statuses, title: "Status" },
+              {  field: "status", values: statusDataSource, title: "Status" },
               { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
           editable: {
             mode: "popup",

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Doctor extends Model
 {
     /**
      * The attributes that should be hidden for arrays.
@@ -23,5 +23,4 @@ class Customer extends Model
     protected $dates = [
         'date_of_birth'
     ];
-
 }

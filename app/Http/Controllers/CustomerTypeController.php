@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Helpers\Status;
 use Illuminate\Http\Request;
 use App\MasterType;
-use App\MasterTypeDetail;
+use App\MasterDetail;
 
 class CustomerTypeController extends Controller
 {
@@ -49,18 +50,23 @@ class CustomerTypeController extends Controller
      */
     public function get()
     {
-        $customerTypes = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
+        $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($customerTypes);
     }
+
     /**
      * Get a listing of the resource for dropdownlist.
      *
      * @return \Illuminate\Http\Response
      */
-    public function lists()
+    public function getList($option=null)
     {
-        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
-        return Response()->Json($vendorType);
+        $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords();
+        if ($option == 'filter') {
+            $customerTypes = $customerTypes->where('status',Status::Enabled);
+        }
+        $customerTypes = $customerTypes->get(['id as value','name as text'])->sortBy('text')->values()->all();
+        return Response()->Json($customerTypes);
     }
     /**
      * Store a newly created resource in storage.
@@ -75,14 +81,14 @@ class CustomerTypeController extends Controller
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
 
-                $customerTypeObject = new MasterTypeDetail();
-                $customerTypeObject->master_type_id = $this->customerTypeTable;
-
-                $customerTypeObject->name = $customertypeRequest->name;
-                $customerTypeObject->description = $customertypeRequest->description;
-                $customerTypeObject->status = $customertypeRequest->status;
-                $customerTypeObject->created_by = auth::id();
-                $customerTypeObject->updated_by = auth::id();
+                $customerTypeObject = new MasterDetail();
+                
+                $customerTypeObject->master_type_id     = $this->customerTypeTable;
+                $customerTypeObject->name               = $customertypeRequest->name;
+                $customerTypeObject->description        = $customertypeRequest->description;
+                $customerTypeObject->status             = $customertypeRequest->status;
+                $customerTypeObject->created_by         = auth::id();
+                $customerTypeObject->updated_by         = auth::id();
                 $customerTypeObject->save();
 
                 $customertypesResponse[]= $customerTypeObject;
@@ -108,11 +114,12 @@ class CustomerTypeController extends Controller
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
 
-                $customerTypeObject = MasterTypeDetail::findOrFail($customertypeRequest->id);
-                $customerTypeObject->name = $customertypeRequest->name;
-                $customerTypeObject->description = $customertypeRequest->description;
-                $customerTypeObject->status = $customertypeRequest->status;
-                $customerTypeObject->updated_by = auth::id();
+                $customerTypeObject = MasterDetail::findOrFail($customertypeRequest->id);
+
+                $customerTypeObject->name           = $customertypeRequest->name;
+                $customerTypeObject->description    = $customertypeRequest->description;
+                $customerTypeObject->status         = $customertypeRequest->status;
+                $customerTypeObject->updated_by     = auth::id();
                 $customerTypeObject->save();
 
                 $customertypesResponse[]= $customerTypeObject;
@@ -138,7 +145,7 @@ class CustomerTypeController extends Controller
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
 
-                $customerTypeObject = MasterTypeDetail::findOrFail($customertypeRequest->id);
+                $customerTypeObject = MasterDetail::findOrFail($customertypeRequest->id);
                 $customerTypeObject->delete();
 
                 $customertypesResponse[]= $customertypeRequest;

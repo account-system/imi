@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Helpers\Status;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\MasterTypeDetail;
+use App\MasterDetail;
 use App\MasterType;
 
-class EmployeeTypesController extends Controller
+class EmployeeTypeController extends Controller
 {
     /**
     *The Employee type table
@@ -50,7 +51,7 @@ class EmployeeTypesController extends Controller
      */
     public function get()
     {
-        $employeeType = MasterType::find($this->employeeTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
+        $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($employeeType);
     }
     /**
@@ -58,10 +59,17 @@ class EmployeeTypesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lists()
+    public function getList($option=null)
     {
-        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
-        return Response()->Json($vendorType);
+        $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords();
+        
+        if ($option == 'filter') {
+
+            $employeeType = $employeeType->where('status',Status::Enabled);
+        }
+        $employeeType = $employeeType->get(['id as value','name as text'])->sortBy('text')->values()->all();
+        
+        return Response()->Json($employeeType);
     }
     /**
      * Store a newly created resource in storage.
@@ -76,14 +84,14 @@ class EmployeeTypesController extends Controller
         foreach ($employeetypesRequest as $key => $employeetypeRequest) {
             try {
 
-                $employeeTypeObject = new MasterTypeDetail();
-                $employeeTypeObject->master_type_id = $this->employeeTypeTable;
+                $employeeTypeObject = new MasterDetail(); 
 
-                $employeeTypeObject->name = $employeetypeRequest->name;
-                $employeeTypeObject->description = $employeetypeRequest->description;
-                $employeeTypeObject->status = $employeetypeRequest->status;
-                $employeeTypeObject->created_by = auth::id();
-                $employeeTypeObject->updated_by = auth::id();
+                $employeeTypeObject->master_type_id = $this->employeeTypeTable;
+                $employeeTypeObject->name           = $employeetypeRequest->name;
+                $employeeTypeObject->description    = $employeetypeRequest->description;
+                $employeeTypeObject->status         = $employeetypeRequest->status;
+                $employeeTypeObject->created_by     = auth::id();
+                $employeeTypeObject->updated_by     = auth::id();
                 $employeeTypeObject->save();
 
                 $employeetypesResponse[]= $employeeTypeObject;
@@ -109,7 +117,7 @@ class EmployeeTypesController extends Controller
         foreach ($employeetypesRequest as $key => $employeetypeRequest) {
             try {
 
-                $employeeTypeObject = MasterTypeDetail::findOrFail($employeetypeRequest->id);
+                $employeeTypeObject = MasterDetail::findOrFail($employeetypeRequest->id);
                 $employeeTypeObject->name = $employeetypeRequest->name;
                 $employeeTypeObject->description = $employeetypeRequest->description;
                 $employeeTypeObject->status = $employeetypeRequest->status;
@@ -139,7 +147,7 @@ class EmployeeTypesController extends Controller
         foreach ($employeetypesRequest as $key => $employeetypeRequest) {
             try {
 
-                $employeeTypeObject = MasterTypeDetail::findOrFail($employeetypeRequest->id);
+                $employeeTypeObject = MasterDetail::findOrFail($employeetypeRequest->id);
                 $employeeTypeObject->delete();
 
                 $employeetypesResponse[]= $employeetypeRequest;

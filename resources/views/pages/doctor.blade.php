@@ -2,16 +2,16 @@
 
 @section('after_styles')
 <style>
-
+  
 </style>
 @endsection
 
 @section('header')
   <section class="content-header">
-    <h1>Vendor List</h1>
+    <h1>Doctor List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Vendor List</li>
+      <li class="active">Doctor List</li>
     </ol>
   </section>
 @endsection
@@ -29,47 +29,47 @@
   </div>   
 @endsection
 
-@section('after_scripts')     
+@section('after_scripts') 
   <script>
 
-    /*Vedor type data source*/
-      var vendorTypeDataSource  =   <?php echo json_encode($vendorTypes) ?>;
-      vendorTypeDataSource      =   JSON.parse(vendorTypeDataSource);
+      $(document).ready(function () {
+
+        /*doctor type data source*/
+      var doctorTypeDataSource  =   <?php echo json_encode($doctorTypes) ?>;
+      doctorTypeDataSource      =   JSON.parse(doctorTypeDataSource);
 
       /*Branch data source*/
-      var branchDataSource      =   <?php echo json_encode($branches) ?>;
-      branchDataSource          =   JSON.parse(branchDataSource);
+      var branchDataSource        =   <?php echo json_encode($branches) ?>;
+      branchDataSource            =   JSON.parse(branchDataSource);
 
       /*Country data source*/
-      var countryDataSource     =   <?php echo json_encode($countries) ?>;
-      countryDataSource         =   JSON.parse(countryDataSource);
-      console.log(countryDataSource);
+      var countryDataSource       =   <?php echo json_encode($countries) ?>;
+      countryDataSource           =   JSON.parse(countryDataSource);
+
       /*City data source*/
       var cityDataSource        =   <?php echo json_encode($cities) ?>;
       cityDataSource            =   JSON.parse(cityDataSource);
-
-    $(document).ready(function () {
 
       /*Vedor data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/vendor-list/get",
+            url: crudBaseUrl + "/doctor/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/vendor-list/update",
+            url: crudBaseUrl + "/doctor/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/vendor-list/destroy",
+            url: crudBaseUrl + "/doctor/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/vendor-list/store",
+            url: crudBaseUrl + "/doctor/store",
             type: "POST",
             dataType: "json"
           },
@@ -89,44 +89,61 @@
               editable: false,
               nullable: true 
             },
-            vendor_type_id: { 
-              field: "vendor_type_id", 
-              type: "number",
+            doctor_type_id: { 
+              field: "doctor_type_id", 
+              type: "number"
             },
             branch_id: { 
               field: "branch_id", 
-              type: "number"
+              type: "number",
+              defaultValue: 0
             },
-            company_name: {
+            first_name: {
                 
             },
-            contact_name: {
-                  
+            last_name: {
+                
             },
-            cantact_title: {
-                  
+            job_title: {
+                
+            },
+            gender: { 
+              field: "gender", 
+              type: "string",
+              defaultValue: "Male" 
+            },  
+            date_of_birth: {
+                type: "date",
+                format: "yyyy-mm-dd"
             },
             phone: {
-
+                  
             },
             email: {
-            },      
+
+            },
             country_id: {
               field: "country_id", 
-              type: "number"
+              type: "number",
+              defaultValue: 0
             },   
             city_id: {
               field: "city_id", 
-              type: "number"
+              type: "number",
+              defaultValue: 0      
             },
             region: {
-            },
+              
+            }, 
             postal_code: {
+              
             },
             address: {
-            },
+              
+            },  
             detail: {
-            },   
+
+            }, 
             status: { 
               field: "status", 
               type: "string",
@@ -136,8 +153,8 @@
         }
       }
     });
-
-  $("#grid").kendoGrid({
+    
+    $("#grid").kendoGrid({
     dataSource: gridDataSource,
     navigatable: true,
     resizable: true,
@@ -158,11 +175,13 @@
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
-      { field: "company_name", title: "Company Name" },
-      { field: "contact_name", title: "Contact Name" },
-      { field: "contact_title",title: "Contact Title"  },
-      { field: "vendor_type_id", title: "Vendor Type", values: vendorTypeDataSource },
+      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
       { field: "branch_id", title: "Branch", values: branchDataSource },
+      { field: "first_name", title: "First Name" },
+      { field: "last_name", title: "Last Name" },
+      { field: "job_title", title: "Job Title" ,hidden: true },
+      { field: "gender", title: "Gender", values: genderDataSource ,hidden: true },
+      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
       { field: "phone",title: "Phone" ,hidden: true },
       { field: "email",title: "Email" ,hidden: true },
       { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
@@ -172,7 +191,7 @@
       { field: "address",title: "Address" ,hidden: true },
       { field: "detail",title: "Detail" ,hidden: true },
       { field: "status", title: "Status", values: statusDataSource ,hidden: true },
-      { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
+      { command: ["edit", "destroy"], title: "Action" ,menu: false }
     ],
     editable: {
       mode: "popup",
@@ -182,16 +201,31 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function  init dropdownlists
-      initDropDownLists();
-    
+      //Call function customer type data binding 
+      doctorTypeDataBinding();
+
+      //Call function branch data binding 
+      branchDataBinding();
+      
+      //Call function country data binding 
+      countryDataBinding();
+
+      //Call function city data binding 
+      cityDataBinding();
+
+      //Call function status data binding 
+      statusDataBinding();
+
+      //Call function status data binding 
+      genderDataBinding();
+
       //Customize popup title and button label 
       if (e.model.isNew()) {
-        e.container.data("kendoWindow").title('Add New Vendor');
+        e.container.data("kendoWindow").title('Add New Doctor');
         $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
       }
       else {
-        e.container.data("kendoWindow").title('Edit Vendor');
+        e.container.data("kendoWindow").title('Edit Doctor');
       }
     } 
   }); 
@@ -205,17 +239,37 @@
       logic  : "or",
       filters: [
         {
-          field   : "company_name",
+          field   : "doctor_type_id",
           operator: "contains",
           value   : q
         },
         {
-          field   : "contact_name",
+          field   : "branch_id",
           operator: "contains",
           value   : q
         },
         {
-          field   : "cantact_title",
+          field   : "first_name",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "last_name",
+          operator: "contains",
+          value   : q
+        },
+         {
+          field   : "job_title",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "gender",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "date_of_birth",
           operator: "contains",
           value   : q
         },
@@ -228,7 +282,7 @@
           field   : "email",
           operator: "contains",
           value   : q
-        }, 
+        },
         {
           field   : "country_id",
           operator: "eq",
@@ -267,112 +321,105 @@
       ]
     });  
   });
-});
-
-/*Initailize all dropdownlist*/  
-function initDropDownLists(){
-  /*Initailize vendor type dropdownlist*/
-  $("#vendorType").kendoDropDownList({
-    optionLabel: "Select vendor type...",
+ });
+//Create doctor type dropdownlist 
+function doctorTypeDataBinding(){
+  $("#doctorTypes").kendoDropDownList({
+    optionLabel: "Select Doctor Type...",
     dataValueField: "value",
     dataTextField: "text",
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/vendor-type/list/filter",
+          url: crudBaseUrl+"/doctor-type/list/filter",
           type: "GET",
           dataType: "json"
         }
       }
     }
   });
-
-  /*Initailize branch dropdownlist*/
-  initBranchDropDownList();
-
-  /*Initailize country dropdownlist*/
-  initCountryDropDownList();
-
-  /*Initailize city dropdownlist*/
-  initCityDropDownList();
-
-  /*Initailize status dropdownlist*/
-  initStatusDropDownList();
+  $("#dob").kendoDatePicker({
+  format: "yyyy/MM/dd"
+});
 }
-
 </script>
 
-<!-- Customize popup editor vendor --> 
+<!-- Customize popup editor customer list --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
 
-  <div class="col-12">
-    <label for="compay_name">Company Name</label>
-    <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The field company name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/> 
-    <span class="k-invalid-msg" data-for="compay_name"></span>
-  </div>
-  
-  <div class="col-6">
-    <label for="contact_name">Contact Name</label>
-    <input type="text" class="k-textbox" name="Contact name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The field contact name is required" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="contact_title">Contact Title</label>
-    <input type="text" class="k-textbox" name="contact_title" placeholder="Enter contact title" data-bind="value:contact_title" required data-required-msg="The field contact title is required" style="width: 100%;"/>
-  </div>
 
   <div class="col-6">
-      <label for="vendor_type_id">Vendor Type</label>
-      <input id="vendorType" name="vendor_type" data-bind="value:vendor_type_id" required data-required-msg="The field vendor type is required" style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="vendor_type_id"></span>
+      <label for="doctor_type_id">Doctor Type</label>
+      <input id="doctorTypes" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The field doctor type is required" style="width: 100%;" />
   </div> 
   
   <div class="col-6">
       <label for="branch_id">Branch</label>
       <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="branch_id"></span>
-  </div> 
+  </div>
   
   <div class="col-6">
+    <label for="first_name">First Name</label>
+    <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" style="width: 100%;"/>
+  </div>
+
+  <div class="col-6">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" style="width: 100%;"/>
+  </div>
+
+  <div class="col-12">
+    <label for="job_title">Job Title</label>
+    <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" style="width: 100%;"/>
+  </div>
+ <div class="col-6">
+      <label for="gender">Gender</label>
+      <input id="gender" data-bind="value:gender"  style="width: 100%;" />
+  </div>
+  
+  <div class="col-6">
+    <label for="date_of_birth">Date Of Birth</label>
+    <input id="dob" class="k-textbox" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
+  </div>
+
+  <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="phone" placeholder="Enter phone number" data-bind="value:phone" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="email">Email</label>
-    <input type="text" class="k-textbox" name="email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
   <div class="col-6">
       <label for="country_id">Country</label>
-      <input id="country" name="country_id" data-bind="value:country_id"  style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="country_id"></span>
+      <input id="country" data-bind="value:country_id"  style="width: 100%;" />
   </div> 
   
   <div class="col-6">
       <label for="city_id">Province/City</label>
-      <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="city_id"></span>
+      <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
   </div> 
   
   <div class="col-6">
     <label for="region">Region</label>
-    <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="Region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="postal_code">Postal Code</label>
-    <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="Postal code" placeholder="Enter Postal Code" data-bind="value:city" style="width: 100%;"/>
   </div>
-  
+
   <div class="col-12">
     <label for="address">Address</label>
-    <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
+    <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
   </div>
   
   <div class="col-12">
     <label for="detail">Detail</label>
-    <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
+    <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
   </div>
 
   <div class="col-6">
@@ -382,4 +429,4 @@ function initDropDownLists(){
 
 </script>  
 
-@endsection
+@endsection()

@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\MasterTypeDetail;
+
+use App\Http\Controllers\Helpers\Status;
+use App\Http\Controllers\Controller;
+use App\MasterDetail;
 use App\MasterType;
 
 
 
-class DoctorTypesController extends Controller
+class DoctorTypeController extends Controller
 {
     
     /**
@@ -53,7 +55,7 @@ class DoctorTypesController extends Controller
      */
     public function get()
     {
-        $doctorType = MasterType::find($this->doctorTypeTable)->masterTypeDetails()->get()->sortByDesc('created_at')->values()->all();
+        $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords()->get()->sortByDesc('created_at')->values()->all();
         return Response()->Json($doctorType);
     }
     /**
@@ -61,10 +63,15 @@ class DoctorTypesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lists()
+    public function getList($option=null)
     {
-        $vendorType = MasterType::find($this->vendorTypeTable)->masterTypeDetails()->where('status',Status::ENABLED)->get(['id','name'])->sortBy('name')->values()->all();
-        return Response()->Json($vendorType);
+        $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords();
+         if($option == 'filter'){
+            $doctorType = $doctorType->where('status',Status::Enabled); 
+        }
+        
+        $doctorType = $doctorType->get(['id as value','name as text'])->sortBy('text')->values()->all();
+        return Response()->Json($doctorType);
     }
     /**
      * Store a newly created resource in storage.
@@ -79,14 +86,14 @@ class DoctorTypesController extends Controller
         foreach ($doctortypesRequest as $key => $doctortypeRequest) {
             try {
 
-                $doctorTypeObject = new MasterTypeDetail();
-                $doctorTypeObject->master_type_id = $this->doctorTypeTable;
+                $doctorTypeObject = new MasterDetail();
 
-                $doctorTypeObject->name = $doctortypeRequest->name;
-                $doctorTypeObject->description = $doctortypeRequest->description;
-                $doctorTypeObject->status = $doctortypeRequest->status;
-                $doctorTypeObject->created_by = auth::id();
-                $doctorTypeObject->updated_by = auth::id();
+                $doctorTypeObject->master_type_id   = $this->doctorTypeTable;
+                $doctorTypeObject->name             = $doctortypeRequest->name;
+                $doctorTypeObject->description      = $doctortypeRequest->description;
+                $doctorTypeObject->status           = $doctortypeRequest->status;
+                $doctorTypeObject->created_by       = auth::id();
+                $doctorTypeObject->updated_by       = auth::id();
                 $doctorTypeObject->save();
 
                 $doctortypesResponse[]= $doctorTypeObject;
@@ -112,7 +119,7 @@ class DoctorTypesController extends Controller
         foreach ($doctortypesRequest as $key => $doctortypeRequest) {
             try {
 
-                $doctorTypeObject = MasterTypeDetail::findOrFail($doctortypeRequest->id);
+                $doctorTypeObject = MasterDetail::findOrFail($doctortypeRequest->id);
                 $doctorTypeObject->name = $doctortypeRequest->name;
                 $doctorTypeObject->description = $doctortypeRequest->description;
                 $doctorTypeObject->status = $doctortypeRequest->status;
@@ -142,7 +149,7 @@ class DoctorTypesController extends Controller
         foreach ($doctortypesRequest as $key => $doctortypeRequest) {
             try {
 
-                $doctorTypeObject = MasterTypeDetail::findOrFail($doctortypeRequest->id);
+                $doctorTypeObject = MasterDetail::findOrFail($doctortypeRequest->id);
                 $doctorTypeObject->delete();
 
                 $doctortypesResponse[]= $doctortypeRequest;

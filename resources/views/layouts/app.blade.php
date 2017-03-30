@@ -46,7 +46,7 @@
 
     .toolbar-search {
         float: right;
-        margin-right: 12px;
+        /*margin-right: 12px;*/
       }
       .fieldlist {
         margin: 0;
@@ -169,6 +169,12 @@
       var statusDataSource = [
         {value: "Enabled", text: "Enabled"},
         {value: "Disabled", text: "Disabled"}
+      ];
+
+      //It's Gender data
+      var genderDataSource = [
+        {value: "male", text: "Male"},
+        {value: "female", text: "Female"}
       ];
 
       // To make Pace works on Ajax calls
