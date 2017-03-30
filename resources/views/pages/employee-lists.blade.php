@@ -96,9 +96,11 @@
             name: {
                   
             },
-            gender: {
-                  
-            },
+            status: { 
+              field: "gender", 
+              type: "string",
+              defaultValue: "gender" 
+            },     
             identity_card: {
 
             },
@@ -144,7 +146,7 @@
     columns: [
       { field: "employee_type_id", title: "Employee Type", values: employeeTypeDataSource },
       { field: "name",title: "Name" },
-      { field: "gender",title: "Gender" },
+      { field: "gender", title: "Gender", values: genderDataSource },
       { field: "identity_card",title: "identity_card" },
        { field: "position",title: "Position", hidden: true },
       { field: "phone",title: "Phone", hidden: true },
@@ -160,20 +162,8 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function Employee type data binding 
-      employeeTypeDataBinding();
-
-      //Call function branch data binding 
-      branchDataBinding();
-      
-      //Call function country data binding 
-      countryDataBinding();
-
-      //Call function city data binding 
-      cityDataBinding();
-
-      //Call function status data binding 
-      statusDataBinding();
+      ///Call function  init dropdownlists
+      initDropDownLists();
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
@@ -239,8 +229,8 @@
   });
 });
 
-//Create employee type dropdownlist 
-function employeeTypeDataBinding(){
+/*Initailize all dropdownlist*/  
+function initDropDownLists(){
   $("#employeeType").kendoDropDownList({
     optionLabel: "Select Employee type...",
     dataValueField: "value",
@@ -255,6 +245,25 @@ function employeeTypeDataBinding(){
       }
     }
   }); 
+  /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
+
+  /*Initailize country dropdownlist*/
+  initCountryDropDownList();
+
+  /*Initailize city dropdownlist*/
+  initCityDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
+
+  /*Initailize gender dropdownlist*/
+  initGenderDropDownList();
+
+   $("#dob").kendoDatePicker({
+    format: "yyyy/MM/dd"
+  });
+
 }
 
 </script>
@@ -284,7 +293,7 @@ function employeeTypeDataBinding(){
   
   <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="phone" placeholder="Enter phone" data-bind="value:phone" style="width: 100%;"/>
+    <input type="number" class="k-textbox" name="phone" placeholder="Enter phone" data-bind="value:phone" style="width: 100%;"/>
   </div>  
 
   <div class="col-12">

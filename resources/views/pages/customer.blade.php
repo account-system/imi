@@ -89,15 +89,6 @@
               editable: false,
               nullable: true 
             },
-            customer_type_id: { 
-              field: "customer_type_id", 
-              type: "number"
-            },
-            branch_id: { 
-              field: "branch_id", 
-              type: "number",
-              defaultValue: 0
-            },
             customer_name: {
                 
             },
@@ -109,6 +100,15 @@
             date_of_birth: {
                 type: "date",
                 format: "yyyy-mm-dd"
+            },
+            customer_type_id: { 
+              field: "customer_type_id", 
+              type: "number"
+            },
+            branch_id: { 
+              field: "branch_id", 
+              type: "number",
+              defaultValue: 0
             },
             phone: {
                   
@@ -175,23 +175,23 @@
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
-      { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
-      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "customer_name", title: "Cusotmer Name" },
       { field: "gender", title: "Gender", values: genderDataSource },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
-      { field: "phone",title: "Phone" },
-      { field: "email",title: "Email" },
-      { field: "relative_contact",title: "Relative Contact" },
-      { field: "relative_phone",title: "Relative Phone" },
-      { field: "country_id",title: "Country", values: countryDataSource },
-      { field: "city_id",title: "City", values: cityDataSource },
-      { field: "region",title: "Region" },
-      { field: "postal_code",title: "Postal Code" },
-      { field: "address",title: "Address" },
-      { field: "detail",title: "Detail" },
-      { field: "status", title: "Status", values: statusDataSource },
-      { command: ["edit", "destroy"], title: "Action"}
+      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true },
+      { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
+      { field: "branch_id", title: "Branch", values: branchDataSource },
+      { field: "phone",title: "Phone" ,hidden: true },
+      { field: "email",title: "Email" ,hidden: true },
+      { field: "relative_contact",title: "Relative Contact" ,hidden: true },
+      { field: "relative_phone",title: "Relative Phone" ,hidden: true },
+      { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
+      { field: "city_id",title: "City", values: cityDataSource ,hidden: true },
+      { field: "region",title: "Region" ,hidden: true },
+      { field: "postal_code",title: "Postal Code" ,hidden: true },
+      { field: "address",title: "Address",hidden: true },
+      { field: "detail",title: "Detail" ,hidden: true },
+      { field: "status", title: "Status", values: statusDataSource ,hidden: true },
+      { command: ["edit", "destroy"], title: "Action" ,menu: false }
     ],
     editable: {
       mode: "popup",
@@ -201,23 +201,8 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function customer type data binding 
-      customerTypeDataBinding();
-
-      //Call function branch data binding 
-      branchDataBinding();
-      
-      //Call function country data binding 
-      countryDataBinding();
-
-      //Call function city data binding 
-      cityDataBinding();
-
-      //Call function status data binding 
-      statusDataBinding();
-
-      //Call function status data binding 
-      genderDataBinding();
+     //Call function  init dropdownlists
+      initDropDownLists();
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
@@ -239,16 +224,6 @@
       logic  : "or",
       filters: [
         {
-          field   : "customer_type_id",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "branch_id",
-          operator: "contains",
-          value   : q
-        },
-        {
           field   : "customer_name",
           operator: "contains",
           value   : q
@@ -260,6 +235,16 @@
         },
         {
           field   : "date_of_birth",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "customer_type_id",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "branch_id",
           operator: "contains",
           value   : q
         },
@@ -322,8 +307,9 @@
     });  
   });
  });
-//Create customer type dropdownlist 
-function customerTypeDataBinding(){
+
+/*Initailize all dropdownlist*/  
+function initDropDownLists(){
   $("#customerTypes").kendoDropDownList({
     optionLabel: "Select customer Type...",
     dataValueField: "value",
@@ -339,9 +325,21 @@ function customerTypeDataBinding(){
     }
   });
 
-  // $("#dob").kendoDatePicker({
-  //   format: "yyyy-mm-dd"
-  // }); 
+ /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
+
+  /*Initailize country dropdownlist*/
+  initCountryDropDownList();
+
+  /*Initailize city dropdownlist*/
+  initCityDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
+
+  /*Initailize gender dropdownlist*/
+  initGenderDropDownList();
+
   $("#dob").kendoDatePicker({
   format: "yyyy/MM/dd"
 });
@@ -351,25 +349,14 @@ function customerTypeDataBinding(){
 <!-- Customize popup editor customer list --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
 
-
-  <div class="col-6">
-      <label for="customer_type_id">Customer Type</label>
-      <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id"  style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-      <label for="branch_id">Branch</label>
-      <input id="branch" name="branch_id" data-bind="value:branch_id" style="width: 100%;" />
-  </div>
-  
-  <div class="col-12">
+   <div class="col-12">
     <label for="customer_name">Customer Name</label>
-    <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" required data-required-msg="The field cusotmer name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
   </div>
   
  <div class="col-6">
       <label for="gender">Gender</label>
-      <input id="gender" data-bind="value:gender"  style="width: 100%;" />
+      <input id="gender" data-bind="value:gender" style="width: 100%;" />
   </div>
   
   <div class="col-6">
@@ -378,13 +365,23 @@ function customerTypeDataBinding(){
   </div>
 
   <div class="col-6">
+      <label for="customer_type_id">Customer Type</label>
+      <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The field cusotmer type is required" style="width: 100%;" />
+  </div> 
+  
+  <div class="col-6">
+      <label for="branch_id">Branch</label>
+      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
+  </div>
+
+  <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" style="width: 100%;"/>
+    <input type="number" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="email">Email</label>
-    <input type="text" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
+    <input type="email" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
   <div class="col-6">
@@ -394,7 +391,7 @@ function customerTypeDataBinding(){
 
   <div class="col-6">
     <label for="relative_phone">Relative Phone</label>
-    <input type="text" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" style="width: 100%;"/>
+    <input type="number" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" style="width: 100%;"/>
   </div> 
 
   <div class="col-6">

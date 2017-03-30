@@ -147,8 +147,8 @@
           template: kendo.template($("#popup-editor-type").html())
         },
         edit: function (e) {
-          //Call function status data binding 
-          statusDataBinding();
+           //Call function status Initailize status dropdownlist 
+            initStatusDropDownList();
 
           //Customize popup title and button label 
           if (e.model.isNew()) {

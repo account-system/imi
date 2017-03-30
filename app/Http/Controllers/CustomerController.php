@@ -82,11 +82,11 @@ class CustomerController extends Controller
 
 				$customerObject = new Customer();
 
-				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
-				$customerObject->branch_id 			= 	$customerRequest->branch_id;
 				$customerObject->customer_name 		= 	$customerRequest->customer_name;
 				$customerObject->gender 			= 	$customerRequest->gender;
 				$customerObject->date_of_birth	 	= 	new Carbon($customerRequest->date_of_birth);
+				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
+				$customerObject->branch_id 			= 	$customerRequest->branch_id;
 				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
 				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
@@ -127,12 +127,12 @@ class CustomerController extends Controller
 			try {
 
 				$customerObject = Customer::findOrFail($customerRequest->id);
-
-				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
-				$customerObject->branch_id 			= 	$customerRequest->branch_id;
+				
 				$customerObject->customer_name 		= 	$customerRequest->customer_name;
 				$customerObject->gender 			= 	$customerRequest->gender;
 				$customerObject->date_of_birth	 	= 	new Carbon($customerRequest->date_of_birth);
+				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
+				$customerObject->branch_id 			= 	$customerRequest->branch_id;
 				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
 				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;

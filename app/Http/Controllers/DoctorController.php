@@ -83,13 +83,13 @@ class DoctorController extends Controller
 
 				$doctorObject = new Doctor();
 
-				$doctorObject->doctor_type_id 		= 	$doctorRequest->doctor_type_id;
-				$doctorObject->branch_id 			= 	$doctorRequest->branch_id;
 				$doctorObject->first_name 			= 	$doctorRequest->first_name;
 				$doctorObject->last_name 			= 	$doctorRequest->last_name;
 				$doctorObject->job_title 			= 	$doctorRequest->job_title;
 				$doctorObject->gender 				= 	$doctorRequest->gender;
 				$doctorObject->date_of_birth	 	= 	new Carbon($doctorRequest->date_of_birth);
+				$doctorObject->doctor_type_id 		= 	$doctorRequest->doctor_type_id;
+				$doctorObject->branch_id 			= 	$doctorRequest->branch_id;
 				$doctorObject->phone 				= 	$doctorRequest->phone;
 				$doctorObject->email 				= 	$doctorRequest->email;
 				$doctorObject->country_id 			= 	$doctorRequest->country_id;
@@ -129,13 +129,13 @@ class DoctorController extends Controller
 
 				$doctorObject = Doctor::findOrFail($doctorRequest->id);
 
-				$doctorObject->doctor_type_id 		= 	$doctorRequest->doctor_type_id;
-				$doctorObject->branch_id 			= 	$doctorRequest->branch_id;
 				$doctorObject->first_name 			= 	$doctorRequest->first_name;
 				$doctorObject->last_name 			= 	$doctorRequest->last_name;
 				$doctorObject->job_title 			= 	$doctorRequest->job_title;
 				$doctorObject->gender 				= 	$doctorRequest->gender;
 				$doctorObject->date_of_birth	 	= 	new Carbon($doctorRequest->date_of_birth);
+				$doctorObject->doctor_type_id 		= 	$doctorRequest->doctor_type_id;
+				$doctorObject->branch_id 			= 	$doctorRequest->branch_id;
 				$doctorObject->phone 				= 	$doctorRequest->phone;
 				$doctorObject->email 				= 	$doctorRequest->email;
 				$doctorObject->country_id 			= 	$doctorRequest->country_id;
