@@ -165,16 +165,16 @@
       { field: "contact_title",title: "Contact Title"  },
       { field: "vendor_type_id", title: "Vendor Type", values: vendorTypeDataSource },
       { field: "branch_id", title: "Branch", values: branchDataSource },
-      { field: "phone",title: "Phone" },
-      { field: "email",title: "Email" },
-      { field: "country_id",title: "Country", values: countryDataSource },
-      { field: "city_id",title: "City", values: cityDataSource },
-      { field: "region",title: "Region" },
-      { field: "postal_code",title: "Postal Code" },
-      { field: "address",title: "Address" },
-      { field: "detail",title: "Detail" },
-      { field: "status", title: "Status", values: statusDataSource },
-      { command: ["edit", "destroy"], title: "Action"}
+      { field: "phone",title: "Phone" ,hidden: true },
+      { field: "email",title: "Email" ,hidden: true },
+      { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
+      { field: "city_id",title: "City", values: cityDataSource ,hidden: true },
+      { field: "region",title: "Region" ,hidden: true },
+      { field: "postal_code",title: "Postal Code" ,hidden: true },
+      { field: "address",title: "Address" ,hidden: true },
+      { field: "detail",title: "Detail" ,hidden: true },
+      { field: "status", title: "Status", values: statusDataSource ,hidden: true },
+      { command: ["edit", "destroy"], title: "Action", menu: false }
     ],
     editable: {
       mode: "popup",
@@ -308,7 +308,7 @@ function vendorTypeDataBinding(){
 
   <div class="col-12">
     <label for="compay_name">Company Name</label>
-    <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The field company name is required" style="width: 100%;"/> 
+    <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The field company name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/> 
   </div>
   
   <div class="col-6">
@@ -333,12 +333,12 @@ function vendorTypeDataBinding(){
   
   <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="Phone" placeholder="Enter phone number" data-bind="value:phone" style="width: 100%;"/>
+    <input type="number" class="k-textbox" name="Phone" placeholder="Enter phone number" data-bind="value:phone" validationMessage="Plase enter a ten digit phone number" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="email">Email</label>
-    <input type="text" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
+    <input type="email" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
   <div class="col-6">

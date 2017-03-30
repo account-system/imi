@@ -8,10 +8,10 @@
 
 @section('header')
   <section class="content-header">
-    <h1>Customer List</h1>
+    <h1>Doctor List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Customer List</li>
+      <li class="active">Doctor List</li>
     </ol>
   </section>
 @endsection
@@ -34,9 +34,9 @@
 
       $(document).ready(function () {
 
-        /*Customer type data source*/
-      var customerTypeDataSource  =   <?php echo json_encode($customerTypes) ?>;
-      customerTypeDataSource      =   JSON.parse(customerTypeDataSource);
+        /*doctor type data source*/
+      var doctorTypeDataSource  =   <?php echo json_encode($doctorTypes) ?>;
+      doctorTypeDataSource      =   JSON.parse(doctorTypeDataSource);
 
       /*Branch data source*/
       var branchDataSource        =   <?php echo json_encode($branches) ?>;
@@ -54,22 +54,22 @@
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/customer/get",
+            url: crudBaseUrl + "/doctor/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/customer/update",
+            url: crudBaseUrl + "/doctor/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/customer/destroy",
+            url: crudBaseUrl + "/doctor/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/customer/store",
+            url: crudBaseUrl + "/doctor/store",
             type: "POST",
             dataType: "json"
           },
@@ -89,8 +89,8 @@
               editable: false,
               nullable: true 
             },
-            customer_type_id: { 
-              field: "customer_type_id", 
+            doctor_type_id: { 
+              field: "doctor_type_id", 
               type: "number"
             },
             branch_id: { 
@@ -98,7 +98,13 @@
               type: "number",
               defaultValue: 0
             },
-            customer_name: {
+            first_name: {
+                
+            },
+            last_name: {
+                
+            },
+            job_title: {
                 
             },
             gender: { 
@@ -116,12 +122,6 @@
             email: {
 
             },
-            relative_contact: {
-
-            },      
-            relative_phone: {
-
-            },  
             country_id: {
               field: "country_id", 
               type: "number",
@@ -175,23 +175,23 @@
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
-      { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
+      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
       { field: "branch_id", title: "Branch", values: branchDataSource },
-      { field: "customer_name", title: "Cusotmer Name" },
-      { field: "gender", title: "Gender", values: genderDataSource },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
-      { field: "phone",title: "Phone" },
-      { field: "email",title: "Email" },
-      { field: "relative_contact",title: "Relative Contact" },
-      { field: "relative_phone",title: "Relative Phone" },
-      { field: "country_id",title: "Country", values: countryDataSource },
-      { field: "city_id",title: "City", values: cityDataSource },
-      { field: "region",title: "Region" },
-      { field: "postal_code",title: "Postal Code" },
-      { field: "address",title: "Address" },
-      { field: "detail",title: "Detail" },
-      { field: "status", title: "Status", values: statusDataSource },
-      { command: ["edit", "destroy"], title: "Action"}
+      { field: "first_name", title: "First Name" },
+      { field: "last_name", title: "Last Name" },
+      { field: "job_title", title: "Job Title" ,hidden: true },
+      { field: "gender", title: "Gender", values: genderDataSource ,hidden: true },
+      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
+      { field: "phone",title: "Phone" ,hidden: true },
+      { field: "email",title: "Email" ,hidden: true },
+      { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
+      { field: "city_id",title: "City", values: cityDataSource ,hidden: true },
+      { field: "region",title: "Region" ,hidden: true },
+      { field: "postal_code",title: "Postal Code" ,hidden: true },
+      { field: "address",title: "Address" ,hidden: true },
+      { field: "detail",title: "Detail" ,hidden: true },
+      { field: "status", title: "Status", values: statusDataSource ,hidden: true },
+      { command: ["edit", "destroy"], title: "Action" ,menu: false }
     ],
     editable: {
       mode: "popup",
@@ -202,7 +202,7 @@
     },
     edit: function (e) {
       //Call function customer type data binding 
-      customerTypeDataBinding();
+      doctorTypeDataBinding();
 
       //Call function branch data binding 
       branchDataBinding();
@@ -221,11 +221,11 @@
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
-        e.container.data("kendoWindow").title('Add New Customer');
+        e.container.data("kendoWindow").title('Add New Doctor');
         $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
       }
       else {
-        e.container.data("kendoWindow").title('Edit Customer');
+        e.container.data("kendoWindow").title('Edit Doctor');
       }
     } 
   }); 
@@ -239,7 +239,7 @@
       logic  : "or",
       filters: [
         {
-          field   : "customer_type_id",
+          field   : "doctor_type_id",
           operator: "contains",
           value   : q
         },
@@ -249,7 +249,17 @@
           value   : q
         },
         {
-          field   : "customer_name",
+          field   : "first_name",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "last_name",
+          operator: "contains",
+          value   : q
+        },
+         {
+          field   : "job_title",
           operator: "contains",
           value   : q
         },
@@ -270,16 +280,6 @@
         },
         {
           field   : "email",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "relative_contact",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "relative_phone",
           operator: "contains",
           value   : q
         },
@@ -322,26 +322,22 @@
     });  
   });
  });
-//Create customer type dropdownlist 
-function customerTypeDataBinding(){
-  $("#customerTypes").kendoDropDownList({
-    optionLabel: "Select customer Type...",
+//Create doctor type dropdownlist 
+function doctorTypeDataBinding(){
+  $("#doctorTypes").kendoDropDownList({
+    optionLabel: "Select Doctor Type...",
     dataValueField: "value",
     dataTextField: "text",
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/customer-type/list/filter",
+          url: crudBaseUrl+"/doctor-type/list/filter",
           type: "GET",
           dataType: "json"
         }
       }
     }
   });
-
-  // $("#dob").kendoDatePicker({
-  //   format: "yyyy-mm-dd"
-  // }); 
   $("#dob").kendoDatePicker({
   format: "yyyy/MM/dd"
 });
@@ -353,20 +349,29 @@ function customerTypeDataBinding(){
 
 
   <div class="col-6">
-      <label for="customer_type_id">Customer Type</label>
-      <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id"  style="width: 100%;" />
+      <label for="doctor_type_id">Doctor Type</label>
+      <input id="doctorTypes" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The field doctor type is required" style="width: 100%;" />
   </div> 
   
   <div class="col-6">
       <label for="branch_id">Branch</label>
-      <input id="branch" name="branch_id" data-bind="value:branch_id" style="width: 100%;" />
+      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
   </div>
   
+  <div class="col-6">
+    <label for="first_name">First Name</label>
+    <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" style="width: 100%;"/>
+  </div>
+
+  <div class="col-6">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" style="width: 100%;"/>
+  </div>
+
   <div class="col-12">
-    <label for="customer_name">Customer Name</label>
-    <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" style="width: 100%;"/>
+    <label for="job_title">Job Title</label>
+    <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" style="width: 100%;"/>
   </div>
-  
  <div class="col-6">
       <label for="gender">Gender</label>
       <input id="gender" data-bind="value:gender"  style="width: 100%;" />
@@ -387,16 +392,6 @@ function customerTypeDataBinding(){
     <input type="text" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
-  <div class="col-6">
-    <label for="relative_contact">Relative Contact</label>
-    <input type="text" class="k-textbox" name="relative_contact" placeholder="Enter Relative Contact" data-bind="value:relative_contact" style="width: 100%;"/>
-  </div> 
-
-  <div class="col-6">
-    <label for="relative_phone">Relative Phone</label>
-    <input type="text" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" style="width: 100%;"/>
-  </div> 
-
   <div class="col-6">
       <label for="country_id">Country</label>
       <input id="country" data-bind="value:country_id"  style="width: 100%;" />

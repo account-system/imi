@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CountryController;
+use Carbon\Carbon;
 use App\MasterType;
 use App\Customer;
 
@@ -38,14 +39,17 @@ class CustomerController extends Controller
 	{
 		$this->data['title'] = 'Customer List';
 
-		$customerTypeController = new CustomerTypeController;
-		$this->data['customerTypes'] = $customerTypeController->getList()->content();
+		$customerTypeController 		= new CustomerTypeController;
+		$this->data['customerTypes'] 	= $customerTypeController->getList()->content();
 
-		$branchController = new BranchController;
-		$this->data['branches'] = $branchController->getList()->content();
+		$branchController 				= new BranchController;
+		$this->data['branches'] 		= $branchController->getList()->content();
 		
-		$countryController = new CountryController;
-		$this->data['countries'] = $countryController->getList()->content();
+		$countryController 				= new CountryController;
+		$this->data['countries'] 		= $countryController->getList()->content();
+
+		$cityController					= new cityController;
+		$this->data['cities']			= $cityController->getList('all')->content();
 
 		return view('pages.customer',$this->data);
 	}
@@ -79,13 +83,20 @@ class CustomerController extends Controller
 				$customerObject = new Customer();
 
 				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
-				$customerObject->name 				= 	$customerRequest->name;
-				$customerObject->type 				= 	$customerRequest->type;
-				$customerObject->barcode		 	= 	$customerRequest->barcode;
-				$customerObject->sex 				= 	$customerRequest->sex;
-				$customerObject->tel 				= 	$customerRequest->tel;
-				$customerObject->address 			= 	$customerRequest->address;
+				$customerObject->branch_id 			= 	$customerRequest->branch_id;
+				$customerObject->customer_name 		= 	$customerRequest->customer_name;
+				$customerObject->gender 			= 	$customerRequest->gender;
+				$customerObject->date_of_birth	 	= 	new Carbon($customerRequest->date_of_birth);
+				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
+				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
+				$customerObject->relative_phone 	= 	$customerRequest->relative_phone;
+				$customerObject->country_id 		= 	$customerRequest->country_id;
+				$customerObject->city_id 			= 	$customerRequest->city_id;
+				$customerObject->region 			=   $customerRequest->region;
+				$customerObject->postal_code     	=   $customerRequest->postal_code;
+				$customerObject->address         	=   $customerRequest->address;
+				$customerObject->detail          	=   $customerRequest->detail;
 				$customerObject->status          	=   $customerRequest->status;
 				$customerObject->created_by      	=   auth::id();
 				$customerObject->updated_by      	=   auth::id();
@@ -118,13 +129,20 @@ class CustomerController extends Controller
 				$customerObject = Customer::findOrFail($customerRequest->id);
 
 				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
-				$customerObject->name 				= 	$customerRequest->name;
-				$customerObject->type 				= 	$customerRequest->type;
-				$customerObject->barcode		 	= 	$customerRequest->barcode;
-				$customerObject->sex 				= 	$customerRequest->sex;
-				$customerObject->tel 				= 	$customerRequest->tel;
-				$customerObject->address 			= 	$customerRequest->address;
+				$customerObject->branch_id 			= 	$customerRequest->branch_id;
+				$customerObject->customer_name 		= 	$customerRequest->customer_name;
+				$customerObject->gender 			= 	$customerRequest->gender;
+				$customerObject->date_of_birth	 	= 	new Carbon($customerRequest->date_of_birth);
+				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
+				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
+				$customerObject->relative_phone 	= 	$customerRequest->relative_phone;
+				$customerObject->country_id 		= 	$customerRequest->country_id;
+				$customerObject->city_id 			= 	$customerRequest->city_id;
+				$customerObject->region 			=   $customerRequest->region;
+				$customerObject->postal_code     	=   $customerRequest->postal_code;
+				$customerObject->address         	=   $customerRequest->address;
+				$customerObject->detail          	=   $customerRequest->detail;
 				$customerObject->status          	=   $customerRequest->status;
 				$customerObject->updated_by     	=   auth::id();
 

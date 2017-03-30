@@ -34,39 +34,42 @@
 
     $(document).ready(function () {
 
-      /*Vedor type data source*/
+      /*employee type data source*/
       var employeeTypeDataSource  =   <?php echo json_encode($employeeTypes) ?>;
       employeeTypeDataSource      =   JSON.parse(employeeTypeDataSource);
 
       /*Branch data source*/
-      var branchDataSource        =   <?php echo json_encode($branches) ?>;
-      branchDataSource            =   JSON.parse(branchDataSource);
+      var branchDataSource      =   <?php echo json_encode($branches) ?>;
+      branchDataSource          =   JSON.parse(branchDataSource);
 
       /*Country data source*/
-      var countryDataSource       =   <?php echo json_encode($countries) ?>;
-      countryDataSource           =   JSON.parse(countryDataSource);
-      console.log(countryDataSource);
+      var countryDataSource     =   <?php echo json_encode($countries) ?>;
+      countryDataSource         =   JSON.parse(countryDataSource);
+      
+      /*City data source*/
+      var cityDataSource        =   <?php echo json_encode($cities) ?>;
+      cityDataSource            =   JSON.parse(cityDataSource);
 
-      /*Vedor data source*/
+      /*employee data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/employee-list/get",
+            url: crudBaseUrl + "/employee-lists/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/employee-list/update",
+            url: crudBaseUrl + "/employee-lists/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/employee-list/destroy",
+            url: crudBaseUrl + "/employee-lists/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/employee-list/store",
+            url: crudBaseUrl + "/employee-lists/store",
             type: "POST",
             dataType: "json"
           },
@@ -86,39 +89,39 @@
               editable: false,
               nullable: true 
             },
-            vendor_type_id: { 
+            employee_type_id: { 
               field: "employee_type_id", 
-              type: "number"
+              type: "number",
             },
             name: {
-                
+                  
             },
-            sex: {
+            gender: {
                   
             },
             identity_card: {
-                  
+
             },
             position: {
 
             },
-            address: {
+            phone: {
 
             },
-            phone: {
+            address: {
 
             },
             status: { 
               field: "status", 
               type: "string",
               defaultValue: "Enabled" 
-            }   
+            }                
           }
         }
       }
     });
 
-    $("#grid").kendoGrid({
+  $("#grid").kendoGrid({
     dataSource: gridDataSource,
     navigatable: true,
     resizable: true,
@@ -140,14 +143,14 @@
     ],
     columns: [
       { field: "employee_type_id", title: "Employee Type", values: employeeTypeDataSource },
-      { field: "name", title: "Name" },
-      { field: "sex",title: "Sex"  },
-      { field: "identity_card" title: "Identity Card" },
-      { field: "position",title: "Position" },
-      { field: "address",title: "Address" },
-      { field: "phone",title: "Phone" },
-      { field: "status", title: "Status", values: statusDataSource },
-      { command: ["edit", "destroy"], title: "Action"}
+      { field: "name",title: "Name" },
+      { field: "gender",title: "Gender" },
+      { field: "identity_card",title: "identity_card" },
+       { field: "position",title: "Position", hidden: true },
+      { field: "phone",title: "Phone", hidden: true },
+      { field: "address",title: "Address", hidden: true},
+      { field: "status", title: "Status", values: statusDataSource, hidden: true},
+      { command: ["edit", "destroy"], title: "Action", menu:false}
     ],
     editable: {
       mode: "popup",
@@ -157,7 +160,7 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function vendor type data binding 
+      //Call function Employee type data binding 
       employeeTypeDataBinding();
 
       //Call function branch data binding 
@@ -165,6 +168,9 @@
       
       //Call function country data binding 
       countryDataBinding();
+
+      //Call function city data binding 
+      cityDataBinding();
 
       //Call function status data binding 
       statusDataBinding();
@@ -179,8 +185,8 @@
       }
     } 
   }); 
-  
-   /*Event response to key up in textbox multi search*/
+
+  /*Event response to key up in textbox multi search*/
   $("#txtMultiSearch").keyup(function(e){
      
     var q = $('#txtMultiSearch').val();
@@ -199,7 +205,7 @@
           value   : q
         },
         {
-          field   : "sex",
+          field   : "gender",
           operator: "contains",
           value   : q
         },
@@ -214,12 +220,12 @@
           value   : q
         }, 
         {
-          field   : "address",
+          field   : "phone",
           operator: "eq",
           value   : q
         },
         {
-          field   : "phone",
+          field   : "address",
           operator: "contains",
           value   : q
         },
@@ -233,7 +239,7 @@
   });
 });
 
-//Create Employee type dropdownlist 
+//Create employee type dropdownlist 
 function employeeTypeDataBinding(){
   $("#employeeType").kendoDropDownList({
     optionLabel: "Select Employee type...",
@@ -242,7 +248,7 @@ function employeeTypeDataBinding(){
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/employee-type/list/filter",
+          url: crudBaseUrl+"/employee-types/list/filter",
           type: "GET",
           dataType: "json"
         }
@@ -255,40 +261,35 @@ function employeeTypeDataBinding(){
 
 <!-- Customize popup editor employee --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
-
+  
   <div class="col-6">
       <label for="employee_type_id">Employee Type</label>
-      <input id="employeeType" name="employee_type_id" data-bind="value:employee_type_id"  style="width: 100%;" />
+      <input id="employeeType" name="employee_type_id" data-bind="value:employee_type_id" required data-required-msg="The field Employee type is required" style="width: 100%;" />
   </div> 
+    
+  <div class="col-6">
+    <label for="name">Name</label>
+    <input type="text" class="k-textbox" name="name" placeholder="Enter name" data-bind="value:name" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
+  </div>
   
   <div class="col-6">
-      <label for="name">Name</label>
-      <input id="name" data-bind="value:name" style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-    <label for="sex">Sex</label>
-    <input type="text" class="k-textbox" name="sex" placeholder="Enter sex" data-bind="value:sex" style="width: 100%;"/>
+    <label for="gender">Gender</label>
+    <input type="text" class="k-textbox" name="Gender" placeholder="Enter Gender" data-bind="value:gender" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="identity_card">Identity Card</label>
-    <input type="text" class="k-textbox" name="identity_card" placeholder="Enter Identity Card" data-bind="value:identity_card" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="identity_card" placeholder="Enter Identity Card" data-bind="value:phone" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
-    <label for="position">Position</label>
-    <input type="text" class="k-textbox" name="position" placeholder="Enter position" data-bind="value:position" style="width: 100%;"/>
-  </div>
+    <label for="phone">Phone</label>
+    <input type="text" class="k-textbox" name="phone" placeholder="Enter phone" data-bind="value:phone" style="width: 100%;"/>
+  </div>  
 
   <div class="col-12">
     <label for="address">Address</label>
     <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
-  </div>
-
-  <div class="col-6">
-    <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="Phone" placeholder="Enter phone number" data-bind="value:phone" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
@@ -297,4 +298,5 @@ function employeeTypeDataBinding(){
   </div>
 
 </script>  
+
 @endsection

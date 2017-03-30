@@ -322,6 +322,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
         'AccountTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AccountTypesTableSeeder.php',
         'CreateAccountTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_031925_create_customers_table.php',
+        'CreateDoctorsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_29_015646_create_doctors_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_082902_create_employees_table.php',
         'CreateMasterDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_024540_create_master_details_table.php',
         'CreateMasterSubDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_24_041509_create_master_sub_details_table.php',

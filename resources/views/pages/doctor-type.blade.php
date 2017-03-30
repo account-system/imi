@@ -166,11 +166,11 @@
 
             //Customize popup title and button label 
             if (e.model.isNew()) {
-                e.container.data("kendoWindow").title('Add New Vendor Type');
+                e.container.data("kendoWindow").title('Add New Doctor Type');
                 $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
             }
             else {
-                e.container.data("kendoWindow").title('Edit Vendor Type');
+                e.container.data("kendoWindow").title('Edit Doctor Type');
             }
           }  
         });

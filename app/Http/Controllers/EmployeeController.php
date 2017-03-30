@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\VendorTypeController;
+use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\MasterDetail;
+
 use App\MasterType;
 use App\Employee;
 
 
 class EmployeeController extends Controller
 {
-    /**
+
+	/**
 	 *The information we send to the view
 	 *@var array
 	 */
 		protected $data = []; 
 		
 	/**
-	 * Create a new employee instance.
+	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
@@ -38,16 +40,19 @@ class EmployeeController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title'] = 'Employee List';
+		$this->data['title'] 			= 	'Employee List';
 
-		$employeeTypeController = new EmployeeTypeController;
-		$this->data['employeeTypes'] = $employeeTypeController->getList()->content();
+		$employeeTypeController 		= 	new EmployeeTypeController;
+		$this->data['employeeTypes'] 	= 	$employeeTypeController->getList('all')->content();
 
-		$branchController = new BranchController;
-		$this->data['branches'] = $branchController->getList()->content();
+		$branchController 				= 	new BranchController;
+		$this->data['branches'] 		= 	$branchController->getList('all')->content();
 		
-		$countryController = new CountryController;
-		$this->data['countries'] = $countryController->getList()->content();
+		$countryController 				= 	new CountryController;
+		$this->data['countries'] 		= 	$countryController->getList('all')->content();
+
+		$cityController					=	new cityController;
+		$this->data['cities']			=	$cityController->getList('all')->content();
 
 		return view('pages.employee-lists',$this->data);
 	}
@@ -59,9 +64,9 @@ class EmployeeController extends Controller
 	 */
 	public function get()
 	{
-		$employee = Employee::all()->sortByDesc('created_at')->values()->all();
+		$employees = Employee::all()->sortByDesc('created_at')->values()->all();
 
-		return Response()->Json($employee);
+		return Response()->Json($employees);
 	}
 
 
@@ -80,14 +85,13 @@ class EmployeeController extends Controller
 
 				$employeeObject = new Employee();
 
-				$employeeObject->customer_type_id 	= 	$employeeRequest->customer_type_id;
+				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
 				$employeeObject->name 				= 	$employeeRequest->name;
-				$employeeObject->type 				= 	$employeeRequest->type;
-				$employeeObject->barcode		 	= 	$employeeRequest->barcode;
-				$employeeObject->sex 				= 	$employeeRequest->sex;
-				$employeeObject->tel 				= 	$employeeRequest->tel;
+				$employeeObject->gender 			= 	$employeeRequest->gender;
+				$employeeObject->identity_card		= 	$employeeRequest->identity_card;
+				$employeeObject->position			= 	$employeeRequest->position;
+				$employeeObject->phone 				= 	$employeeRequest->phone;
 				$employeeObject->address 			= 	$employeeRequest->address;
-				$employeeObject->email 				= 	$employeeRequest->email;
 				$employeeObject->status          	=   $employeeRequest->status;
 				$employeeObject->created_by      	=   auth::id();
 				$employeeObject->updated_by      	=   auth::id();
@@ -117,16 +121,15 @@ class EmployeeController extends Controller
 		foreach ($employeesRequest as $key => $employeeRequest) {
 			try {
 
-				$employeeObject = Employee::findOrFail($employeeRequest->id);
+				$employeeObject = new Employee();
 
-				$employeeObject->customer_type_id 	= 	$employeeRequest->customer_type_id;
+				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
 				$employeeObject->name 				= 	$employeeRequest->name;
-				$employeeObject->type 				= 	$employeeRequest->type;
-				$employeeObject->barcode		 	= 	$employeeRequest->barcode;
-				$employeeObject->sex 				= 	$employeeRequest->sex;
-				$employeeObject->tel 				= 	$employeeRequest->tel;
+				$employeeObject->gender 			= 	$employeeRequest->gender;
+				$employeeObject->identity_card		= 	$employeeRequest->identity_card;
+				$employeeObject->position			= 	$employeeRequest->position;
+				$employeeObject->phone 				= 	$employeeRequest->phone;
 				$employeeObject->address 			= 	$employeeRequest->address;
-				$employeeObject->email 				= 	$employeeRequest->email;
 				$employeeObject->status          	=   $employeeRequest->status;
 				$employeeObject->updated_by     	=   auth::id();
 

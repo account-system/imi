@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Helpers\Status;
+use App\Http\Controllers\Controller;
 use App\MasterDetail;
 use App\MasterType;
 
@@ -61,7 +63,7 @@ class DoctorTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getlist()
+    public function getList($option=null)
     {
         $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords();
          if($option == 'filter'){
