@@ -340,7 +340,7 @@ function initDropDownLists(){
   
   <div class="col-6">
     <label for="email">Email</label>
-    <input type="text" class="k-textbox" name="email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
+    <input type="email" class="k-textbox" name="email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
   <div class="col-6">
