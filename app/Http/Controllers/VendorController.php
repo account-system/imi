@@ -83,11 +83,12 @@ class VendorController extends Controller
 
 				$vendorObject = new Vendor();
 
-				$vendorObject->vendor_type_id 	= 	$vendorRequest->vendor_type_id;
-				$vendorObject->branch_id 		= 	$vendorRequest->branch_id;
 				$vendorObject->company_name 	= 	$vendorRequest->company_name;
 				$vendorObject->contact_name 	= 	$vendorRequest->contact_name;
-				$vendorObject->cantact_title 	= 	$vendorRequest->cantact_title;
+				$vendorObject->contact_title 	= 	$vendorRequest->contact_title;
+				$vendorObject->gender 			= 	$vendorRequest->gender;
+				$vendorObject->vendor_type_id 	= 	$vendorRequest->vendor_type_id;
+				$vendorObject->branch_id 		= 	$vendorRequest->branch_id;
 				$vendorObject->phone 			= 	$vendorRequest->phone;
 				$vendorObject->email 			= 	$vendorRequest->email;
 				$vendorObject->country_id 		= 	$vendorRequest->country_id;
@@ -127,11 +128,12 @@ class VendorController extends Controller
 
 				$vendorObject = Vendor::findOrFail($vendorRequest->id);
 
-				$vendorObject->vendor_type_id	=   $vendorRequest->vendor_type_id;
-				$vendorObject->branch_id        =   $vendorRequest->branch_id;
 				$vendorObject->company_name   	=   $vendorRequest->company_name;
 				$vendorObject->contact_name   	=   $vendorRequest->contact_name;
-				$vendorObject->cantact_title  	=   $vendorRequest->cantact_title;
+				$vendorObject->contact_title  	=   $vendorRequest->contact_title;
+				$vendorObject->gender 			= 	$vendorRequest->gender;
+				$vendorObject->vendor_type_id	=   $vendorRequest->vendor_type_id;
+				$vendorObject->branch_id        =   $vendorRequest->branch_id;
 				$vendorObject->phone            =   $vendorRequest->phone;
 				$vendorObject->email            =   $vendorRequest->email;
 				$vendorObject->country_id     	=   $vendorRequest->country_id;

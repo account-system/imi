@@ -31,7 +31,6 @@
 
 @section('after_scripts')     
   <script>
-
     /*Vedor type data source*/
     var vendorTypeDataSource  =   <?php echo json_encode($vendorTypes) ?>;
     vendorTypeDataSource      =   JSON.parse(vendorTypeDataSource);
@@ -43,13 +42,12 @@
     /*Country data source*/
     var countryDataSource     =   <?php echo json_encode($countries) ?>;
     countryDataSource         =   JSON.parse(countryDataSource);
-    
+
     /*City data source*/
     var cityDataSource        =   <?php echo json_encode($cities) ?>;
     cityDataSource            =   JSON.parse(cityDataSource);
 
     $(document).ready(function () {
-
       /*Vendor data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
@@ -78,308 +76,238 @@
               return { models: kendo.stringify(options.models) };
             }
           }
-      },
-      batch: true,
-      pageSize: 20,
-      schema: {
-        model: {
-          id: "id",
-          fields: {
-            id: { 
-              editable: false,
-              nullable: true 
-            },
-            vendor_type_id: { 
-              field: "vendor_type_id", 
-              type: "number",
-            },
-            branch_id: { 
-              field: "branch_id", 
-              type: "number"
-            },
-            company_name: {
-                
-            },
-            contact_name: {
-                  
-            },
-            cantact_title: {
-                  
-            },
-            phone: {
-
-            },
-            email: {
-            },      
-            country_id: {
-              field: "country_id", 
-              type: "number"
-            },   
-            city_id: {
-              field: "city_id", 
-              type: "number"
-            },
-            region: {
-            },
-            postal_code: {
-            },
-            address: {
-            },
-            detail: {
-            },   
-            status: { 
-              field: "status", 
-              type: "string",
-              defaultValue: "Enabled" 
-            }                
+        },
+        batch: true,
+        pageSize: 20,
+        schema: {
+          model: {
+            id: "id",
+            fields: {
+              id: { editable: false, nullable: true },
+              company_name: { 
+                type: "string",
+                validation: {
+                  required: true,
+                  companyNameValidation: function (input) {
+                      if (input.is("[name='company_name']") && input.val() != "") {
+                          input.attr("data-company_namevalidation-msg", "Company name should start with capital letter");
+                          return /^[A-Z]/.test(input.val());
+                      }
+                      return true;
+                  },
+                  maxlength:function(input) { 
+                    if (input.is("[name='name']") && input.val().length > 60) {
+                       input.attr("data-maxlength-msg", "Max length is 60");
+                       return false;
+                    }                                   
+                    return true;
+                  }
+                } 
+              },
+              contact_name: { type: "string" },
+              contact_title: { type: "string" },
+              gender: { type: "string" },
+              vendor_type_id: { type: "number" },
+              branch_id: { type: "number" },
+              phone: { type: "string" },
+              email: { type: "string", nullable: true },      
+              country_id: { type: "number", nullable: true },   
+              city_id: { type: "number", nullable: true },
+              region: { type: "string", nullable: true },
+              postal_code: { type: "string", nullable: true },
+              address: { type: "string", nullable: true },
+              detail: { type: "string", nullable: true },   
+              status: { type: "string", defaultValue: "Enabled" }                
+            }
           }
         }
-      }
+      });
+
+      $("#grid").kendoGrid({
+        dataSource: gridDataSource,
+        navigatable: true,
+        reorderable: true,
+        resizable: true,
+        columnMenu: true,
+        filterable: true,
+        sortable: { mode: "single", allowUnsort: false },
+        pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
+        height: 550,
+        toolbar: [ { name: "create" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        columns: [
+          { field: "company_name", title: "Company Name" },
+          { field: "contact_name", title: "Contact Name" },
+          { field: "contact_title",title: "Contact Title"  },
+          { field: "gender",title: "Gender", values: genderDataSource  },
+          { field: "vendor_type_id", title: "Type", values: vendorTypeDataSource },
+          { field: "branch_id", title: "Branch", values: branchDataSource },
+          { field: "phone",title: "Phone" },
+          { field: "email",title: "Email", hidden: true },
+          { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
+          { field: "city_id",title: "Province/City", values: cityDataSource ,hidden: true },
+          { field: "region",title: "Region" ,hidden: true },
+          { field: "postal_code",title: "Postal Code" ,hidden: true },
+          { field: "address",title: "Address" ,hidden: true },
+          { field: "detail",title: "Detail" ,hidden: true },
+          { field: "status", title: "Status", values: statusDataSource ,hidden: true },
+          { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
+        ],
+        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-vedor").html()) },
+        edit: function (e) {
+          //Call function  init dropdownlists
+          initDropDownLists();
+        
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
+            e.container.data("kendoWindow").title('Add New Vendor');
+            $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+          }
+          else {
+            e.container.data("kendoWindow").title('Edit Vendor');
+          }
+        } 
+      }); 
+
+      /*Event response to key up in textbox multi search*/
+      $("#txtMultiSearch").keyup(function(e){  
+        var q = $('#txtMultiSearch').val();
+        $("#grid").data("kendoGrid").dataSource.filter({
+          logic  : "or",
+          filters: [
+            { field: "company_name", operator: "contains", value: q },
+            { field: "contact_name", operator: "contains", value: q },
+            { field: "contact_title", operator: "contains", value: q },
+            { field: "gender", operator: "eq", value: q },
+            { field: "phone", operator: "contains", value: q },
+            { field: "email", operator: "contains", value: q }, 
+            { field: "country_id", operator: "eq", value: q },
+            { field: "city_id", operator: "eq", value: q },
+            { field: "region", operator: "contains", value: q },
+            { field: "postal_code", operator: "contains", value: q },
+            { field: "address", operator: "contains", value: q },
+            { field: "detail", operator: "contains", value: q },
+            { field: "status", operator: "eq", value: q }
+          ]
+        });
+      });
     });
 
-  $("#grid").kendoGrid({
-    dataSource: gridDataSource,
-    navigatable: true,
-    resizable: true,
-    columnMenu: true,
-    filterable: true,
-    sortable: {
-    mode: "single",
-    allowUnsort: false
-    },
-    pageable: {
-      refresh:true,
-      pageSizes: true,
-      buttonCount: 5
-    },
-    height: 550,
-    toolbar: [
-      { name: "create" },
-      { template: kendo.template($("#textbox-multi-search").html()) }
-    ],
-    columns: [
-      { field: "company_name", title: "Company Name" },
-      { field: "contact_name", title: "Contact Name" },
-      { field: "contact_title",title: "Contact Title"  },
-      { field: "vendor_type_id", title: "Vendor Type", values: vendorTypeDataSource },
-      { field: "branch_id", title: "Branch", values: branchDataSource },
-      { field: "phone",title: "Phone" ,hidden: true },
-      { field: "email",title: "Email" ,hidden: true },
-      { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
-      { field: "city_id",title: "City", values: cityDataSource ,hidden: true },
-      { field: "region",title: "Region" ,hidden: true },
-      { field: "postal_code",title: "Postal Code" ,hidden: true },
-      { field: "address",title: "Address" ,hidden: true },
-      { field: "detail",title: "Detail" ,hidden: true },
-      { field: "status", title: "Status", values: statusDataSource ,hidden: true },
-      { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
-    ],
-    editable: {
-      mode: "popup",
-      window: {
-        width: "600px"   
-      },
-      template: kendo.template($("#popup-editor-vedor").html())
-    },
-    edit: function (e) {
-      //Call function  init dropdownlists
-      initDropDownLists();
-    
-      //Customize popup title and button label 
-      if (e.model.isNew()) {
-        e.container.data("kendoWindow").title('Add New Vendor');
-        $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-      }
-      else {
-        e.container.data("kendoWindow").title('Edit Vendor');
-      }
-    } 
-  }); 
+    /*Initialize all dropdownlist*/  
+    function initDropDownLists(){
+      /*Initialize gender dropdownlist*/
+      initGenderDropDownList();
 
-  /*Event response to key up in textbox multi search*/
-  $("#txtMultiSearch").keyup(function(e){
-     
-    var q = $('#txtMultiSearch').val();
-
-    $("#grid").data("kendoGrid").dataSource.filter({
-      logic  : "or",
-      filters: [
-        {
-          field   : "company_name",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "contact_name",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "cantact_title",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "phone",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "email",
-          operator: "contains",
-          value   : q
-        }, 
-        {
-          field   : "country_id",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "city_id",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "region",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "postal_code",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "address",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "detail",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "status",
-          operator: "eq",
-          value   : q
+      /*Initialize vendor type dropdownlist*/
+      $("#vendorType").kendoDropDownList({
+        optionLabel: "Select type...",
+        dataValueField: "value",
+        dataTextField: "text",
+        dataSource: {
+          transport: {
+            read: {
+              url: crudBaseUrl+"/vendor-type/list/filter",
+              type: "GET",
+              dataType: "json"
+            }
+          }
         }
-      ]
-    });  
-  });
-});
+      });
 
-/*Initailize all dropdownlist*/  
-function initDropDownLists(){
-  /*Initailize vendor type dropdownlist*/
-  $("#vendorType").kendoDropDownList({
-    optionLabel: "Select vendor type...",
-    dataValueField: "value",
-    dataTextField: "text",
-    dataSource: {
-      transport: {
-        read: {
-          url: crudBaseUrl+"/vendor-type/list/filter",
-          type: "GET",
-          dataType: "json"
-        }
-      }
+      /*Initialize branch dropdownlist*/
+      initBranchDropDownList();
+
+      /*Initialize country dropdownlist*/
+      initCountryDropDownList();
+
+      /*Initialize city dropdownlist*/
+      initCityDropDownList();
+
+      /*Initialize status dropdownlist*/
+      initStatusDropDownList();
     }
-  });
+  </script>
 
-  /*Initailize branch dropdownlist*/
-  initBranchDropDownList();
+  <!-- Customize popup editor vendor --> 
+  <script type="text/x-kendo-template" id="popup-editor-vedor">
+    <div class="row-12">
+      <div class="row-6">
+        <div class="col-12">
+          <label for="compay_name">Company Name</label>
+          <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The company name field is required" pattern=".{1,60}" validationMessage="The company name may not be greater than 60 characters" style="width: 100%;"/>   
+        </div>
 
-  /*Initailize country dropdownlist*/
-  initCountryDropDownList();
+        <div class="col-12">
+          <label for="contact_name">Contact Name</label>
+          <input type="text" class="k-textbox" name="Contact name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The contact name field is required" pattern=".{1,60}" validationMessage="The contact name may not be greater than 60 characters" style="width: 100%;"/>   
+        </div> 
 
-  /*Initailize city dropdownlist*/
-  initCityDropDownList();
+        <div class="col-12">
+          <label for="contact_title">Contact Title</label>
+          <input type="text" class="k-textbox" name="contact_title" placeholder="Enter contact title" data-bind="value:contact_title" required data-required-msg="The contact title field is required" pattern=".{1,60}" validationMessage="The contact title may not be greater than 60 characters" style="width: 100%;"/>
+        </div>
 
-  /*Initailize status dropdownlist*/
-  initStatusDropDownList();
-}
+        <div class="col-12">
+          <label for="gender">Gender</label>
+          <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
+        </div>
 
-</script>
+        <div class="col-12">
+          <label for="vendor_type_id">Type</label>
+          <input id="vendorType" name="vendor_type" data-bind="value:vendor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+        </div> 
+        
+        <div class="col-12">
+          <label for="branch_id">Branch</label>
+          <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
+        </div>
 
-<!-- Customize popup editor vendor --> 
-<script type="text/x-kendo-template" id="popup-editor-vedor">
+        <div class="col-12">
+          <label for="phone">Phone</label>
+          <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
+        </div>
+        
+        <div class="col-12">
+          <label for="email">Email</label>
+          <input type="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
+        </div>  
+      </div>
+      <div class="row-6">
+        <div class="col-12">
+          <label for="country_id">Country</label>
+          <input id="country" name="country_id" data-bind="value:country_id" style="width: 100%;" />
+        </div> 
+        
+        <div class="col-12">
+          <label for="city_id">Province/City</label>
+          <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
+        </div> 
+        
+        <div class="col-12">
+          <label for="region">Region</label>
+          <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+        </div>
+        
+        <div class="col-12">
+          <label for="postal_code">Postal Code</label>
+          <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
+        </div>
+        
+        <div class="col-12">
+          <label for="address">Address</label>
+          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+        </div>
+        
+        <div class="col-12">
+          <label for="detail">Detail</label>
+          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+        </div>
 
-  <div class="col-12">
-    <label for="compay_name">Company Name</label>
-    <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The field company name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/> 
-    <span class="k-invalid-msg" data-for="compay_name"></span>
-  </div>
-  
-  <div class="col-6">
-    <label for="contact_name">Contact Name</label>
-    <input type="text" class="k-textbox" name="Contact name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The field contact name is required" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="contact_title">Contact Title</label>
-    <input type="text" class="k-textbox" name="contact_title" placeholder="Enter contact title" data-bind="value:contact_title" required data-required-msg="The field contact title is required" style="width: 100%;"/>
-  </div>
-
-  <div class="col-6">
-      <label for="vendor_type_id">Vendor Type</label>
-      <input id="vendorType" name="vendor_type" data-bind="value:vendor_type_id" required data-required-msg="The field vendor type is required" style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="vendor_type_id"></span>
-  </div> 
-  
-  <div class="col-6">
-      <label for="branch_id">Branch</label>
-      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="branch_id"></span>
-  </div> 
-  
-  <div class="col-6">
-    <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="phone" placeholder="Enter phone number" data-bind="value:phone" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="email">Email</label>
-    <input type="email" class="k-textbox" name="email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
-  </div>  
-  
-  <div class="col-6">
-      <label for="country_id">Country</label>
-      <input id="country" name="country_id" data-bind="value:country_id"  style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="country_id"></span>
-  </div> 
-  
-  <div class="col-6">
-      <label for="city_id">Province/City</label>
-      <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
-      <span class="k-invalid-msg" data-for="city_id"></span>
-  </div> 
-  
-  <div class="col-6">
-    <label for="region">Region</label>
-    <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="postal_code">Postal Code</label>
-    <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-12">
-    <label for="address">Address</label>
-    <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
-  </div>
-  
-  <div class="col-12">
-    <label for="detail">Detail</label>
-    <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
-  </div>
-
-  <div class="col-6">
-      <label for="status">Status</label>
-      <input id="status" data-bind="value:status"  style="width: 100%;" />
-  </div>
-
-</script>  
+        <div class="col-12">
+          <label for="status">Status</label>
+          <input id="status" data-bind="value:status"  style="width: 100%;" />
+        </div> 
+      </div>
+    </div>
+  </script>  
 
 @endsection

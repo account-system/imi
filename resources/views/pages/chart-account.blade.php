@@ -12,8 +12,6 @@
     <div class="demo-section k-content wide">
         <div id="client"></div>
     </div>
-   
-
 @endsection()
 @section('after_scripts')
 

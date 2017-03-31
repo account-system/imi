@@ -70,11 +70,14 @@ class CountryController extends Controller
         $countries = [];
 
         if($option == 'filter'){
-            //Get all city records filter status = enabled
+            //Get all city records filter status = enabled contains(value, text)
             $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
-     
-        }elseif ($option == 'all') {
-            //Get all city records
+        }elseif ($option == 'cascade') {
+            //Get all city records filter status = enabled contains(countryId, countryName)
+            $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::Enabled)->get(['id as countryId','name as countryName'])->sortBy('text')->values()->all();
+        }
+        elseif ($option == 'all') {
+            //Get all city records contains(value, text)
             $countries = MasterType::find($this->countryTable)->countryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
