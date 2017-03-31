@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Helpers\Status;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+
 use App\MasterDetail;
 use App\MasterType;
 
@@ -58,16 +61,21 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function lists()
+    public function getList($option=null)
     {
-        $category = MasterType::find($this->category)->categoryRecords();
+        $category = [];
 
         if($option == 'filter'){
-            $category = $category->where('status',Status::Enabled); 
+            //Get all city records filter status = enabled
+            $category = MasterType::find($this->categoriesTable)->categoryRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+     
+        }elseif ($option == 'all') {
+            //Get all city records
+            $category = MasterType::find($this->categoriesTable)->categoryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
-        $category = $category->get(['id as value','name as text'])->sortBy('text')->values()->all();
         
         return Response()->Json($category);
+
     }
     /**
      * Store a newly created resource in storage.

@@ -321,6 +321,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
     public static $classMap = array (
         'AccountTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AccountTypesTableSeeder.php',
         'CreateAccountTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
+        'CreateCategoryListTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_31_021909_create_category_list_table.php',
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_031925_create_customers_table.php',
         'CreateDoctorsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_29_015646_create_doctors_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_082902_create_employees_table.php',

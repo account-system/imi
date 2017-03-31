@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
+
 use App\MasterDetail;
 use App\MasterType;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

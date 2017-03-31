@@ -37,7 +37,7 @@ class CustomerController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title'] = 'Customer List';
+		$this->data['title']			= 'Customer List';
 
 		$customerTypeController 		= new CustomerTypeController;
 		$this->data['customerTypes'] 	= $customerTypeController->getList()->content();

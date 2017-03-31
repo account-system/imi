@@ -119,7 +119,7 @@ Route::group(['prefix' => 'city'], function () {
 Route::group(['prefix' => 'customer'], function () {
     Route::get('/', 'CustomerController@view');
     Route::get('/get', 'CustomerController@get');
-    Route::get('/list/{option}', 'CustomerController@getList');
+    //Route::get('/list/{option}', 'CustomerController@getList');
     Route::post('/store', 'CustomerController@store');
     Route::post('/update', 'CustomerController@update');
     Route::post('/destroy', 'CustomerController@destroy');
@@ -129,19 +129,28 @@ Route::group(['prefix' => 'customer'], function () {
 Route::group(['prefix' => 'doctor'], function () {
     Route::get('/', 'DoctorController@view');
     Route::get('/get', 'DoctorController@get');
-    Route::get('/list/{option}', 'DoctorController@getList');
+    //Route::get('/list/{option}', 'DoctorController@getList');
     Route::post('/store', 'DoctorController@store');
     Route::post('/update', 'DoctorController@update');
     Route::post('/destroy', 'DoctorController@destroy');
 });
+
 // Route Employee list
 Route::group(['prefix' => 'employee-lists'], function () {
     Route::get('/', 'EmployeeController@view');
     Route::get('/get', 'EmployeeController@get');
-    Route::get('/list/{option}', 'EmployeeController@getList');
+    //Route::get('/list/{option}', 'EmployeeController@getList');
     Route::post('/store', 'EmployeeController@store');
     Route::post('/update', 'EmployeeController@update');
     Route::post('/destroy', 'EmployeeController@destroy');
 });
 
-
+// Route category list
+Route::group(['prefix' => 'categories-list'], function () {
+    Route::get('/', 'CategoryListController@view');
+    Route::get('/get', 'CategoryListController@get');
+    // Route::get('/list/{option}', 'CategoryListController@getList');
+    Route::post('/store', 'CategoryListController@store');
+    Route::post('/update', 'CategoryListController@update');
+    Route::post('/destroy', 'CategoryListController@destroy');
+});

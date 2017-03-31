@@ -98,8 +98,7 @@
               defaultValue: "Male" 
             },  
             date_of_birth: {
-                type: "date",
-                format: "yyyy-mm-dd"
+                type: "string",
             },
             customer_type_id: { 
               field: "customer_type_id", 
@@ -133,6 +132,7 @@
               defaultValue: 0      
             },
             region: {
+              
               
             }, 
             postal_code: {
@@ -349,7 +349,7 @@ function initDropDownLists(){
 <!-- Customize popup editor customer list --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
 
-   <div class="col-12">
+  <div class="col-12">
     <label for="customer_name">Customer Name</label>
     <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" required data-required-msg="The field cusotmer name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
   </div>
@@ -361,7 +361,7 @@ function initDropDownLists(){
   
   <div class="col-6">
     <label for="date_of_birth">Date Of Birth</label>
-    <input id="dob" class="k-textbox" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
+    <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
   </div>
 
   <div class="col-6">

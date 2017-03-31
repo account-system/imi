@@ -8,10 +8,10 @@
 
 @section('header')
   <section class="content-header">
-    <h1>Employee List</h1>
+    <h1>Category List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Employee List</li>
+      <li class="active">Category List</li>
     </ol>
   </section>
 @endsection
@@ -34,9 +34,9 @@
 
     $(document).ready(function () {
 
-      /*employee type data source*/
-      var employeeTypeDataSource  =   <?php echo json_encode($employeeTypes) ?>;
-      employeeTypeDataSource      =   JSON.parse(employeeTypeDataSource);
+      /*category data source*/
+      var categoriesDataSource  =   <?php echo json_encode($category) ?>;
+      categoriesDataSource      =   JSON.parse(categoriesDataSource);
 
       /*Branch data source*/
       var branchDataSource      =   <?php echo json_encode($branches) ?>;
@@ -50,26 +50,26 @@
       var cityDataSource        =   <?php echo json_encode($cities) ?>;
       cityDataSource            =   JSON.parse(cityDataSource);
 
-      /*employee data source*/
+      /*category data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/employee-lists/get",
+            url: crudBaseUrl + "/categories-list/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/employee-lists/update",
+            url: crudBaseUrl + "/categories-list/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/employee-lists/destroy",
+            url: crudBaseUrl + "/categories-list/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/employee-lists/store",
+            url: crudBaseUrl + "/categories-list/store",
             type: "POST",
             dataType: "json"
           },
@@ -89,28 +89,23 @@
               editable: false,
               nullable: true 
             },
-            employee_type_id: { 
-              field: "employee_type_id", 
-              type: "number",
-            },
             name: {
                   
+            }, 
+            category_type_id: { 
+              field: "category_type_id", 
+              type: "number",
             },
-            gender: { 
-              field: "gender", 
-              type: "string",
-              defaultValue: "gender" 
-            },     
-            identity_card: {
+            barcode: {
 
             },
-            position: {
+            stock_in: {
 
             },
-            phone: {
+            stock_out: {
 
             },
-            address: {
+            detail: {
 
             },
             status: { 
@@ -144,15 +139,14 @@
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
-      { field: "employee_type_id", title: "Employee Type", values: employeeTypeDataSource },
       { field: "name",title: "Name" },
-      { field: "gender", title: "Gender", values: genderDataSource },
-      { field: "identity_card",title: "identity_card" },
-       { field:"position",title: "Position", hidden: true },
-      { field: "phone",title: "Phone", hidden: true },
-      { field: "address",title: "Address", hidden: true},
-      { field: "status", title: "Status", values: statusDataSource, hidden: true},
-      { command: ["edit", "destroy"], title: "Action", menu:false}
+      { field: "category_type_id", title: "Type", values: categoriesDataSource },
+      { field: "barcode",title: "Barcode" },
+       { field:"stock_in",title: "Stock In"},
+      { field: "stock_out",title: "StockOut" },
+      { field: "detail",title: "Detail", hidden: true },
+      { field: "status", title: "Status", values: statusDataSource, hidden: true },
+      { command: ["edit", "destroy"], title: "Action", menu: false }
     ],
     editable: {
       mode: "popup",
@@ -167,11 +161,11 @@
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
-        e.container.data("kendoWindow").title('Add New Employee');
+        e.container.data("kendoWindow").title('Add New Category');
         $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
       }
       else {
-        e.container.data("kendoWindow").title('Edit Employee');
+        e.container.data("kendoWindow").title('Edit Category');
       }
     } 
   }); 
@@ -185,37 +179,32 @@
       logic  : "or",
       filters: [
         {
-          field   : "employee_type_id",
-          operator: "contains",
-          value   : q
-        },
-        {
           field   : "name",
           operator: "contains",
           value   : q
         },
         {
-          field   : "gender",
+          field   : "category_type_id",
           operator: "contains",
           value   : q
         },
         {
-          field   : "identity_card",
+          field   : "barcode",
           operator: "contains",
           value   : q
         },
         {
-          field   : "position",
+          field   : "stock_in",
           operator: "contains",
           value   : q
         }, 
         {
-          field   : "phone",
-          operator: "eq",
+          field   : "stock_out",
+          operator: "content",
           value   : q
         },
         {
-          field   : "address",
+          field   : "detail",
           operator: "contains",
           value   : q
         },
@@ -231,14 +220,14 @@
 
 /*Initailize all dropdownlist*/  
 function initDropDownLists(){
-  $("#employeeType").kendoDropDownList({
-    optionLabel: "Select Employee type...",
+  $("#category").kendoDropDownList({
+    optionLabel: "Select category type...",
     dataValueField: "value",
     dataTextField: "text",
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/employee-types/list/filter",
+          url: crudBaseUrl+"/categories-list/list/filter",
           type: "GET",
           dataType: "json"
         }
@@ -257,12 +246,6 @@ function initDropDownLists(){
   /*Initailize status dropdownlist*/
   initStatusDropDownList();
 
-  /*Initailize gender dropdownlist*/
-  initGenderDropDownList();
-
-   $("#dob").kendoDatePicker({
-    format: "yyyy/MM/dd"
-  });
 
 }
 
@@ -270,37 +253,37 @@ function initDropDownLists(){
 
 <!-- Customize popup editor employee --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
-  
-  <div class="col-6">
-      <label for="employee_type_id">Employee Type</label>
-      <input id="employeeType" name="employee_type_id" data-bind="value:employee_type_id" required data-required-msg="The field Employee type is required" style="width: 100%;" />
-  </div> 
     
   <div class="col-6">
     <label for="name">Name</label>
     <input type="text" class="k-textbox" name="name" placeholder="Enter name" data-bind="value:name" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
   </div>
+
+  <div class="col-6">
+      <label for="category_type_id">Type</label>
+      <input id="category" name="category_type_id" data-bind="value:category_type_id" required data-required-msg="The field category is required" style="width: 100%;" />
+  </div> 
   
   <div class="col-6">
-    <label for="gender">Gender</label>
-    <input type="text" class="k-textbox" name="Gender" placeholder="Enter Gender" data-bind="value:gender" style="width: 100%;"/>
+    <label for="barcode">Barcode</label>
+    <input type="text" class="k-textbox" name="barcode" placeholder="Enter barcode" data-bind="value:barcode" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
-    <label for="identity_card">Identity Card</label>
-    <input type="text" class="k-textbox" name="identity_card" placeholder="Enter Identity Card" data-bind="value:phone" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="phone">Phone</label>
-    <input type="number" class="k-textbox" name="phone" placeholder="Enter phone" data-bind="value:phone" style="width: 100%;"/>
+    <label for="stock_in">Stock In</label>
+    <input type="text" class="k-textbox" name="stock_in" placeholder="Enter stock in" data-bind="value:stock_in" style="width: 100%;"/>
   </div>  
 
-  <div class="col-12">
-    <label for="address">Address</label>
-    <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
-  </div>
+  <div class="col-6">
+    <label for="stock_out">Stock Out</label>
+    <input type="text" class="k-textbox" name="stock_out" placeholder="Enter stock out" data-bind="value:stock_out" style="width: 100%;"/>
+  </div>  
   
+  <div class="col-12">
+    <label for="detail">Detail</label>
+    <textarea class="k-textbox" name="detail" placeholder="Enter Detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
+  </div>
+
   <div class="col-6">
       <label for="status">Status</label>
       <input id="status" data-bind="value:status"  style="width: 100%;" />
