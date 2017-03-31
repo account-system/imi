@@ -44,24 +44,27 @@
     <!-- Global css use in this application -->
     <style type="text/css">
 
-    .toolbar-search {
+      .toolbar-search {
         float: right;
-        /*margin-right: 12px;*/
+        margin-right: 12px;
       }
-      .fieldlist {
-        margin: 0;
-        padding: 0;
-      }
-
       .text-box-search{
         width: 220px;
       }    
-      
       /*Column grid*/
+      .row-12{
+        float: left;
+        width: 99%;
+        padding-right: 1%;
+      }
+      .row-6{
+        float: left;
+        width: 50%;
+      }
       .col-12{
         float: left;
-        width: 97%;
-        padding: 0% 2% 2% 1%;
+        width: 96%;
+        padding: 0% 2% 2% 2%;
       }
       .col-6{
         float: left;
@@ -154,9 +157,6 @@
     <script src="{{ asset('vendor/adminlte') }}/plugins/fastclick/fastclick.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
 
-     <!-- jQuery fullscreen -->
-    <script src="{{ asset('js/jquery.fullscreen.min.js') }}"></script>
-
     <!-- page script -->
     <script type="text/javascript">
       
@@ -196,18 +196,18 @@
         }
       });
 
-      // Set event fullsscreen
-      $("#fullscreen").click(function(){
-        if($('body').fullscreen()){
-          $.fullscreen.exit();
-          return false;
-        }else{
-          $('body').fullscreen();
-          return false;   
-        }     
-      });
+      /*Initialize gender dropdownlist*/ 
+      function initGenderDropDownList()
+      {
+        $("#gender").kendoDropDownList({
+          optionLabel: "Select gender...",
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: genderDataSource  
+        });
+      }
 
-      /*Initailize branch dropdownlist*/ 
+      /*Initialize branch dropdownlist*/ 
       function initBranchDropDownList(){
         $("#branch").kendoDropDownList({
           optionLabel: "Select branch...",
@@ -225,18 +225,18 @@
         }).data("kendoDropDownList"); 
       }
       
-      /*Initailize country dropdownlist*/
+      /*Initialize country dropdownlist*/
       function initCountryDropDownList(){
         var countries = $("#country").kendoDropDownList({
           valuePrimitive: true,
           filter: "startswith",
           optionLabel: "Select country...",
-          dataTextField: "text",
-          dataValueField: "value",
+          dataTextField: "countryName",
+          dataValueField: "countryId",
           dataSource: {
             transport: {
               read: {
-                url: crudBaseUrl + "/country/list/filter",
+                url: crudBaseUrl + "/country/list/cascade",
                 type: "GET",
                 dataType: "json"
               }
@@ -245,44 +245,33 @@
         }).data("kendoDropDownList");
       }
 
-      /*Initailize city dropdownlist*/
+      /*Initialize city dropdownlist*/
       function initCityDropDownList(){
-        var cities = $("#city").kendoDropDownList({
+        $("#city").kendoDropDownList({
           valuePrimitive: true,
           filter: "startswith",
-          autoBind: false,
-          cascadeFrom: "country",
           optionLabel: "Select province or city...",
-          dataTextField: "text",
-          dataValueField: "value",
+          dataTextField: "cityName",
+          dataValueField: "cityId",
+          cascadeFrom: "country",
           dataSource: {
               type: "json",
-              serverFiltering: true,
-              transport: {
-                  read: crudBaseUrl + "/city/list/filter" 
+              transport: {   
+                read: {
+                  url: crudBaseUrl + "/city/list/cascade",  
+                }
               }
           }
         }).data("kendoDropDownList"); 
-
       }
 
-      /*Initailize status dropdownlist*/ 
+      /*Initialize status dropdownlist*/ 
       function initStatusDropDownList()
       {
         $("#status").kendoDropDownList({
           dataValueField: "value",
           dataTextField: "text",
           dataSource: statusDataSource  
-        });
-      }
-
-      /*Initailize gender dropdownlist*/ 
-      function initGenderDropDownList()
-      {
-        $("#gender").kendoDropDownList({
-          dataValueField: "value",
-          dataTextField: "text",
-          dataSource: genderDataSource  
         });
       }
 

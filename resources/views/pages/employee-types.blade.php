@@ -2,20 +2,7 @@
 
 @section('after_styles')
   <style>
-  .toolbar-search {
-    float: right;
-  }
-  .fieldlist {
-    padding-right: 12px;
-  }
-
-  .fieldlist li {
-      list-style: none;
-  }
-
-  .fieldlist li span {
-      width: 220px;
-  }
+  
   </style>
 @endsection
 

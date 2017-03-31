@@ -374,7 +374,7 @@ function customerTypeDataBinding(){
   
   <div class="col-6">
     <label for="date_of_birth">Date Of Birth</label>
-    <input id="dob" class="k-textbox" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
+    <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
   </div>
 
   <div class="col-6">

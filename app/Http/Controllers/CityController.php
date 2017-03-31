@@ -66,21 +66,16 @@ class CityController extends Controller
      * @param  string $option It's filter option
      * @return \Illuminate\Http\Response
      */
-    public function getList($option = null, Request $request=null)
+    public function getList($option = null)
     {
         $cities = [];
 
         if($option == 'filter'){
-            //Get all city records filter status = enabled
+            //Get all city records filter status = enabled contains(value, text)
             $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
-
-            //Get all city records filter status = enabled and filter by country
-            $filterQueryParam = $request->input('filter'); 
-            if($filterQueryParam != null){
-                $countryId = $filterQueryParam['filters'][0]['value']; 
-                $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();    
-            }
-     
+        }elseif ($option == 'cascade') {
+            //Get all city records filter status = enabled contains(countryId, cityId, cityName)
+            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::Enabled)->get(['master_detail_id as countryId', 'id as cityId','name as cityName'])->sortBy('cityName')->values()->all(); 
         }elseif ($option == 'all') {
             //Get all city records
             $cities = MasterType::find($this->cityTable)->cityRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
