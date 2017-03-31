@@ -175,13 +175,13 @@
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
-      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
-      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "first_name", title: "First Name" },
       { field: "last_name", title: "Last Name" },
       { field: "job_title", title: "Job Title" ,hidden: true },
       { field: "gender", title: "Gender", values: genderDataSource ,hidden: true },
       { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
+      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
+      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "phone",title: "Phone" ,hidden: true },
       { field: "email",title: "Email" ,hidden: true },
       { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
@@ -201,23 +201,8 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function customer type data binding 
-      doctorTypeDataBinding();
-
-      //Call function branch data binding 
-      branchDataBinding();
-      
-      //Call function country data binding 
-      countryDataBinding();
-
-      //Call function city data binding 
-      cityDataBinding();
-
-      //Call function status data binding 
-      statusDataBinding();
-
-      //Call function status data binding 
-      genderDataBinding();
+      //Call function  init dropdownlists
+      initDropDownLists();
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
@@ -238,16 +223,6 @@
     $("#grid").data("kendoGrid").dataSource.filter({
       logic  : "or",
       filters: [
-        {
-          field   : "doctor_type_id",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "branch_id",
-          operator: "contains",
-          value   : q
-        },
         {
           field   : "first_name",
           operator: "contains",
@@ -270,6 +245,16 @@
         },
         {
           field   : "date_of_birth",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "doctor_type_id",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "branch_id",
           operator: "contains",
           value   : q
         },
@@ -322,8 +307,8 @@
     });  
   });
  });
-//Create doctor type dropdownlist 
-function doctorTypeDataBinding(){
+/*Initailize all dropdownlist*/  
+function initDropDownLists(){
   $("#doctorTypes").kendoDropDownList({
     optionLabel: "Select Doctor Type...",
     dataValueField: "value",
@@ -338,6 +323,22 @@ function doctorTypeDataBinding(){
       }
     }
   });
+
+  /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
+
+  /*Initailize country dropdownlist*/
+  initCountryDropDownList();
+
+  /*Initailize city dropdownlist*/
+  initCityDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
+
+  /*Initailize gender dropdownlist*/
+  initGenderDropDownList();
+
   $("#dob").kendoDatePicker({
   format: "yyyy/MM/dd"
 });
@@ -347,30 +348,19 @@ function doctorTypeDataBinding(){
 <!-- Customize popup editor customer list --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
 
-
-  <div class="col-6">
-      <label for="doctor_type_id">Doctor Type</label>
-      <input id="doctorTypes" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The field doctor type is required" style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-      <label for="branch_id">Branch</label>
-      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
-  </div>
-  
   <div class="col-6">
     <label for="first_name">First Name</label>
-    <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" required data-required-msg="The field first name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
   </div>
 
   <div class="col-6">
     <label for="last_name">Last Name</label>
-    <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" required data-required-msg="The field last name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
   </div>
 
   <div class="col-12">
     <label for="job_title">Job Title</label>
-    <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" required data-required-msg="The field Job title is required" style="width: 100%;"/>
   </div>
  <div class="col-6">
       <label for="gender">Gender</label>
@@ -383,13 +373,23 @@ function doctorTypeDataBinding(){
   </div>
 
   <div class="col-6">
+      <label for="doctor_type_id">Doctor Type</label>
+      <input id="doctorTypes" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The field doctor type is required" style="width: 100%;" />
+  </div> 
+  
+  <div class="col-6">
+      <label for="branch_id">Branch</label>
+      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
+  </div>
+
+  <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="text" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" style="width: 100%;"/>
+    <input type="number" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" required data-required-msg="The field phone is required" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="email">Email</label>
-    <input type="text" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
+    <input type="email" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
   </div>  
   
   <div class="col-6">

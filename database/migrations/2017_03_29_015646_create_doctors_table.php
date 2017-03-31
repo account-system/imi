@@ -9,19 +9,19 @@ class CreateDoctorsTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
+     * @return void 
      */
     public function up()
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('doctor_type_id')->unsigned();
-            $table->integer('branch_id')->unsigned();
             $table->string('first_name',60)->nullable();
             $table->string('last_name',60)->nullable();
             $table->string('job_title',60)->nullable()->default(null);
             $table->string('gender',10)->nullable()->default(null);
             $table->date('date_of_birth')->nullable()->default(null);
+            $table->integer('doctor_type_id')->unsigned();
+            $table->integer('branch_id')->unsigned();
             $table->string('phone',30)->nullable()->default(null);
             $table->string('email',60)->nullable()->default(null);
             $table->string('country_id',10)->nullable()->default(null);
