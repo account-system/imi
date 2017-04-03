@@ -24,4 +24,7 @@ class Customer extends Model
         'date_of_birth'
     ];
 
+    protected $casts = [
+        'date_of_birth' => 'date'
+    ];
 }

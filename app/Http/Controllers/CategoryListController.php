@@ -42,13 +42,13 @@ class CategoryListController extends Controller
 		$this->data['title'] 			= 	'Category List';
 
 		$categoryController 			= 	new CategoryController;
-		$this->data['category'] 		= 	$categoryController->getList()->content();
+		$this->data['category'] 		= 	$categoryController->getList('all')->content();
 
 		$branchController 				= 	new BranchController;
-		$this->data['branches'] 		= 	$branchController->getList()->content();
+		$this->data['branches'] 		= 	$branchController->getList('all')->content();
 		
 		$countryController 				= 	new CountryController;
-		$this->data['countries'] 		= 	$countryController->getList()->content();
+		$this->data['countries'] 		= 	$countryController->getList('all')->content();
 
 		$cityController					=	new cityController;
 		$this->data['cities']			=	$cityController->getList('all')->content();

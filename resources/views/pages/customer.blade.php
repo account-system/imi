@@ -90,15 +90,14 @@
               nullable: true 
             },
             customer_name: {
-                
+                type: "string"
             },
             gender: { 
-              field: "gender", 
               type: "string",
-              defaultValue: "Male" 
             },  
             date_of_birth: {
-                type: "string",
+                type: "date",
+                defaultValue: null
             },
             customer_type_id: { 
               field: "customer_type_id", 
@@ -110,16 +109,23 @@
               defaultValue: 0
             },
             phone: {
-                  
+
+               type: "string" ,
+               nullable: true   
             },
             email: {
 
+               type: "string", 
+               nullable: true
             },
             relative_contact: {
 
+                type: "string", 
+                nullable: true
             },      
             relative_phone: {
-
+                type: "string", 
+                nullable: true
             },  
             country_id: {
               field: "country_id", 
@@ -133,15 +139,24 @@
             },
             region: {
               
-              
+              type: "string", 
+              nullable: true
+
             }, 
             postal_code: {
-              
+              type: "string",
+              nullable: true
             },
             address: {
               
+              type: "string", 
+              nullable: true
+
             },  
             detail: {
+
+              type: "string",
+              nullable: true,
 
             }, 
             status: { 
@@ -348,87 +363,91 @@ function initDropDownLists(){
 
 <!-- Customize popup editor customer list --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
-
-  <div class="col-12">
-    <label for="customer_name">Customer Name</label>
-    <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" required data-required-msg="The field cusotmer name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
-  </div>
-  
- <div class="col-6">
+ <div class="row-12">
+  <div class="row-6">
+    <div class="col-12">
+      <label for="customer_name">Customer Name</label>
+      <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" required data-required-msg="The Customer name field is required" pattern=".{1,60}" validationMessage="The customer name may not be greater than 60 characters" style="width: 100%;"/>
+    </div>
+    
+   <div class="col-12">
       <label for="gender">Gender</label>
-      <input id="gender" data-bind="value:gender" style="width: 100%;" />
-  </div>
-  
-  <div class="col-6">
-    <label for="date_of_birth">Date Of Birth</label>
-    <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
-  </div>
+      <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
+    </div>
 
-  <div class="col-6">
-      <label for="customer_type_id">Customer Type</label>
-      <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The field cusotmer type is required" style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-      <label for="branch_id">Branch</label>
-      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
-  </div>
+    <div class="col-12">
+      <label for="date_of_birth">Date Of Birth</label>
+      <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
+    </div>
 
-  <div class="col-6">
-    <label for="phone">Phone</label>
-    <input type="number" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="email">Email</label>
-    <input type="email" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
-  </div>  
-  
-  <div class="col-6">
-    <label for="relative_contact">Relative Contact</label>
-    <input type="text" class="k-textbox" name="relative_contact" placeholder="Enter Relative Contact" data-bind="value:relative_contact" style="width: 100%;"/>
-  </div> 
+    <div class="col-12">
+        <label for="customer_type_id">Type</label>
+        <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+    </div> 
+    
+    <div class="col-12">
+        <label for="branch_id">Branch</label>
+        <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
+    </div>
 
-  <div class="col-6">
-    <label for="relative_phone">Relative Phone</label>
-    <input type="number" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" style="width: 100%;"/>
-  </div> 
-
-  <div class="col-6">
-      <label for="country_id">Country</label>
-      <input id="country" data-bind="value:country_id"  style="width: 100%;" />
-  </div> 
+    <div class="col-12">
+      <label for="phone">Phone</label>
+      <input type="string" class="k-textbox" name="Phone" placeholder="Enter Phone Number" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
+    </div>
+    
+    <div class="col-12">
+      <label for="email">Email</label>
+      <input type="email" class="k-textbox" name="Email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
+    </div>  
+    
+    <div class="col-12">
+      <label for="relative_contact">Relative Contact</label>
+      <input type="text" class="k-textbox" name="relative_contact" placeholder="Enter Relative Contact" data-bind="value:relative_contact" pattern=".{1,30}" validationMessage="The relative contact may not be greater than 30 characters" style="width: 100%;"/>
+    </div> 
   
-  <div class="col-6">
-      <label for="city_id">Province/City</label>
-      <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-    <label for="region">Region</label>
-    <input type="text" class="k-textbox" name="Region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="postal_code">Postal Code</label>
-    <input type="text" class="k-textbox" name="Postal code" placeholder="Enter Postal Code" data-bind="value:city" style="width: 100%;"/>
-  </div>
+    <div class="col-12">
+      <label for="relative_phone">Relative Phone</label>
+      <input type="string" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" attern="^[0-9\ \]{9,13}$" validationMessage="Phone relative format is not valid" style="width: 100%;"/>
+    </div> 
 
-  <div class="col-12">
-    <label for="address">Address</label>
-    <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
-  </div>
-  
-  <div class="col-12">
-    <label for="detail">Detail</label>
-    <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
-  </div>
-
+    </div>
   <div class="col-6">
-      <label for="status">Status</label>
-      <input id="status" data-bind="value:status"  style="width: 100%;" />
-  </div>
+    <div class="col-12">
+        <label for="country_id">Country</label>
+        <input id="country" data-bind="value:country_id"  style="width: 100%;" />
+    </div> 
+    
+    <div class="col-12">
+        <label for="city_id">Province/City</label>
+        <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
+    </div> 
+    
+    <div class="col-12">
+      <label for="region">Region</label>
+      <input type="text" class="k-textbox" name="Region" placeholder="Enter region" data-bind="value:region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+    </div>
+    
+    <div class="col-12">
+      <label for="postal_code">Postal Code</label>
+      <input type="text" class="k-textbox" name="Postal code" placeholder="Enter Postal Code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
+    </div>
 
+    <div class="col-12">
+      <label for="address">Address</label>
+      <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+    </div>
+    
+    <div class="col-12">
+      <label for="detail">Detail</label>
+      <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+    </div>
+
+    <div class="col-12">
+        <label for="status">Status</label>
+        <input id="status" data-bind="value:status"  style="width: 100%;" />
+    </div>
+  </dic>
+</div>
 </script>  
 
 @endsection()

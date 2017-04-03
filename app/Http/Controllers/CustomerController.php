@@ -40,16 +40,16 @@ class CustomerController extends Controller
 		$this->data['title']			= 'Customer List';
 
 		$customerTypeController 		= new CustomerTypeController;
-		$this->data['customerTypes'] 	= $customerTypeController->getList()->content();
+		$this->data['customerTypes'] 	= $customerTypeController->getList('all')->content();
 
 		$branchController 				= new BranchController;
-		$this->data['branches'] 		= $branchController->getList()->content();
+		$this->data['branches'] 		= $branchController->getList()->content('all');
 		
 		$countryController 				= new CountryController;
-		$this->data['countries'] 		= $countryController->getList()->content();
+		$this->data['countries'] 		= $countryController->getList()->content('all');
 
 		$cityController					= new cityController;
-		$this->data['cities']			= $cityController->getList('all')->content();
+		$this->data['cities']			= $cityController->getList('all')->content('all');
 
 		return view('pages.customer',$this->data);
 	}

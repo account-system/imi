@@ -23,4 +23,8 @@ class Doctor extends Model
     protected $dates = [
         'date_of_birth'
     ];
+
+    protected $casts = [
+        'date_of_birth' => 'date'
+    ];
 }

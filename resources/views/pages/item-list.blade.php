@@ -54,22 +54,22 @@
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/categories-list/get",
+            url: crudBaseUrl + "/item-list/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/categories-list/update",
+            url: crudBaseUrl + "/item-list/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/categories-list/destroy",
+            url: crudBaseUrl + "/item-list/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/categories-list/store",
+            url: crudBaseUrl + "/item-list/store",
             type: "POST",
             dataType: "json"
           },
@@ -142,7 +142,7 @@
       { field: "name",title: "Name" },
       { field: "category_type_id", title: "Type", values: categoriesDataSource },
       { field: "barcode",title: "Barcode" },
-       { field:"stock_in",title: "Stock In"},
+      { field:"stock_in",title: "Stock In"},
       { field: "stock_out",title: "StockOut" },
       { field: "detail",title: "Detail", hidden: true },
       { field: "status", title: "Status", values: statusDataSource, hidden: true },
@@ -161,11 +161,11 @@
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
-        e.container.data("kendoWindow").title('Add New Category');
+        e.container.data("kendoWindow").title('Add New Item');
         $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
       }
       else {
-        e.container.data("kendoWindow").title('Edit Category');
+        e.container.data("kendoWindow").title('Edit Item');
       }
     } 
   }); 
