@@ -40,7 +40,7 @@ class CustomerTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Customer Type';
-        return view('pages.customer-type',$this->data);
+        return view('pages.customers.type',$this->data);
     }
 
     /**
