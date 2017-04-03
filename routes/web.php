@@ -115,7 +115,7 @@ Route::group(['prefix' => 'city'], function () {
     //Route::post('/destroy', 'CityController@destroy');
 });
 
-// Route customer list
+// Route customer
 Route::group(['prefix' => 'customer'], function () {
     Route::get('/', 'CustomerController@view');
     Route::get('/get', 'CustomerController@get');
@@ -123,6 +123,16 @@ Route::group(['prefix' => 'customer'], function () {
     Route::post('/store', 'CustomerController@store');
     Route::post('/update', 'CustomerController@update');
     Route::post('/destroy', 'CustomerController@destroy');
+
+    // Route customer type
+    Route::group(['prefix' => 'type'], function () {
+    Route::get('/', 'CustomerTypeController@view');
+    Route::get('/get', 'CustomerTypeController@get');
+    Route::get('/list/{option}', 'CustomerTypeController@getList');
+    Route::post('/store', 'CustomerTypeController@store');
+    Route::post('/update', 'CustomerTypeController@update');
+    Route::post('/destroy', 'CustomerTypeController@destroy');
+    });
 });
 
 // Route docotr list

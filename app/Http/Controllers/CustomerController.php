@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerTypeController;
 use App\Http\Controllers\BranchController;
@@ -51,7 +50,7 @@ class CustomerController extends Controller
 		$cityController					= new cityController;
 		$this->data['cities']			= $cityController->getList('all')->content();
 
-		return view('pages.customer',$this->data);
+		return view('pages.customers.customer',$this->data);
 	}
 
 	/**
