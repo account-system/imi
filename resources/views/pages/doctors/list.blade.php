@@ -35,7 +35,7 @@
       $(document).ready(function () {
 
         /*doctor type data source*/
-      var doctorTypeDataSource  =   <?php echo json_encode($doctorTypes) ?>;
+      var doctorTypeDataSource  =   <?php echo json_encode($doctorType) ?>;
       doctorTypeDataSource      =   JSON.parse(doctorTypeDataSource);
 
       /*Branch data source*/
@@ -320,14 +320,14 @@
  });
 /*Initailize all dropdownlist*/  
 function initDropDownLists(){
-  $("#doctorTypes").kendoDropDownList({
+  $("#doctorType").kendoDropDownList({
     optionLabel: "Select Doctor Type...",
     dataValueField: "value",
     dataTextField: "text",
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/doctor-type/list/filter",
+          url: crudBaseUrl+"/doctor/type/list/filter",
           type: "GET",
           dataType: "json"
         }
@@ -386,7 +386,7 @@ function initDropDownLists(){
 
       <div class="col-12">
           <label for="doctor_type_id">Type</label>
-          <input id="doctorTypes" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+          <input id="doctorType" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
       </div> 
       
       <div class="col-12">

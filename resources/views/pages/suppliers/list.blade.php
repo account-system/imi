@@ -8,10 +8,10 @@
 
 @section('header')
   <section class="content-header">
-    <h1>Vendor List</h1>
+    <h1>Supplier List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Vendor List</li>
+      <li class="active">Supplier List</li>
     </ol>
   </section>
 @endsection
@@ -31,9 +31,9 @@
 
 @section('after_scripts')     
   <script>
-    /*Vedor type data source*/
-    var vendorTypeDataSource  =   <?php echo json_encode($vendorTypes) ?>;
-    vendorTypeDataSource      =   JSON.parse(vendorTypeDataSource);
+    /*Supplier type data source*/
+    var supplierTypeDataSource  =   <?php echo json_encode($supplierType) ?>;
+    supplierTypeDataSource      =   JSON.parse(supplierTypeDataSource);
 
     /*Branch data source*/
     var branchDataSource      =   <?php echo json_encode($branches) ?>;
@@ -48,26 +48,26 @@
     cityDataSource            =   JSON.parse(cityDataSource);
 
     $(document).ready(function () {
-      /*Vendor data source*/
+      /*Supplier data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/vendor-list/get",
+            url: crudBaseUrl + "/supplier/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/vendor-list/update",
+            url: crudBaseUrl + "/supplier/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/vendor-list/destroy",
+            url: crudBaseUrl + "/supplier/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/vendor-list/store",
+            url: crudBaseUrl + "/supplier/store",
             type: "POST",
             dataType: "json"
           },
@@ -107,7 +107,7 @@
               contact_name: { type: "string" },
               contact_title: { type: "string" },
               gender: { type: "string" },
-              vendor_type_id: { type: "number" },
+              supplier_type_id: { type: "number" },
               branch_id: { type: "number" },
               phone: { type: "string" },
               email: { type: "string", nullable: true },      
@@ -139,9 +139,9 @@
           { field: "contact_name", title: "Contact Name" },
           { field: "contact_title",title: "Contact Title"  },
           { field: "gender",title: "Gender", values: genderDataSource  },
-          { field: "vendor_type_id", title: "Type", values: vendorTypeDataSource },
-          { field: "branch_id", title: "Branch", values: branchDataSource },
-          { field: "phone",title: "Phone" },
+          { field: "supplier_type_id", title: "Type", values: supplierTypeDataSource, hidden: true },
+          { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
+          { field: "phone",title: "Phone", hidden: true },
           { field: "email",title: "Email", hidden: true },
           { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
           { field: "city_id",title: "Province/City", values: cityDataSource ,hidden: true },
@@ -159,11 +159,11 @@
         
           //Customize popup title and button label 
           if (e.model.isNew()) {
-            e.container.data("kendoWindow").title('Add New Vendor');
+            e.container.data("kendoWindow").title('Add New Supplier');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-            e.container.data("kendoWindow").title('Edit Vendor');
+            e.container.data("kendoWindow").title('Edit Supplier');
           }
         } 
       }); 
@@ -178,6 +178,7 @@
             { field: "contact_name", operator: "contains", value: q },
             { field: "contact_title", operator: "contains", value: q },
             { field: "gender", operator: "eq", value: q },
+            { field: "supplier_type_id", operator: "eq", value: q },
             { field: "phone", operator: "contains", value: q },
             { field: "email", operator: "contains", value: q }, 
             { field: "country_id", operator: "eq", value: q },
@@ -197,15 +198,15 @@
       /*Initialize gender dropdownlist*/
       initGenderDropDownList();
 
-      /*Initialize vendor type dropdownlist*/
-      $("#vendorType").kendoDropDownList({
+      /*Initialize supplier type dropdownlist*/
+      $("#supplierType").kendoDropDownList({
         optionLabel: "Select type...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl+"/vendor-type/list/filter",
+              url: crudBaseUrl+"/supplier/type/list/filter",
               type: "GET",
               dataType: "json"
             }
@@ -227,7 +228,7 @@
     }
   </script>
 
-  <!-- Customize popup editor vendor --> 
+  <!-- Customize popup editor supplier --> 
   <script type="text/x-kendo-template" id="popup-editor-vedor">
     <div class="row-12">
       <div class="row-6">
@@ -252,8 +253,8 @@
         </div>
 
         <div class="col-12">
-          <label for="vendor_type_id">Type</label>
-          <input id="vendorType" name="vendor_type" data-bind="value:vendor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+          <label for="supplier_type_id">Type</label>
+          <input id="supplierType" name="supplier_type_id" data-bind="value:supplier_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
         </div> 
         
         <div class="col-12">

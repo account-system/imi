@@ -41,7 +41,7 @@
       /*Branch data source*/
       var branchDataSource        =   <?php echo json_encode($branches) ?>;
       branchDataSource            =   JSON.parse(branchDataSource);
-
+      
       /*Country data source*/
       var countryDataSource       =   <?php echo json_encode($countries) ?>;
       countryDataSource           =   JSON.parse(countryDataSource);
@@ -130,12 +130,12 @@
             country_id: {
               field: "country_id", 
               type: "number",
-              defaultValue: 0
+               nullable: true
             },   
             city_id: {
               field: "city_id", 
               type: "number",
-              defaultValue: 0      
+               nullable: true
             },
             region: {
               
@@ -332,7 +332,7 @@ function initDropDownLists(){
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/customer-type/list/filter",
+          url: crudBaseUrl+"/customer/type/list/filter",
           type: "GET",
           dataType: "json"
         }

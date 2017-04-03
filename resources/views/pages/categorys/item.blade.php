@@ -54,22 +54,22 @@
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/item-list/get",
+            url: crudBaseUrl + "/categorys/item/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/item-list/update",
+            url: crudBaseUrl + "/categorys/item/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/item-list/destroy",
+            url: crudBaseUrl + "/categorys/item/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/item-list/store",
+            url: crudBaseUrl + "/categorys/item/store",
             type: "POST",
             dataType: "json"
           },

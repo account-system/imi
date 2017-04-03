@@ -31,17 +31,17 @@ class MasterType extends Model
     }
 
     /**
-     * Get all vendor type records belong to vendor type table.
+     * Get all supplier type records belong to supplier type table.
      */
-    public function vendorTypeRecords()
+    public function supplierTypeRecords()
     {
         return $this->hasMany('App\MasterDetail');
     }
 
     /**
-     * Get all category records belong to category table.
+     * Get all product records belong to product table.
      */
-    public function categoryRecords()
+    public function productRecords()
     {
         return $this->hasMany('App\MasterDetail');
     }

@@ -8,10 +8,10 @@
 
 @section('header')
     <section class="content-header">
-      <h1>Vendor Type</h1>
+      <h1>Supplier Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
-        <li class="active">Vendor Type</li>
+        <li class="active">Supplier Type</li>
       </ol>
     </section>
 @endsection
@@ -36,22 +36,22 @@
           dataSource = new kendo.data.DataSource({
               transport: {
                   read:  {
-                      url: crudServiceBaseUrl + "/vendor-type/get",
+                      url: crudServiceBaseUrl + "/supplier/type/get",
                       type: "GET",
                       dataType: "json"
                   },
                   update: {
-                      url: crudServiceBaseUrl + "/vendor-type/update",
+                      url: crudServiceBaseUrl + "/supplier/type/update",
                       type: "POST",
                       dataType: "json"
                   },
                   destroy: {
-                      url: crudServiceBaseUrl + "/vendor-type/destroy",
+                      url: crudServiceBaseUrl + "/supplier/type/destroy",
                       type: "POST",
                       dataType: "json"
                   },
                   create: {
-                      url: crudServiceBaseUrl + "/vendor-type/store",
+                      url: crudServiceBaseUrl + "/supplier/type/store",
                       type: "POST",
                       dataType: "json"
                   },
@@ -153,11 +153,11 @@
 
           //Customize popup title and button label 
           if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Vendor Type');
+              e.container.data("kendoWindow").title('Add New Supplier Type');
               $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-              e.container.data("kendoWindow").title('Edit Vendor Type');
+              e.container.data("kendoWindow").title('Edit Supplier Type');
           }
         }  
       });

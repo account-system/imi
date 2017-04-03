@@ -45,7 +45,7 @@ class DoctorTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Doctor Type';
-        return view('pages.doctor-type',$this->data);
+        return view('pages.doctors.type',$this->data);
     }
 
     /**
@@ -88,12 +88,12 @@ class DoctorTypeController extends Controller
 
                 $doctorTypeObject = new MasterDetail();
 
-                $doctorTypeObject->master_type_id   = $this->doctorTypeTable;
-                $doctorTypeObject->name             = $doctortypeRequest->name;
-                $doctorTypeObject->description      = $doctortypeRequest->description;
-                $doctorTypeObject->status           = $doctortypeRequest->status;
-                $doctorTypeObject->created_by       = auth::id();
-                $doctorTypeObject->updated_by       = auth::id();
+                $doctorTypeObject->master_type_id   =   $this->doctorTypeTable;
+                $doctorTypeObject->name             =   $doctortypeRequest->name;
+                $doctorTypeObject->description      =   $doctortypeRequest->description;
+                $doctorTypeObject->status           =   $doctortypeRequest->status;
+                $doctorTypeObject->created_by       =   auth::id();
+                $doctorTypeObject->updated_by       =   auth::id();
                 $doctorTypeObject->save();
 
                 $doctortypesResponse[]= $doctorTypeObject;
@@ -120,13 +120,13 @@ class DoctorTypeController extends Controller
             try {
 
                 $doctorTypeObject = MasterDetail::findOrFail($doctortypeRequest->id);
-                $doctorTypeObject->name = $doctortypeRequest->name;
-                $doctorTypeObject->description = $doctortypeRequest->description;
-                $doctorTypeObject->status = $doctortypeRequest->status;
-                $doctorTypeObject->updated_by = auth::id();
+                $doctorTypeObject->name         =   $doctortypeRequest->name;
+                $doctorTypeObject->description  =   $doctortypeRequest->description;
+                $doctorTypeObject->status       =   $doctortypeRequest->status;
+                $doctorTypeObject->updated_by   =   auth::id();
                 $doctorTypeObject->save();
 
-                $doctortypesResponse[]= $doctorTypeObject;
+                $doctortypesResponse[]  =   $doctorTypeObject;
 
             } catch (Exception $e) {
                 

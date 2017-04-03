@@ -24,7 +24,7 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-desktop"></i><span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/customer-type' }}"><span>Customer Type</span></a></li>
+                <li><a href="{{ url('').'/customer/type' }}"><span>Customer Type</span></a></li>
                 <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/customer' }}"><span>Customer List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/receipt-payment') }}"><span>Receipt Payment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment') }}"><span>Appointment</span></a></li>
@@ -35,8 +35,8 @@
           <li class="treeview">
               <a href="#"><i class="icon fa fa-table"></i><span>Employee</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/employee-types' }}"><span>Employee Type</span></a></li>
-                <li><a href="{{ url('').'/employee-lists' }}"><span>Employee List</span></a></li>
+                <li><a href="{{ url('').'/employees/type' }}"><span>Employee Type</span></a></li>
+                <li><a href="{{ url('').'/employees/employee' }}"><span>Employee List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/staff-payroll') }}"><span>Employee Payroll </span></a></li>
               </ul>
           </li>
@@ -44,27 +44,27 @@
           <li class="treeview">
               <a href="#"><i class="fa fa-user-md"></i><span>Doctor</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/doctor-type' }}"><span>Doctor Type</span></a></li>
+                <li><a href="{{ url('').'/doctor/type' }}"><span>Doctor Type</span></a></li>
                 <li><a href="{{ url('').'/doctor' }}"><span>Doctor List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/doctor-expenes') }}"><span>Doctor Expense</span></a></li> 
               </ul>
           </li>
-          <!-- ====== Setup vendor ================================ -->
+          <!-- ====== Setup Supplier ================================ -->
           <li class="treeview">
-              <a href="#"><i class="icon fa fa-file-text-o"></i><span>Vendor</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="icon fa fa-file-text-o"></i><span>Supplier</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/vendor-type' }}"><span>Vendor Type</span></a></li>
-                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/vendor-list' }}"><span>Vendor List</span></a></li>
+                <li><a href="{{ url('').'/supplier/type' }}"><span>Supplier Type</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/supplier' }}"><span>Supplier List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/pay-bill') }}"><span>Pay Bill</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/enter-bill') }}"><span>Enter Bill</span></a></li>
               </ul>
           </li>
           <!-- ====== Setup Item ================================ -->
           <li class="treeview">
-              <a href="#"><i class="icon fa fa-cubes"></i><span>Item</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="icon fa fa-cubes"></i><span>Products</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/categoriess' }}"><span>Item Type</span></a></li>
-                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/categories-list' }}"><span>Item List</span></a></li>
+                <li><a href="{{ url('').'/categorys/categoriess' }}"><span>Product Type</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/categorys/item' }}"><span>Product List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/sale') }}"><span>Sale</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-service') }}"><span>Setup Service</span></a></li>
               </ul>

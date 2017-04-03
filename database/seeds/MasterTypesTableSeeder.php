@@ -23,10 +23,10 @@ class MasterTypesTableSeeder extends Seeder
 	            'name' => 'doctor_types',
         	),
         	array(
-	            'name' => 'vendor_types',
+	            'name' => 'supplier_types',
         	),
         	array(
-	            'name' => 'categories',
+	            'name' => 'products',
         	),
         	array(
 	            'name' => 'branches',

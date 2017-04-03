@@ -50,22 +50,22 @@
             dataSource = new kendo.data.DataSource({
                 transport: {
                     read:  {
-                        url: crudServiceBaseUrl + "/doctor-type/get",
+                        url: crudServiceBaseUrl + "/doctor/type/get",
                         type: "GET",
                         dataType: "json"
                     },
                     update: {
-                        url: crudServiceBaseUrl + "/doctor-type/update",
+                        url: crudServiceBaseUrl + "/doctor/type/update",
                         type: "Post",
                         dataType: "json"
                     },
                     destroy: {
-                        url: crudServiceBaseUrl + "/doctor-type/destroy",
+                        url: crudServiceBaseUrl + "/doctor/type/destroy",
                         type: "Post",
                         dataType: "json"
                     },
                     create: {
-                        url: crudServiceBaseUrl + "/doctor-type/store",
+                        url: crudServiceBaseUrl + "/doctor/type/store",
                         type: "Post",
                         dataType: "json"
                     },

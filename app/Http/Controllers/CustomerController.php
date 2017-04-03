@@ -36,21 +36,21 @@ class CustomerController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title']			= 'Customer List';
+		$this->data['title']			= 	'Customer List';
 
-		$customerTypeController 		= new CustomerTypeController;
-		$this->data['customerTypes'] 	= $customerTypeController->getList('all')->content();
+		$customerTypeController 		= 	new CustomerTypeController;
+		$this->data['customerTypes'] 	= 	$customerTypeController->getList('all')->content();
 
-		$branchController 				= new BranchController;
-		$this->data['branches'] 		= $branchController->getList()->content('all');
+		$branchController 				= 	new BranchController;
+		$this->data['branches'] 		= 	$branchController->getList('all')->content();
 		
-		$countryController 				= new CountryController;
-		$this->data['countries'] 		= $countryController->getList()->content('all');
+		$countryController 				= 	new CountryController;
+		$this->data['countries'] 		= 	$countryController->getList('all')->content();
 
-		$cityController					= new cityController;
-		$this->data['cities']			= $cityController->getList('all')->content('all');
+		$cityController					= 	new cityController;
+		$this->data['cities']			= 	$cityController->getList('all')->content();
 
-		return view('pages.customers.customer',$this->data);
+		return view('pages.customers.list',$this->data);
 	}
 
 	/**

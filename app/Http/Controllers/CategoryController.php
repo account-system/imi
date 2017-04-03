@@ -43,7 +43,7 @@ class CategoryController extends Controller
     public function view()
     {
         $this->data['title'] = 'Category';
-        return view('pages.categoriess',$this->data);
+        return view('pages.categorys.categoriess',$this->data);
     }
 
     /**

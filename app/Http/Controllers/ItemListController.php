@@ -15,7 +15,7 @@ use App\MasterType;
 use App\CategoryList;
 
 
-class CategoryListController extends Controller
+class ItemListController extends Controller
 {
     /**
 	 *The information we send to the view
@@ -53,7 +53,7 @@ class CategoryListController extends Controller
 		$cityController					=	new cityController;
 		$this->data['cities']			=	$cityController->getList('all')->content();
 
-		return view('pages.categories-list',$this->data);
+		return view('pages.categorys.item',$this->data);
 	}
 
 	/**
