@@ -321,7 +321,6 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
     public static $classMap = array (
         'AccountTypesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AccountTypesTableSeeder.php',
         'CreateAccountTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
-        'CreateCategoryListTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_31_021909_create_category_list_table.php',
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_031925_create_customers_table.php',
         'CreateDoctorsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_29_015646_create_doctors_table.php',
         'CreateEmployeesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_082902_create_employees_table.php',
@@ -329,6 +328,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
         'CreateMasterSubDetailsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_24_041509_create_master_sub_details_table.php',
         'CreateMasterTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_024410_create_master_types_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateProductsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_04_015745_create_products_table.php',
         'CreateSuppliersTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_03_083728_create_suppliers_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

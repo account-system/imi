@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'AccountTypesTableSeeder' => $baseDir . '/database/seeds/AccountTypesTableSeeder.php',
     'CreateAccountTypesTable' => $baseDir . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
-    'CreateCategoryListTable' => $baseDir . '/database/migrations/2017_03_31_021909_create_category_list_table.php',
     'CreateCustomersTable' => $baseDir . '/database/migrations/2017_03_27_031925_create_customers_table.php',
     'CreateDoctorsTable' => $baseDir . '/database/migrations/2017_03_29_015646_create_doctors_table.php',
     'CreateEmployeesTable' => $baseDir . '/database/migrations/2017_03_27_082902_create_employees_table.php',
@@ -16,6 +15,7 @@ return array(
     'CreateMasterSubDetailsTable' => $baseDir . '/database/migrations/2017_03_24_041509_create_master_sub_details_table.php',
     'CreateMasterTypesTable' => $baseDir . '/database/migrations/2017_03_18_024410_create_master_types_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreateProductsTable' => $baseDir . '/database/migrations/2017_04_04_015745_create_products_table.php',
     'CreateSuppliersTable' => $baseDir . '/database/migrations/2017_04_03_083728_create_suppliers_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

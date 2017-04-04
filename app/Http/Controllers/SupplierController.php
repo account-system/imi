@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\SupplierTypeController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\Controller;
 
 use App\MasterType;
 use App\Supplier;

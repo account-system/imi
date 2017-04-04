@@ -102,6 +102,25 @@ Route::group(['prefix' => '/supplier'], function () {
     });
 });
 
+// Route product
+Route::group(['prefix' => '/product'], function () {
+    Route::get('/', 'ProductController@view');
+    Route::get('/get', 'ProductController@get');
+    Route::post('/store', 'ProductController@store');
+    Route::post('/update', 'ProductController@update');
+    Route::post('/destroy', 'ProductController@destroy');
+
+    // Route product type
+    Route::group(['prefix' => '/type'], function () {
+    Route::get('/', 'ProductTypeController@view');
+    Route::get('/get', 'ProductTypeController@get');
+    Route::get('/list/{option}', 'ProductTypeController@getList');
+    Route::post('/store', 'ProductTypeController@store');
+    Route::post('/update', 'ProductTypeController@update');
+    Route::post('/destroy', 'ProductTypeController@destroy');
+    });
+});
+
 // Route vendor list
 Route::group(['prefix' => 'branch'], function () {
     Route::get('/list/{option}', 'BranchController@getList');
