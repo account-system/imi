@@ -54,7 +54,7 @@ class EmployeeController extends Controller
 		$cityController					=	new cityController;
 		$this->data['cities']			=	$cityController->getList('all')->content();
 
-		return view('pages.employees.employee',$this->data);
+		return view('pages.employees.list',$this->data);
 	}
 
 	/**

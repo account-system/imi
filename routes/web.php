@@ -73,7 +73,7 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('/destroy', 'EmployeeController@destroy');
 
     // Route Employee Type
-    Route::group(['prefix' => 'types'], function () {
+    Route::group(['prefix' => 'type'], function () {
     Route::get('/', 'EmployeeTypeController@view');
     Route::get('/get', 'EmployeeTypeController@get');
     Route::get('/list/{option}', 'EmployeeTypeController@getList');
