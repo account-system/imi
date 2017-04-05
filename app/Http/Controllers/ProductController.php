@@ -84,13 +84,16 @@ class ProductController extends Controller
 
 				$productObject = new Product();
 
+				$productObject->code 		  		=   $productRequest->code;
 				$productObject->name 		  		=   $productRequest->name;
 				$productObject->product_type_id		=   $productRequest->product_type_id;
-				$productObject->barcode        		=   $productRequest->barcode;
-				$productObject->price_in            =   $productRequest->price_in;
-				$productObject->price_out           =   $productRequest->price_out;
-				$productObject->quantity     		=   $productRequest->quantity;
-				$productObject->detail          	=   $productRequest->detail;
+				$productObject->unit_price        	=   $productRequest->unit_price;
+				$productObject->unit_sale_price     =   $productRequest->unit_sale_price;
+				$productObject->quantity           	=   $productRequest->quantity;
+				$productObject->quantity_per_unit   =   $productRequest->quantity_per_unit;
+				$productObject->discontinue     	=   $productRequest->discontinue;
+				$productObject->description         =   $productRequest->description;
+				$productObject->branch_id          	=   $productRequest->branch_id;
 				$productObject->status           	=   $productRequest->status;
 				$productObject->created_by      	=   auth::id();
 				$productObject->updated_by      	=   auth::id();
@@ -122,13 +125,16 @@ class ProductController extends Controller
 
 				$productObject = Product::findOrFail($productRequest->id);
 
+				$productObject->code 		  		=   $productRequest->code;
 				$productObject->name 		  		=   $productRequest->name;
 				$productObject->product_type_id		=   $productRequest->product_type_id;
-				$productObject->barcode        		=   $productRequest->barcode;
-				$productObject->price_in            =   $productRequest->price_in;
-				$productObject->price_out           =   $productRequest->price_out;
-				$productObject->quantity     		=   $productRequest->quantity;
-				$productObject->detail          	=   $productRequest->detail;
+				$productObject->unit_price        	=   $productRequest->unit_price;
+				$productObject->unit_sale_price     =   $productRequest->unit_sale_price;
+				$productObject->quantity           	=   $productRequest->quantity;
+				$productObject->quantity_per_unit   =   $productRequest->quantity_per_unit;
+				$productObject->discontinue     	=   $productRequest->discontinue;
+				$productObject->description         =   $productRequest->description;
+				$productObject->brach_id          	=   $productRequest->brach_id;
 				$productObject->status           	=   $productRequest->status;
 				$productObject->updated_by     		=   auth::id();
 

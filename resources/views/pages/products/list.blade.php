@@ -39,13 +39,6 @@
     var branchDataSource      =   <?php echo json_encode($branches) ?>;
     branchDataSource          =   JSON.parse(branchDataSource);
 
-    /*Country data source*/
-    var countryDataSource     =   <?php echo json_encode($countries) ?>;
-    countryDataSource         =   JSON.parse(countryDataSource);
-
-    /*City data source*/
-    var cityDataSource        =   <?php echo json_encode($cities) ?>;
-    cityDataSource            =   JSON.parse(cityDataSource);
 
     $(document).ready(function () {
       /*Product data source*/
@@ -84,33 +77,16 @@
             id: "id",
             fields: {
               id: { editable: false, nullable: true },
-              company_name: { 
-                type: "string",
-                validation: {
-                  required: true,
-                  companyNameValidation: function (input) {
-                      if (input.is("[name='company_name']") && input.val() != "") {
-                          input.attr("data-company_namevalidation-msg", "Company name should start with capital letter");
-                          return /^[A-Z]/.test(input.val());
-                      }
-                      return true;
-                  },
-                  maxlength:function(input) { 
-                    if (input.is("[name='name']") && input.val().length > 60) {
-                       input.attr("data-maxlength-msg", "Max length is 60");
-                       return false;
-                    }                                   
-                    return true;
-                  }
-                } 
-              },
+              code: { type: "string" },
               name: { type: "string" },
               product_type_id: { type: "number" },
-              barcode: { type: "string" },
-              price_in: { type: "string" },
-              price_out: { type: "string" },
-              quantity: { type: "string" },      
-              detail: { type: "string", nullable: true },   
+              unit_price: { type: "string" },
+              unit_sale_price: { type: "string" },
+              quantity: { type: "string" },
+              quantity_per_unit: { type: "string" },
+              discontinue: { type: "number" ,defaultValue: 0},      
+              description: { type: "string", nullable: true },  
+              branch_id: { type: "number" }, 
               status: { type: "string", defaultValue: "Enabled" }                
             }
           }
@@ -127,15 +103,18 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ { name: "create", text: "Add New Product" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
-          { field: "name", title: "Name" },
+          { field: "code", title: "Code" },
+          { field: "name",title: "Name" },
           { field: "product_type_id", title: "Type", values: productTypesDataSource, },
-          { field: "barcode",title: "Barcode" },
-          { field: "price_in",title: "Price In" },
-          { field: "price_out",title: "price Out" ,hidden: true },
+          { field: "unit_price",title: "Unit Price" ,format: "{0:c}" },
+          { field: "unit_sale_price",title: "Unit Sale Price",format: "{0:c}" ,hidden: true },
           { field: "quantity",title: "Quantity" ,hidden: true },
-          { field: "detail",title: "Detail" ,hidden: true },
+          { field: "quantity_per_unit",title: "Quantity Per Unit" ,hidden: true },
+          { field: "discontinue",title: "Discontinue", values: discontinueDataSource ,hidden: true },
+          { field: "description",title: "Description" ,hidden: true },
+          { field: "branch_id",title: "Branch", values: branchDataSource ,hidden: true },
           { field: "status", title: "Status", values: statusDataSource ,hidden: true },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
@@ -161,13 +140,16 @@
         $("#grid").data("kendoGrid").dataSource.filter({
           logic  : "or",
           filters: [
+            { field: "code", operator: "contains", value: q },
             { field: "name", operator: "contains", value: q },
             { field: "product_type_id", operator: "eq", value: q },
-            { field: "barcode", operator: "contains", value: q },
-            { field: "price_in", operator: "contains", value: q }, 
-            { field: "price_out", operator: "eq", value: q },
-            { field: "quantity", operator: "eq", value: q },
-            { field: "detail", operator: "contains", value: q },
+            { field: "unit_price", operator: "contains", value: q },
+            { field: "unit_sale_price", operator: "contains", value: q }, 
+            { field: "quantity", operator: "contains", value: q },
+            { field: "quantity_per_unit", operator: "contains", value: q },
+            { field: "discontinue", operator: "eq", value: q },
+            { field: "description", operator: "contains", value: q },
+            { field: "branh_id", operator: "eq", value: q },
             { field: "status", operator: "eq", value: q }
           ]
         });
@@ -206,6 +188,10 @@
 
       /*Initialize status dropdownlist*/
       initStatusDropDownList();
+
+      /*Initialize discontinue dropdownlist*/ 
+      initDiscontinueDropDownList();
+
     }
   </script>
 
@@ -214,8 +200,13 @@
     <div class="row-12">
       <div class="row-6">
         <div class="col-12">
+          <label for="code">Code</label>
+            <input type="text" name="code" class="k-textbox" placeholder="Enter product code" data-bind="value:code" required data-required-msg="The product code field is required" pattern=".{1,60}" validationMessage="The product code may not be greater than 60 characters" style="width: 100%;"/>   
+        </div>
+
+        <div class="col-12">
           <label for="name">Name</label>
-          <input type="text" name="name" class="k-textbox" placeholder="Enter product name" data-bind="value:name" required data-required-msg="The product name field is required" pattern=".{1,60}" validationMessage="The product name may not be greater than 60 characters" style="width: 100%;"/>   
+            <input type="text" name="name" class="k-textbox" placeholder="Enter product name" data-bind="value:name" required data-required-msg="The product name field is required" pattern=".{1,60}" validationMessage="The product name may not be greater than 60 characters" style="width: 100%;"/>   
         </div>
 
         <div class="col-12">
@@ -224,28 +215,39 @@
         </div> 
         
         <div class="col-12">
-          <label for="barcode">Barcode</label>
-          <input type="text" class="k-textbox" name="barcode" placeholder="Enter barcode" data-bind="value:barcode" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+          <label for="unit_price">Unit Price</label>
+          <input type="number" class="k-textbox" name="unit_price" placeholder="Enter unit price" data-bind="value:unit_price" pattern=".{1,10}" validationMessage="The unit price may not be greater than 30 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
-          <label for="price_in">Price In</label>
-          <input type="string" class="k-textbox" name="price_in" data-bind="value:price_in" placeholder="Enter price in"  required data-required-msg="The price in is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter price in" validationMessage="price in format is not valid" style="width: 100%;"/>
+          <label for="unit_sale_price">Unit Sale Price</label>
+          <input type="number" class="k-textbox" name="unit_sale_price" data-bind="value:unit_sale_price" placeholder="Enter unit sale price" pattern=".{1,10}" placeholder="Enter unit sale price" validationMessage="unit sale price format is not valid" style="width: 100%;"/>
         </div>
 
-        <div class="col-12">
-          <label for="price_out">Price Out</label>
-          <input type="string" class="k-textbox" name="price_out" data-bind="value:price_out" placeholder="Enter price out"  required data-required-msg="The price out is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter price out" validationMessage="price out format is not valid" style="width: 100%;"/>
-        </div>
-        
         <div class="col-12">
           <label for="quantity">Quantity</label>
-          <input type="string" class="k-textbox" name="quantity" data-bind="value:quantity" placeholder="Enter quantity"  required data-required-msg="The quantity is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter quantity" validationMessage="quantity format is not valid" style="width: 100%;"/>
+          <input type="number" class="k-textbox" name="quantity" data-bind="value:quantity" placeholder="Enter quantity"  required data-required-msg="The quantity is required" pattern=".{1,10}" placeholder="Enter quantity" validationMessage="quantity format is not valid" style="width: 100%;"/>
         </div>
+      </div>
+      <div class="col-6">
+        <div class="col-12">
+          <label for="quantity_per_unit">Quantity Per Unit</label>
+          <input type="string" class="k-textbox" name="quantity_per_unit" data-bind="value:quantity_per_unit" placeholder="Enter quantity per unit" pattern=".{1,10}" placeholder="Enter quantity per unit" validationMessage="quantity per unit format is not valid" style="width: 100%;"/>
+        </div>
+        
+        <div class="col-12">
+          <label for="discontinue">Discontinue</label>
+          <input id="discontinue" data-bind="value:discontinue"  style="width: 100%;" />
+        </div> 
 
         <div class="col-12">
-          <label for="detail">Detail</label>
-          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+          <label for="description">Description</label>
+          <textarea class="k-textbox" name="description" placeholder="Enter description" data-bind="value:description" pattern=".{0,200}" validationMessage="The description may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+        </div>
+        
+        <div class="col-12">
+          <label for="branch_id">Branch</label>
+          <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
         </div>
 
         <div class="col-12">
