@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
 use App\MasterDetail;
+use App\MasterSubDetail;
 use App\MasterType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class CityController extends Controller
     }
 
     /**
-     * Get a listing of the resource that contains(value, text).
+     * Get a listing of the resource that contains(value, text or countryId, cityId, cityName) depend on param $option
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string $option It's filter option
@@ -77,7 +78,7 @@ class CityController extends Controller
             //Get all city records filter status = enabled contains(countryId, cityId, cityName)
             $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::Enabled)->get(['master_detail_id as countryId', 'id as cityId','name as cityName'])->sortBy('cityName')->values()->all(); 
         }elseif ($option == 'all') {
-            //Get all city records
+            //Get all city records contains(value, text)
             $cities = MasterType::find($this->cityTable)->cityRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
@@ -95,11 +96,11 @@ class CityController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = enabled
-            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::Enabled)->get()->sortBy('created_at')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all city records
-            $cities = MasterType::find($countryId)->cityRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $cities = MasterDetail::find($countryId)->cityRecords()->get()->sortBy('created_at')->values()->all(); 
         }
         
         return Response()->Json($cities);
@@ -118,14 +119,15 @@ class CityController extends Controller
         foreach ($citiesRequest as $key => $cityRequest) {
             try {
 
-                $cityObject = new MasterDetail();
+                $cityObject = new MasterSubDetail();
 
-                $cityObject->master_type_id   =   $this->cityTable;
-                $cityObject->name             =   $cityRequest->name;
-                $cityObject->description      =   $cityRequest->description;
-                $cityObject->status           =   $cityRequest->status;
-                $cityObject->created_by       =   auth::id();
-                $cityObject->updated_by       =   auth::id();
+                $cityObject->master_type_id     =   $this->cityTable;
+                $cityObject->master_detail_id   =   $cityRequest->master_detail_id;
+                $cityObject->name               =   $cityRequest->name;
+                $cityObject->description        =   $cityRequest->description;
+                $cityObject->status             =   $cityRequest->status;
+                $cityObject->created_by         =   auth::id();
+                $cityObject->updated_by         =   auth::id();
 
                 $cityObject->save();
 
@@ -152,12 +154,13 @@ class CityController extends Controller
         foreach ($citiesRequest as $key => $cityRequest) {
             try {
 
-                $cityObject = MasterDetail::findOrFail($cityRequest->id);
+                $cityObject = MasterSubDetail::findOrFail($cityRequest->id);
 
-                $cityObject->name         =   $cityRequest->name;
-                $cityObject->description  =   $cityRequest->description;
-                $cityObject->status       =   $cityRequest->status;
-                $cityObject->updated_by   =   auth::id();
+                $cityObject->master_detail_id   =   $cityRequest->master_detail_id;
+                $cityObject->name               =   $cityRequest->name;
+                $cityObject->description        =   $cityRequest->description;
+                $cityObject->status             =   $cityRequest->status;
+                $cityObject->updated_by         =   auth::id();
                 $cityObject->save();
 
                 $citiesResponse[] = $cityObject;
@@ -183,7 +186,7 @@ class CityController extends Controller
         foreach ($citiesRequest as $key => $cityRequest) {
             try {
 
-                $cityObject = MasterDetail::findOrFail($cityRequest->id);
+                $cityObject = MasterSubDetail::findOrFail($cityRequest->id);
 
                 $cityObject->delete();
 

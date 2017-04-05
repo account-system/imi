@@ -42,9 +42,9 @@ class CountryController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Country';
+        $this->data['title'] = 'Setup Country & Citry';
 
-        return view('pages.country',$this->data);
+        return view('pages.country-city',$this->data);
     }
 
     /**
@@ -60,7 +60,7 @@ class CountryController extends Controller
     }
 
     /**
-     * Get a listing of the resource that contains(value, text).
+     * Get a listing of the resource that contains(value, text or countryId, countryName) depend on param $option
      *
      * @return \Illuminate\Http\Response
      */
@@ -70,14 +70,14 @@ class CountryController extends Controller
         $countries = [];
 
         if($option == 'filter'){
-            //Get all city records filter status = enabled contains(value, text)
+            //Get all country records filter status = enabled contains(value, text) 
             $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
         }elseif ($option == 'cascade') {
-            //Get all city records filter status = enabled contains(countryId, countryName)
+            //Get all country records filter status = enabled contains(countryId, countryName)
             $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::Enabled)->get(['id as countryId','name as countryName'])->sortBy('text')->values()->all();
         }
         elseif ($option == 'all') {
-            //Get all city records contains(value, text)
+            //Get all country records contains(value, text)
             $countries = MasterType::find($this->countryTable)->countryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
@@ -99,12 +99,12 @@ class CountryController extends Controller
 
                 $countryObject = new MasterDetail();
 
-                $countryObject->master_type_id  =   $this->countryTable;
-                $countryObject->name            =   $countryRequest->name;
-                $countryObject->description     =   $countryRequest->description;
-                $countryObject->status          =   $countryRequest->status;
-                $countryObject->created_by      =   auth::id();
-                $countryObject->updated_by      =   auth::id();
+                $countryObject->master_type_id      =   $this->countryTable;
+                $countryObject->name                =   $countryRequest->name;
+                $countryObject->description         =   $countryRequest->description;
+                $countryObject->status              =   $countryRequest->status;
+                $countryObject->created_by          =   auth::id();
+                $countryObject->updated_by          =   auth::id();
 
                 $countryObject->save();
 
@@ -133,10 +133,10 @@ class CountryController extends Controller
 
                 $countryObject = MasterDetail::findOrFail($countryRequest->id);
 
-                $countryObject->name        =   $countryRequest->name;
-                $countryObject->description =   $countryRequest->description;
-                $countryObject->status      =   $countryRequest->status;
-                $countryObject->updated_by  =   auth::id();
+                $countryObject->name                =   $countryRequest->name;
+                $countryObject->description         =   $countryRequest->description;
+                $countryObject->status              =   $countryRequest->status;
+                $countryObject->updated_by          =   auth::id();
 
                 $countryObject->save();
 

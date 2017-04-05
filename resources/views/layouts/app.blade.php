@@ -71,10 +71,20 @@
         width: 47%;
         padding: 0% 2% 2% 1%;
       }
-      .col-3{
+      .row-1-12{
         float: left;
-        width: 23%;
-        padding: 0% 2% 2% 1%;
+        width: 99%;
+        padding-right: 1%;
+      }
+      .col-1-12{
+        float: left;
+        width: 98%;
+        padding: 0% 1% 2% 1%;
+      }
+      .col-1-6{
+        float: left;
+        width: 48%;
+        padding: 0% 1% 2% 1%;
       }
       input.k-textbox{
         text-indent: .5em;
@@ -190,7 +200,7 @@
       // Set active state on menu element
       var current_url = window.location.href;
       $("ul.sidebar-menu li a").each(function() {
-        if ($(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href')))
+        if ($(this).attr('href') === current_url || current_url === $(this).attr('href'))
         {
           $(this).parents('li').addClass('active');
         }
@@ -269,6 +279,7 @@
       function initStatusDropDownList()
       {
         $("#status").kendoDropDownList({
+          optionLabel: "Select status...",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: statusDataSource  
@@ -285,23 +296,25 @@
             <a href="\\#" class="k-icon k-i-search">&nbsp;</a>
         </span>
       </div>
-  </script> 
+    </script> 
 
-  <!-- Customize popup editor type --> 
-  <script id="popup-editor-type" type="text/x-kendo-template">
-    <div class="col-12">
-      <label for="name">Name</label>
-      <input type="text" name="Name" class="k-textbox" placeholder="Enter name" data-bind="value:name" required  style="width: 100%;"/> 
-    </div>
-    <div class="col-12">
-      <label for="description">Description</label>
-      <textarea class="k-textbox" name="Description" placeholder="Enter description" data-bind="value:description" style="width: 100%;"/></textarea> 
-    </div>
-    <div class="col-6">
-      <label for="status">Status</label>
-      <input id="status" data-bind="value:status"  style="width: 100%;" />
-    </div>
-</script>     
+    <!-- Customize popup editor type --> 
+    <script id="popup-editor-type" type="text/x-kendo-template">
+      <div class="row-1-12">
+        <div class="col-1-12">
+          <label for="name">Name</label>
+          <input type="text" name="Name" class="k-textbox" placeholder="Enter name" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/> 
+        </div>
+        <div class="col-1-12">
+          <label for="description">Description</label>
+          <textarea class="k-textbox" name="Description" placeholder="Enter description" data-bind="value:description" style="width: 100%; height: 97px"/></textarea> 
+        </div>
+        <div class="col-1-6">
+          <label for="status">Status</label>
+          <input id="status" data-bind="value:status"  style="width: 100%;" />
+        </div>
+      </div>
+    </script>     
 
     @include('inc.alerts')
 
