@@ -76,7 +76,7 @@ Route::group(['prefix' => 'vendor-type'], function () {
     Route::post('/destroy', 'VendorTypeController@destroy');
 });
 // Route vendor list
-Route::group(['prefix' => 'vendor-list'], function () {
+Route::group(['prefix' => 'supplier'], function () {
     Route::get('/', 'VendorController@view');
     Route::get('/get', 'VendorController@get');
     Route::post('/store', 'VendorController@store');
