@@ -26,7 +26,7 @@ Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/chart-account', 'ChartAccountController@index');
 
-// Route customer
+//Route customer
 Route::group(['prefix' => '/customer'], function () {
     Route::get('/', 'CustomerController@view');
     Route::get('/get', 'CustomerController@get');
@@ -34,7 +34,7 @@ Route::group(['prefix' => '/customer'], function () {
     Route::post('/update', 'CustomerController@update');
     Route::post('/destroy', 'CustomerController@destroy');
 
-    // Route customer type
+    //Route customer type
     Route::group(['prefix' => '/type'], function () {
     Route::get('/', 'CustomerTypeController@view');
     Route::get('/get', 'CustomerTypeController@get');
@@ -45,7 +45,7 @@ Route::group(['prefix' => '/customer'], function () {
     });
 });
 
-// Route docotr list
+// Route doctor
 Route::group(['prefix' => '/doctor'], function () {
     Route::get('/', 'DoctorController@view');
     Route::get('/get', 'DoctorController@get');
@@ -53,7 +53,7 @@ Route::group(['prefix' => '/doctor'], function () {
     Route::post('/update', 'DoctorController@update');
     Route::post('/destroy', 'DoctorController@destroy');
 
-    // Route dector type
+    //Route doctor type
     Route::group(['prefix' => '/type'], function () {
     Route::get('/', 'DoctorTypeController@view');
     Route::get('/get', 'DoctorTypeController@get');
@@ -64,7 +64,7 @@ Route::group(['prefix' => '/doctor'], function () {
     });
 });
 
-// Route Employee list
+//Route employee
 Route::group(['prefix' => 'employee'], function () {
     Route::get('/', 'EmployeeController@view');
     Route::get('/get', 'EmployeeController@get');
@@ -72,7 +72,7 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('/update', 'EmployeeController@update');
     Route::post('/destroy', 'EmployeeController@destroy');
 
-    // Route Employee Type
+    //Route employee type
     Route::group(['prefix' => 'type'], function () {
     Route::get('/', 'EmployeeTypeController@view');
     Route::get('/get', 'EmployeeTypeController@get');
@@ -83,7 +83,7 @@ Route::group(['prefix' => 'employee'], function () {
     });
 });
 
-// Route vendor
+//Route vendor
 Route::group(['prefix' => '/supplier'], function () {
     Route::get('/', 'SupplierController@view');
     Route::get('/get', 'SupplierController@get');
@@ -102,7 +102,7 @@ Route::group(['prefix' => '/supplier'], function () {
     });
 });
 
-// Route product
+//Route product
 Route::group(['prefix' => '/product'], function () {
     Route::get('/', 'ProductController@view');
     Route::get('/get', 'ProductController@get');
@@ -110,7 +110,7 @@ Route::group(['prefix' => '/product'], function () {
     Route::post('/update', 'ProductController@update');
     Route::post('/destroy', 'ProductController@destroy');
 
-    // Route product type
+    //Route product type
     Route::group(['prefix' => '/type'], function () {
     Route::get('/', 'ProductTypeController@view');
     Route::get('/get', 'ProductTypeController@get');
@@ -121,23 +121,37 @@ Route::group(['prefix' => '/product'], function () {
     });
 });
 
-// Route vendor list
+//Route branch
 Route::group(['prefix' => 'branch'], function () {
+    //Route::get('/', 'BranchController@view');
+    //Route::get('/get', 'BranchController@get');
     Route::get('/list/{option}', 'BranchController@getList');
+    //Route::post('/store', 'BranchController@store');
+    //Route::post('/update', 'BranchController@update');
+    //Route::post('/destroy', 'BranchController@destroy');
 });
 
-// Route country
-Route::group(['prefix' => 'country'], function () {    
+//Route country
+Route::group(['prefix' => 'country'], function () {
+    Route::get('/', 'CountryController@view');
+    Route::get('/get', 'CountryController@get');
     Route::get('/list/{option}', 'CountryController@getList');
     Route::post('/store', 'CountryController@store');
+    Route::post('/update', 'CountryController@update');
+    Route::post('/destroy', 'CountryController@destroy');
 });
 
-// Route city
+//Route city
 Route::group(['prefix' => 'city'], function () {
+    //Route::get('/', 'CityController@view');
+    //Route::get('/get', 'CityController@get');
     Route::get('/list/{option}', 'CityController@getList');
     Route::get('/list/{option}/{countryId}', 'CityController@getListCityByCountry');
     Route::post('/store', 'CityController@store');
+    Route::post('/update', 'CityController@update');
+    Route::post('/destroy', 'CityController@destroy');
 });
+
 
 
 

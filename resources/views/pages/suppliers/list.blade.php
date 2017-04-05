@@ -84,26 +84,7 @@
             id: "id",
             fields: {
               id: { editable: false, nullable: true },
-              company_name: { 
-                type: "string",
-                validation: {
-                  required: true,
-                  companyNameValidation: function (input) {
-                      if (input.is("[name='company_name']") && input.val() != "") {
-                          input.attr("data-company_namevalidation-msg", "Company name should start with capital letter");
-                          return /^[A-Z]/.test(input.val());
-                      }
-                      return true;
-                  },
-                  maxlength:function(input) { 
-                    if (input.is("[name='name']") && input.val().length > 60) {
-                       input.attr("data-maxlength-msg", "Max length is 60");
-                       return false;
-                    }                                   
-                    return true;
-                  }
-                } 
-              },
+              company_name: { type: "string" },
               contact_name: { type: "string" },
               contact_title: { type: "string" },
               gender: { type: "string" },

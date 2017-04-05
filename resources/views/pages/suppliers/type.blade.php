@@ -147,7 +147,6 @@
           template: kendo.template($("#popup-editor-type").html())
         },
         edit: function (e) {
-
           /*Initialize status dropdownlist*/
           initStatusDropDownList();
 

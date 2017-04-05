@@ -20,6 +20,13 @@
           <!-- ================================================ -->
           <li><a href="{{ url('').'/dashboard' }}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
 
+          <!-- ==== Setup Data ============================ -->
+          <li class="treeview">
+              <a href="#"><i class="fa fa fa-cogs"></i><span>Setup Data</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a href="{{ url('').'/country' }}"><span>Setup Country &amp; City</span></a></li>
+              </ul>
+          </li>
           <!-- ==== Setup Customer ============================ -->
           <li class="treeview">
               <a href="#"><i class="icon fa fa-desktop"></i><span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
