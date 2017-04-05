@@ -54,22 +54,22 @@
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/employee-lists/get",
+            url: crudBaseUrl + "/employee/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/employee-lists/update",
+            url: crudBaseUrl + "/employee/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/employee-lists/destroy",
+            url: crudBaseUrl + "/employee/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/employee-lists/store",
+            url: crudBaseUrl + "/employee/store",
             type: "POST",
             dataType: "json"
           },
@@ -96,10 +96,9 @@
             name: {
                   
             },
-            status: { 
-              field: "gender", 
+            gender: { 
               type: "string",
-              defaultValue: "gender" 
+    
             },     
             identity_card: {
 
@@ -148,7 +147,7 @@
       { field: "name",title: "Name" },
       { field: "gender", title: "Gender", values: genderDataSource },
       { field: "identity_card",title: "identity_card" },
-       { field: "position",title: "Position", hidden: true },
+       { field:"position",title: "Position", hidden: true },
       { field: "phone",title: "Phone", hidden: true },
       { field: "address",title: "Address", hidden: true},
       { field: "status", title: "Status", values: statusDataSource, hidden: true},
@@ -238,7 +237,7 @@ function initDropDownLists(){
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/employee-types/list/filter",
+          url: crudBaseUrl+"/employee/type/list/filter",
           type: "GET",
           dataType: "json"
         }
@@ -283,17 +282,17 @@ function initDropDownLists(){
   
   <div class="col-6">
     <label for="gender">Gender</label>
-    <input type="text" class="k-textbox" name="Gender" placeholder="Enter Gender" data-bind="value:gender" style="width: 100%;"/>
+    <input id="gender" data-bind="value:gender" name="Gender" placeholder="Enter Gender" data-bind="value:gender" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="identity_card">Identity Card</label>
-    <input type="text" class="k-textbox" name="identity_card" placeholder="Enter Identity Card" data-bind="value:phone" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="identity_card" placeholder="Enter Identity Card" data-bind="value:identity_card" style="width: 100%;"/>
   </div>
   
   <div class="col-6">
     <label for="phone">Phone</label>
-    <input type="number" class="k-textbox" name="phone" placeholder="Enter phone" data-bind="value:phone" style="width: 100%;"/>
+    <input type="text" class="k-textbox" name="phone" placeholder="Enter phone" data-bind="value:phone" style="width: 100%;"/>
   </div>  
 
   <div class="col-12">

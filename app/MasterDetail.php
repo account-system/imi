@@ -40,17 +40,17 @@ class MasterDetail extends Model
     }
 
     /**
-     * Get the vendor type table that owns the vendor type record.
+     * Get the supplier type table that owns the supplier type record.
      */
-    public function vendorTypeTable()
+    public function supplierTypeTable()
     {
         return $this->belongsTo('App\MasterType');
     }
 
     /**
-     * Get the category table that owns the category record.
+     * Get the product table that owns the product record.
      */
-    public function categoryTypeTable()
+    public function productTypeTable()
     {
         return $this->belongsTo('App\MasterType');
     }

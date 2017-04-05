@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vendor extends Model
+class CategoryList extends Model
 {
-    /**
+     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -14,4 +14,5 @@ class Vendor extends Model
     protected $hidden = [
         'created_by', 'updated_by', 'created_at', 'updated_at',
     ];
+    
 }

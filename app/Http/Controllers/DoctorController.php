@@ -41,18 +41,18 @@ class DoctorController extends Controller
 		$this->data['title'] = 'Doctor List';
 
 		$doctorTypeController 			= new DoctorTypeController;
-		$this->data['doctorTypes'] 		= $doctorTypeController->getList()->content();
+		$this->data['doctorType'] 		= $doctorTypeController->getList('all')->content();
 
 		$branchController 				= new BranchController;
-		$this->data['branches'] 		= $branchController->getList()->content();
+		$this->data['branches'] 		= $branchController->getList('all')->content();
 		
 		$countryController 				= new CountryController;
-		$this->data['countries'] 		= $countryController->getList()->content();
+		$this->data['countries'] 		= $countryController->getList('all')->content();
 
 		$cityController					= new cityController;
 		$this->data['cities']			= $cityController->getList('all')->content();
 
-		return view('pages.doctor',$this->data);
+		return view('pages.doctors.list',$this->data);
 	}
 
 	/**

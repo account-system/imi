@@ -35,7 +35,7 @@
       $(document).ready(function () {
 
         /*doctor type data source*/
-      var doctorTypeDataSource  =   <?php echo json_encode($doctorTypes) ?>;
+      var doctorTypeDataSource  =   <?php echo json_encode($doctorType) ?>;
       doctorTypeDataSource      =   JSON.parse(doctorTypeDataSource);
 
       /*Branch data source*/
@@ -89,60 +89,71 @@
               editable: false,
               nullable: true 
             },
+            first_name: {
+
+                type: "string",
+            },
+            last_name: {
+
+                type: "string",
+            },
+            job_title: {
+
+                type: "string",
+            },
+            gender: { 
+
+              type: "string",
+            },  
+            date_of_birth: {
+
+                type: "date",
+                defaultValue: null
+            },
             doctor_type_id: { 
-              field: "doctor_type_id", 
+
               type: "number"
             },
             branch_id: { 
-              field: "branch_id", 
+
               type: "number",
-              defaultValue: 0
-            },
-            first_name: {
-                
-            },
-            last_name: {
-                
-            },
-            job_title: {
-                
-            },
-            gender: { 
-              field: "gender", 
-              type: "string",
-              defaultValue: "Male" 
-            },  
-            date_of_birth: {
-                type: "date",
-                format: "yyyy-mm-dd"
+    
             },
             phone: {
-                  
+
+                type: "string",  
             },
             email: {
+                type: "string",
 
             },
             country_id: {
-              field: "country_id", 
+      
               type: "number",
-              defaultValue: 0
+              nullable: true
+
             },   
             city_id: {
-              field: "city_id", 
+  
               type: "number",
-              defaultValue: 0      
+              nullable: true      
+
             },
             region: {
-              
+              type: "string",
+              nullable: true
             }, 
             postal_code: {
-              
+              type: "string",
+              nullable: true
             },
             address: {
-              
+              type: "string",
+              nullable: true
             },  
             detail: {
-
+              type: "string",
+              nullable: true
             }, 
             status: { 
               field: "status", 
@@ -309,14 +320,14 @@
  });
 /*Initailize all dropdownlist*/  
 function initDropDownLists(){
-  $("#doctorTypes").kendoDropDownList({
+  $("#doctorType").kendoDropDownList({
     optionLabel: "Select Doctor Type...",
     dataValueField: "value",
     dataTextField: "text",
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/doctor-type/list/filter",
+          url: crudBaseUrl+"/doctor/type/list/filter",
           type: "GET",
           dataType: "json"
         }
@@ -347,86 +358,89 @@ function initDropDownLists(){
 
 <!-- Customize popup editor customer list --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
+<div class="col-12">
+    <div class="col-6">
+      <div class="col-12">
+        <label for="first_name">First Name</label>
+        <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" required data-required-msg="The first name field is required" pattern=".{1,60}" validationMessage="The first name may not be greater than 60 characters" style="width: 100%;"/>
+      </div>
 
-  <div class="col-6">
-    <label for="first_name">First Name</label>
-    <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" required data-required-msg="The field first name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
-  </div>
+      <div class="col-12">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" required data-required-msg="The last name field is required" pattern=".{1,60}" validationMessage="The last name may not be greater than 60 characters" style="width: 100%;"/>
+      </div>
 
-  <div class="col-6">
-    <label for="last_name">Last Name</label>
-    <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" required data-required-msg="The field last name is required" required data-max-msg="Enter value max 60 string" style="width: 100%;"/>
-  </div>
+      <div class="col-12">
+        <label for="job_title">Job Title</label>
+        <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" required data-required-msg="The job title field is required" pattern=".{1,60}" validationMessage="The job title may not be greater than 60 characters" style="width: 100%;"/>
+      </div>
+      <div class="col-12">
+          <label for="gender">Gender</label>
+          <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
+      </div>
+      
+      <div class="col-12">
+        <label for="date_of_birth">Date Of Birth</label>
+        <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" required data-required-msg="The date of birth field is required" style="width: 100%;"/>
+      </div>
 
-  <div class="col-12">
-    <label for="job_title">Job Title</label>
-    <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" required data-required-msg="The field Job title is required" style="width: 100%;"/>
-  </div>
- <div class="col-6">
-      <label for="gender">Gender</label>
-      <input id="gender" data-bind="value:gender"  style="width: 100%;" />
-  </div>
-  
-  <div class="col-6">
-    <label for="date_of_birth">Date Of Birth</label>
-    <input id="dob" class="k-textbox" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
-  </div>
+      <div class="col-12">
+          <label for="doctor_type_id">Type</label>
+          <input id="doctorType" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+      </div> 
+      
+      <div class="col-12">
+          <label for="branch_id">Branch</label>
+          <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
+      </div>
 
-  <div class="col-6">
-      <label for="doctor_type_id">Doctor Type</label>
-      <input id="doctorTypes" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The field doctor type is required" style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-      <label for="branch_id">Branch</label>
-      <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The field branch is required" style="width: 100%;" />
-  </div>
+      <div class="col-12">
+        <label for="phone">Phone</label>
+        <input type="string" class="k-textbox" name="phone" data-bind="value:phone" placeholder="Enter Phone Number"  required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
+      </div>
 
-  <div class="col-6">
-    <label for="phone">Phone</label>
-    <input type="number" class="k-textbox" name="Phone" placeholder="Enter Phone Number" data-bind="value:phone" required data-required-msg="The field phone is required" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="email">Email</label>
-    <input type="email" class="k-textbox" name="Email" placeholder="Enter email address" data-bind="value:email" style="width: 100%;"/>
-  </div>  
-  
-  <div class="col-6">
-      <label for="country_id">Country</label>
-      <input id="country" data-bind="value:country_id"  style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-      <label for="city_id">Province/City</label>
-      <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
-  </div> 
-  
-  <div class="col-6">
-    <label for="region">Region</label>
-    <input type="text" class="k-textbox" name="Region" placeholder="Enter region" data-bind="value:region" style="width: 100%;"/>
-  </div>
-  
-  <div class="col-6">
-    <label for="postal_code">Postal Code</label>
-    <input type="text" class="k-textbox" name="Postal code" placeholder="Enter Postal Code" data-bind="value:city" style="width: 100%;"/>
-  </div>
+      <div class="col-12">
+        <label for="email">Email</label>
+        <input type="email" class="k-textbox" name="Email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
+      </div>  
+    </div>
+    <div class="col-6">
+      <div class="col-12">
+          <label for="country_id">Country</label>
+          <input id="country" data-bind="value:country_id"  style="width: 100%;" />
+      </div> 
+      
+      <div class="col-12">
+          <label for="city_id">Province/City</label>
+          <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
+      </div> 
+      
+      <div class="col-12">
+          <label for="region">Region</label>
+          <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+        </div>
+        
+        <div class="col-12">
+          <label for="postal_code">Postal Code</label>
+          <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
+        </div>
+        
+        <div class="col-12">
+          <label for="address">Address</label>
+          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+        </div>
+        
+        <div class="col-12">
+          <label for="detail">Detail</label>
+          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+        </div>
 
-  <div class="col-12">
-    <label for="address">Address</label>
-    <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" style="width: 100%;"/></textarea> 
-  </div>
-  
-  <div class="col-12">
-    <label for="detail">Detail</label>
-    <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" style="width: 100%;"/></textarea> 
-  </div>
-
-  <div class="col-6">
-      <label for="status">Status</label>
-      <input id="status" data-bind="value:status"  style="width: 100%;" />
-  </div>
-
+      <div class="col-12">
+          <label for="status">Status</label>
+          <input id="status" data-bind="value:status"  style="width: 100%;" />
+      </div>
+    </div>
+</div>
 </script>  
 
 @endsection()

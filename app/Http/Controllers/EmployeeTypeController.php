@@ -41,7 +41,7 @@ class EmployeeTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Employee Type';
-        return view('pages.employee-types',$this->data);
+        return view('pages.employees.type',$this->data);
     }
 
     /**
