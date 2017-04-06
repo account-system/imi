@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\BranchController;
-use App\Http\Controllers\CountryController;
-
-use App\MasterType;
 use App\Product;
 
 class ProductController extends Controller
@@ -39,19 +34,13 @@ class ProductController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title'] 			= 	'supplier List';
+		$this->data['title'] 			= 	'Product List';
 
 		$productTypesController 		= 	new ProductTypeController;
 		$this->data['productTypes'] 	= 	$productTypesController->getList('all')->content();
 
 		$branchController 				= 	new BranchController;
 		$this->data['branches'] 		= 	$branchController->getList('all')->content();
-		
-		$countryController 				= 	new CountryController;
-		$this->data['countries'] 		= 	$countryController->getList('all')->content();
-
-		$cityController					=	new cityController;
-		$this->data['cities']			=	$cityController->getList('all')->content();
 
 		return view('pages.products.list',$this->data);
 	}
@@ -77,7 +66,7 @@ class ProductController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$productsRequest = json_decode($request->input('models'));
+		$productsRequest = json_decode($request->input('products'));
 
 		foreach ($productsRequest as $key => $productRequest) {
 			try {
@@ -86,7 +75,7 @@ class ProductController extends Controller
 
 				$productObject->code 		  		=   $productRequest->code;
 				$productObject->name 		  		=   $productRequest->name;
-				$productObject->product_type_id		=   $productRequest->product_type_id;
+				$productObject->product_type_id		=   $productRequest->category_id;
 				$productObject->unit_price        	=   $productRequest->unit_price;
 				$productObject->unit_sale_price     =   $productRequest->unit_sale_price;
 				$productObject->quantity           	=   $productRequest->quantity;
@@ -118,7 +107,7 @@ class ProductController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$productsRequest = json_decode($request->input('models'));
+		$productsRequest = json_decode($request->input('products'));
 
 		foreach ($productsRequest as $key => $productRequest) {
 			try {
@@ -127,7 +116,7 @@ class ProductController extends Controller
 
 				$productObject->code 		  		=   $productRequest->code;
 				$productObject->name 		  		=   $productRequest->name;
-				$productObject->product_type_id		=   $productRequest->product_type_id;
+				$productObject->product_type_id		=   $productRequest->category_id;
 				$productObject->unit_price        	=   $productRequest->unit_price;
 				$productObject->unit_sale_price     =   $productRequest->unit_sale_price;
 				$productObject->quantity           	=   $productRequest->quantity;
@@ -158,7 +147,7 @@ class ProductController extends Controller
 	 */
 	public function destroy(Request $request)
 	{
-		$productsRequest = json_decode($request->input('models'));
+		$productsRequest = json_decode($request->input('products'));
 
 		foreach ($productsRequest as $key => $productRequest) {
 			try {

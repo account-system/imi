@@ -16,7 +16,7 @@ class CreateAccountTypesTable extends Migration
         Schema::create('account_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',60);
-            $table->enum('type',['Assets','Equity','Expenses','Liabilities','Revenue']);
+            $table->enum('type',['Assets','Equity','Expenses','Liabilities','Revenue','Bank']);
             $table->integer('min_code')->default(null);
             $table->integer('max_code')->default(null);
             $table->enum('status',['Enabled','Disbled'])->default('Enabled');

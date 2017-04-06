@@ -39,7 +39,7 @@ class SupplierController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title'] 		= 	'supplier List';
+		$this->data['title'] 		= 	'Supplier List';
 
 		$supplierTypeController 		= 	new supplierTypeController;
 		$this->data['supplierType'] 	= 	$supplierTypeController->getList('all')->content();

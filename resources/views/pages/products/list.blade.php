@@ -11,6 +11,7 @@
     <h1>Product List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
+      <li class="active">Product</li>
       <li class="active">Product List</li>
     </ol>
   </section>
@@ -66,7 +67,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { models: kendo.stringify(options.models) };
+              return { products: kendo.stringify(options.models) };
             }
           }
         },
@@ -77,13 +78,13 @@
             id: "id",
             fields: {
               id: { editable: false, nullable: true },
-              code: { type: "string" },
+              code: { type: "string", nullable: true },
               name: { type: "string" },
-              product_type_id: { type: "number" },
-              unit_price: { type: "string" },
-              unit_sale_price: { type: "string" },
-              quantity: { type: "string" },
-              quantity_per_unit: { type: "string" },
+              category_id: { type: "number" },
+              unit_price: { type: "number" },
+              unit_sale_price: { type: "number" },
+              quantity: { type: "number" },
+              quantity_per_unit: { type: "string", nullable: true },
               discontinue: { type: "number" ,defaultValue: 0},      
               description: { type: "string", nullable: true },  
               branch_id: { type: "number" }, 
@@ -107,11 +108,11 @@
         columns: [
           { field: "code", title: "Code" },
           { field: "name",title: "Name" },
-          { field: "product_type_id", title: "Type", values: productTypesDataSource, },
+          { field: "category_id", title: "Category", values: productTypesDataSource, },
           { field: "unit_price",title: "Unit Price" ,format: "{0:c}" },
-          { field: "unit_sale_price",title: "Unit Sale Price",format: "{0:c}" ,hidden: true },
-          { field: "quantity",title: "Quantity" ,hidden: true },
-          { field: "quantity_per_unit",title: "Quantity Per Unit" ,hidden: true },
+          { field: "unit_sale_price",title: "Unit Sale Price",format: "{0:c}" },
+          { field: "quantity",title: "Quantity" },
+          { field: "quantity_per_unit",title: "Quantity Per Unit" },
           { field: "discontinue",title: "Discontinue", values: discontinueDataSource ,hidden: true },
           { field: "description",title: "Description" ,hidden: true },
           { field: "branch_id",title: "Branch", values: branchDataSource ,hidden: true },
@@ -142,7 +143,7 @@
           filters: [
             { field: "code", operator: "contains", value: q },
             { field: "name", operator: "contains", value: q },
-            { field: "product_type_id", operator: "eq", value: q },
+            { field: "category_id", operator: "eq", value: q },
             { field: "unit_price", operator: "contains", value: q },
             { field: "unit_sale_price", operator: "contains", value: q }, 
             { field: "quantity", operator: "contains", value: q },
@@ -158,18 +159,15 @@
 
     /*Initialize all dropdownlist*/  
     function initDropDownLists(){
-      /*Initialize gender dropdownlist*/
-      initGenderDropDownList();
-
-      /*Initialize product type dropdownlist*/
-      $("#productTypes").kendoDropDownList({
-        optionLabel: "Select type...",
+      /*Initialize category dropdownlist*/
+      $("#category").kendoDropDownList({
+        optionLabel: "Select category...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl+"/product/type/list/filter",
+              url: crudBaseUrl+"/product/category/list/filter",
               type: "GET",
               dataType: "json"
             }
@@ -177,21 +175,14 @@
         }
       });
 
-      /*Initialize branch dropdownlist*/
-      initBranchDropDownList();
-
-      /*Initialize country dropdownlist*/
-      initCountryDropDownList();
-
-      /*Initialize city dropdownlist*/
-      initCityDropDownList();
-
-      /*Initialize status dropdownlist*/
-      initStatusDropDownList();
-
       /*Initialize discontinue dropdownlist*/ 
       initDiscontinueDropDownList();
 
+      /*Initialize branch dropdownlist*/
+      initBranchDropDownList();
+
+      /*Initialize status dropdownlist*/
+      initStatusDropDownList();
     }
   </script>
 
@@ -210,8 +201,8 @@
         </div>
 
         <div class="col-12">
-          <label for="product_type_id">Type</label>
-          <input id="productTypes" name="product_type_id" data-bind="value:product_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+          <label for="category_id">Category</label>
+          <input id="category" name="category_id" data-bind="value:category_id" required data-required-msg="The category field is required" style="width: 100%;" />
         </div> 
         
         <div class="col-12">
@@ -232,7 +223,7 @@
       <div class="col-6">
         <div class="col-12">
           <label for="quantity_per_unit">Quantity Per Unit</label>
-          <input type="string" class="k-textbox" name="quantity_per_unit" data-bind="value:quantity_per_unit" placeholder="Enter quantity per unit" pattern=".{1,10}" placeholder="Enter quantity per unit" validationMessage="quantity per unit format is not valid" style="width: 100%;"/>
+          <input type="string" class="k-textbox" name="quantity_per_unit" data-bind="value:quantity_per_unit" placeholder="Enter quantity per unit" pattern=".{0,60}" placeholder="Enter quantity per unit" validationMessage="quantity per unit format is not valid" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
@@ -242,7 +233,7 @@
 
         <div class="col-12">
           <label for="description">Description</label>
-          <textarea class="k-textbox" name="description" placeholder="Enter description" data-bind="value:description" pattern=".{0,200}" validationMessage="The description may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="description" placeholder="Enter description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
         </div>
         
         <div class="col-12">

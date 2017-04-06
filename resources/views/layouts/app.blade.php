@@ -322,7 +322,7 @@
         </div>
         <div class="col-1-12">
           <label for="description">Description</label>
-          <textarea class="k-textbox" name="Description" placeholder="Enter description" data-bind="value:description" style="width: 100%; height: 97px"/></textarea> 
+          <textarea class="k-textbox" name="Description" placeholder="Enter description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px"/></textarea> 
         </div>
         <div class="col-1-6">
           <label for="status">Status</label>

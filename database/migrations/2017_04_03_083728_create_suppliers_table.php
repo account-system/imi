@@ -18,8 +18,8 @@ class CreateSuppliersTable extends Migration
             $table->string('company_name',60);
             $table->string('contact_name',60);
             $table->string('contact_title',60);
-            $table->enum('gender',['Male','Female']);
             $table->integer('supplier_type_id')->unsigned();
+            $table->enum('gender',['Male','Female']);
             $table->string('phone',30);
             $table->string('email',60)->nullable()->default(null);
             $table->integer('country_id')->unsigned()->nullable()->default(null);

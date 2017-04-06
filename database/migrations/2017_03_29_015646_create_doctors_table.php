@@ -15,16 +15,16 @@ class CreateDoctorsTable extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('first_name',60)->nullable();
-            $table->string('last_name',60)->nullable();
-            $table->string('job_title',60)->nullable()->default(null);
-            $table->string('gender',10)->nullable()->default(null);
-            $table->date('date_of_birth')->nullable()->default(null);
+            $table->string('first_name',30);
+            $table->string('last_name',30);
+            $table->string('job_title',60);
             $table->integer('doctor_type_id')->unsigned();
-            $table->string('phone',30)->nullable()->default(null);
+            $table->enum('gender',['Male','Female']);
+            $table->date('date_of_birth');
+            $table->string('phone',30);
             $table->string('email',60)->nullable()->default(null);
-            $table->string('country_id',10)->nullable()->default(null);
-            $table->string('city_id',10)->nullable()->default(null);
+            $table->integer('country_id')->unsigned()->nullable()->default(null);
+            $table->integer('city_id')->unsigned()->nullable()->default(null);
             $table->string('region',30)->nullable()->default(null);
             $table->string('postal_code',30)->nullable()->default(null);
             $table->string('address',200)->nullable()->default(null);
