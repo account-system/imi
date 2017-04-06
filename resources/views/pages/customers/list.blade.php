@@ -75,7 +75,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { products: kendo.stringify(options.models) };
+              return { models: kendo.stringify(options.models) };
             }
           }
       },
@@ -102,6 +102,11 @@
             customer_type_id: { 
               field: "customer_type_id", 
               type: "number"
+            },
+            branch_id: { 
+              field: "branch_id", 
+              type: "number",
+              defaultValue: 0
             },
             phone: {
 
@@ -153,11 +158,6 @@
               type: "string",
               nullable: true,
 
-            },
-            branch_id: { 
-              field: "branch_id", 
-              type: "number",
-              defaultValue: 0
             }, 
             status: { 
               field: "status", 
@@ -186,7 +186,7 @@
     },
     height: 550,
     toolbar: [
-      { name: "create" ,text: "Add New Cusotmer" },
+      { name: "create" },
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
@@ -194,6 +194,7 @@
       { field: "gender", title: "Gender", values: genderDataSource },
       { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true },
       { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
+      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "phone",title: "Phone" ,hidden: true },
       { field: "email",title: "Email" ,hidden: true },
       { field: "relative_contact",title: "Relative Contact" ,hidden: true },
@@ -204,7 +205,6 @@
       { field: "postal_code",title: "Postal Code" ,hidden: true },
       { field: "address",title: "Address",hidden: true },
       { field: "detail",title: "Detail" ,hidden: true },
-      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "status", title: "Status", values: statusDataSource ,hidden: true },
       { command: ["edit", "destroy"], title: "Action" ,menu: false }
     ],
@@ -245,17 +245,22 @@
         },
         {
           field   : "gender",
-          operator: "eq",
+          operator: "contains",
           value   : q
         },
         {
           field   : "date_of_birth",
-          operator: "eq",
+          operator: "contains",
           value   : q
         },
         {
           field   : "customer_type_id",
-          operator: "eq",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "branch_id",
+          operator: "contains",
           value   : q
         },
         {
@@ -305,11 +310,6 @@
         },
         {
           field   : "detail",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "branch_id",
           operator: "contains",
           value   : q
         },
@@ -384,6 +384,11 @@ function initDropDownLists(){
         <label for="customer_type_id">Type</label>
         <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
     </div> 
+    
+    <div class="col-12">
+        <label for="branch_id">Branch</label>
+        <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
+    </div>
 
     <div class="col-12">
       <label for="phone">Phone</label>
@@ -405,12 +410,13 @@ function initDropDownLists(){
       <input type="string" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" attern="^[0-9\ \]{9,13}$" validationMessage="Phone relative format is not valid" style="width: 100%;"/>
     </div> 
 
+    </div>
+  <div class="col-6">
     <div class="col-12">
         <label for="country_id">Country</label>
         <input id="country" data-bind="value:country_id"  style="width: 100%;" />
-    </div>
-  </div>
-  <div class="col-6">    
+    </div> 
+    
     <div class="col-12">
         <label for="city_id">Province/City</label>
         <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
@@ -434,11 +440,6 @@ function initDropDownLists(){
     <div class="col-12">
       <label for="detail">Detail</label>
       <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
-    </div>
-    
-    <div class="col-12">
-        <label for="branch_id">Branch</label>
-        <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
     </div>
 
     <div class="col-12">

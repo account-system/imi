@@ -26,7 +26,7 @@ class MasterTypesTableSeeder extends Seeder
 	            'name' => 'supplier_types',
         	),
         	array(
-	            'name' => 'products',
+	            'name' => 'categories',
         	),
         	array(
 	            'name' => 'branches',

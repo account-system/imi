@@ -15,16 +15,16 @@ class CreateCustomersTable extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('customer_name',60)->nullable();
-            $table->enum('gender',['Male','Female'])->default('Male');
-            $table->date('date_of_birth')->nullable()->default(null);
+            $table->string('customer_name',60);
             $table->integer('customer_type_id')->unsigned();
+            $table->enum('gender',['Male','Female']);
+            $table->date('date_of_birth')->nullable()->default(null);
             $table->string('phone',30)->nullable()->default(null);
             $table->string('email',60)->nullable()->default(null);
             $table->string('relative_contact',60)->nullable()->default(null);
             $table->string('relative_phone',30)->nullable()->default(null);
-            $table->string('country_id',10)->nullable()->default(null);
-            $table->string('city_id',10)->nullable()->default(null);
+            $table->integer('country_id')->unsigned()->nullable()->default(null);
+            $table->integer('city_id')->unsigned()->nullable()->default(null);
             $table->string('region',30)->nullable()->default(null);
             $table->string('postal_code',30)->nullable()->default(null);
             $table->string('address',200)->nullable()->default(null);

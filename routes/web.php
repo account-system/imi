@@ -111,7 +111,7 @@ Route::group(['prefix' => '/product'], function () {
     Route::post('/destroy', 'ProductController@destroy');
 
     //Route product type
-    Route::group(['prefix' => '/type'], function () {
+    Route::group(['prefix' => '/category'], function () {
     Route::get('/', 'ProductTypeController@view');
     Route::get('/get', 'ProductTypeController@get');
     Route::get('/list/{option}', 'ProductTypeController@getList');
