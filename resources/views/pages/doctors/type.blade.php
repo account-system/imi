@@ -147,7 +147,7 @@
               buttonCount: 5
             },
             height: 550,
-            toolbar: [{name: "create"},{template: kendo.template($("#textbox-multi-search").html())}],
+            toolbar: [{name: "create",text: "Add New Doctor Type"},{template: kendo.template($("#textbox-multi-search").html())}],
             columns: [
                 { field:"name", title: " Name" },
                 { field: "description", title: " Description"},

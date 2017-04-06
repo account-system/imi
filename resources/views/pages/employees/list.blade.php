@@ -214,7 +214,7 @@
     },
     height: 550,
     toolbar: [
-      { name: "create" },
+      { name: "create" ,text: "Add New Employee "},
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
