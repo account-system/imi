@@ -53,7 +53,7 @@ class ProductTypeController extends Controller
      */
     public function get()
     {
-        $productTypes = MasterType::find($this->productTypeTable)->productRecords()->get()->sortByDesc('created_at')->values()->all();
+        $productTypes = MasterType::find($this->productTypeTable)->productRecords()->get()->sortByDesc('id')->values()->all();
         return Response()->Json($productTypes);
     }
     /**

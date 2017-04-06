@@ -51,7 +51,7 @@ class EmployeeTypeController extends Controller
      */
     public function get()
     {
-        $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords()->get()->sortByDesc('created_at')->values()->all();
+        $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords()->get()->sortByDesc('id')->values()->all();
         return Response()->Json($employeeType);
     }
     /**

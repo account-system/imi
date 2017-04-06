@@ -62,7 +62,7 @@ class DoctorController extends Controller
 	 */
 	public function get()
 	{
-		$doctor = Doctor::all()->sortByDesc('created_at')->values()->all();
+		$doctor = Doctor::all()->sortByDesc('id')->values()->all();
 
 		return Response()->Json($doctor);
 	}

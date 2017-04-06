@@ -63,7 +63,7 @@ class ProductController extends Controller
 	 */
 	public function get()
 	{
-		$products = Product::all()->sortByDesc('created_at')->values()->all();
+		$products = Product::all()->sortByDesc('id')->values()->all();
 
 		return Response()->Json($products);
 	}

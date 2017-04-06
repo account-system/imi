@@ -59,7 +59,7 @@ class SupplierTypeController extends Controller
      */
     public function get()
     {
-        $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->get()->sortByDesc('created_at')->values()->all();
+        $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->get()->sortByDesc('id')->values()->all();
         
         return Response()->Json($supplierTypes);
     }

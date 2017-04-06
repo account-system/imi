@@ -63,7 +63,7 @@ class EmployeeController extends Controller
 	 */
 	public function get()
 	{
-		$employees = Employee::all()->sortByDesc('created_at')->values()->all();
+		$employees = Employee::all()->sortByDesc('id')->values()->all();
 
 		return Response()->Json($employees);
 	}
