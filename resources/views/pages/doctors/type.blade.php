@@ -24,6 +24,7 @@
       <h1>Doctor Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
+        <li class="active">Doctors</li>
         <li class="active">Doctor Type</li>
       </ol>
     </section>
@@ -71,7 +72,7 @@
                     },
                     parameterMap: function(options, operation) {
                         if (operation !== "read" && options.models) {
-                            return {models: kendo.stringify(options.models)};
+                            return {doctors: kendo.stringify(options.models)};
                         }
                     }
                 },

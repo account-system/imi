@@ -11,6 +11,7 @@
       <h1>Customer Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
+        <li class="active">Customers</li>
         <li class="active">Customer Type</li>
       </ol>
     </section>
@@ -56,7 +57,7 @@
                   },
                   parameterMap: function(options, operation) {
                       if (operation !== "read" && options.models) {
-                          return {models: kendo.stringify(options.models)};
+                          return {customers: kendo.stringify(options.models)};
                       }
                   }
               },

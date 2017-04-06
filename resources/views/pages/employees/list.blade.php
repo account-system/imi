@@ -75,7 +75,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { models: kendo.stringify(options.models) };
+              return { employees: kendo.stringify(options.models) };
             }
           }
       },

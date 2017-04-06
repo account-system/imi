@@ -79,7 +79,7 @@ class EmployeeTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $employeetypesRequest = json_decode($request->input('models'));
+        $employeetypesRequest = json_decode($request->input('employees'));
   
         foreach ($employeetypesRequest as $key => $employeetypeRequest) {
             try {
@@ -112,7 +112,7 @@ class EmployeeTypeController extends Controller
      */
     public function update(Request $request)
     {
-        $employeetypesRequest = json_decode($request->input('models'));
+        $employeetypesRequest = json_decode($request->input('employees'));
   
         foreach ($employeetypesRequest as $key => $employeetypeRequest) {
             try {
@@ -142,7 +142,7 @@ class EmployeeTypeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $employeetypesRequest = json_decode($request->input('models'));
+        $employeetypesRequest = json_decode($request->input('employees'));
   
         foreach ($employeetypesRequest as $key => $employeetypeRequest) {
             try {

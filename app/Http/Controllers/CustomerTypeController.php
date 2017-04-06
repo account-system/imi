@@ -76,7 +76,7 @@ class CustomerTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $customertypesRequest = json_decode($request->input('models'));
+        $customertypesRequest = json_decode($request->input('customers'));
   
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
@@ -109,7 +109,7 @@ class CustomerTypeController extends Controller
      */
     public function update(Request $request)
     {
-        $customertypesRequest = json_decode($request->input('models'));
+        $customertypesRequest = json_decode($request->input('customers'));
   
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {
@@ -140,7 +140,7 @@ class CustomerTypeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $customertypesRequest = json_decode($request->input('models'));
+        $customertypesRequest = json_decode($request->input('customers'));
   
         foreach ($customertypesRequest as $key => $customertypeRequest) {
             try {

@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EmployeeTypeController;
 use App\MasterType;
 use Carbon\Carbon;
+use App\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 
 class EmployeeController extends Controller
@@ -77,7 +76,7 @@ class EmployeeController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$employeesRequest = json_decode($request->input('models'));
+		$employeesRequest = json_decode($request->input('employees'));
 
 		foreach ($employeesRequest as $key => $employeeRequest) {
 			try {
@@ -130,7 +129,7 @@ class EmployeeController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$employeesRequest = json_decode($request->input('models'));
+		$employeesRequest = json_decode($request->input('employees'));
 
 		foreach ($employeesRequest as $key => $employeeRequest) {
 			try {
@@ -182,7 +181,7 @@ class EmployeeController extends Controller
 	 */
 	public function destroy(Request $request)
 	{
-		$employeesRequest = json_decode($request->input('models'));
+		$employeesRequest = json_decode($request->input('employees'));
 
 		foreach ($employeesRequest as $key => $employeeRequest) {
 			try {

@@ -74,7 +74,7 @@ class CustomerController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$customersRequest = json_decode($request->input('models'));
+		$customersRequest = json_decode($request->input('customers'));
 
 		foreach ($customersRequest as $key => $customerRequest) {
 			try {
@@ -120,7 +120,7 @@ class CustomerController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$customersRequest = json_decode($request->input('models'));
+		$customersRequest = json_decode($request->input('customers'));
 
 		foreach ($customersRequest as $key => $customerRequest) {
 			try {
@@ -165,7 +165,7 @@ class CustomerController extends Controller
 	 */
 	public function destroy(Request $request)
 	{
-		$customersRequest = json_decode($request->input('models'));
+		$customersRequest = json_decode($request->input('customers'));
 
 		foreach ($customersRequest as $key => $customerRequest) {
 			try {
