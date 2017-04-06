@@ -11,6 +11,7 @@
     <h1>Supplier List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
+      <li class="active">Supplier</li>
       <li class="active">Supplier List</li>
     </ol>
   </section>
@@ -87,9 +88,8 @@
               company_name: { type: "string" },
               contact_name: { type: "string" },
               contact_title: { type: "string" },
-              gender: { type: "string" },
               supplier_type_id: { type: "number" },
-              branch_id: { type: "number" },
+              gender: { type: "string" }, 
               phone: { type: "string" },
               email: { type: "string", nullable: true },      
               country_id: { type: "number", nullable: true },   
@@ -97,7 +97,8 @@
               region: { type: "string", nullable: true },
               postal_code: { type: "string", nullable: true },
               address: { type: "string", nullable: true },
-              detail: { type: "string", nullable: true },   
+              detail: { type: "string", nullable: true },
+              branch_id: { type: "number" },   
               status: { type: "string", defaultValue: "Enabled" }                
             }
           }
@@ -114,22 +115,22 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ { name: "create", text: "Add New Supplier"}, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
           { field: "company_name", title: "Company Name" },
           { field: "contact_name", title: "Contact Name" },
           { field: "contact_title",title: "Contact Title"  },
+          { field: "supplier_type_id", title: "Type", values: supplierTypeDataSource },
           { field: "gender",title: "Gender", values: genderDataSource  },
-          { field: "supplier_type_id", title: "Type", values: supplierTypeDataSource, hidden: true },
-          { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
-          { field: "phone",title: "Phone", hidden: true },
-          { field: "email",title: "Email", hidden: true },
+          { field: "phone",title: "Phone" },
+          { field: "email",title: "Email" },
           { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
           { field: "city_id",title: "Province/City", values: cityDataSource ,hidden: true },
           { field: "region",title: "Region" ,hidden: true },
           { field: "postal_code",title: "Postal Code" ,hidden: true },
           { field: "address",title: "Address" ,hidden: true },
           { field: "detail",title: "Detail" ,hidden: true },
+          { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
           { field: "status", title: "Status", values: statusDataSource ,hidden: true },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
@@ -158,8 +159,8 @@
             { field: "company_name", operator: "contains", value: q },
             { field: "contact_name", operator: "contains", value: q },
             { field: "contact_title", operator: "contains", value: q },
-            { field: "gender", operator: "eq", value: q },
             { field: "supplier_type_id", operator: "eq", value: q },
+            { field: "gender", operator: "eq", value: q },
             { field: "phone", operator: "contains", value: q },
             { field: "email", operator: "contains", value: q }, 
             { field: "country_id", operator: "eq", value: q },
@@ -168,6 +169,7 @@
             { field: "postal_code", operator: "contains", value: q },
             { field: "address", operator: "contains", value: q },
             { field: "detail", operator: "contains", value: q },
+            { field: "branch_id", operator: "eq", value: q },
             { field: "status", operator: "eq", value: q }
           ]
         });
@@ -229,18 +231,13 @@
         </div>
 
         <div class="col-12">
-          <label for="gender">Gender</label>
-          <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
-        </div>
-
-        <div class="col-12">
           <label for="supplier_type_id">Type</label>
           <input id="supplierType" name="supplier_type_id" data-bind="value:supplier_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
         </div> 
-        
+
         <div class="col-12">
-          <label for="branch_id">Branch</label>
-          <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
+          <label for="gender">Gender</label>
+          <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
         </div>
 
         <div class="col-12">
@@ -251,10 +248,9 @@
         <div class="col-12">
           <label for="email">Email</label>
           <input type="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
-        </div>  
-      </div>
-      <div class="row-6">
-        <div class="col-12">
+        </div> 
+
+         <div class="col-12">
           <label for="country_id">Country</label>
           <input id="country" name="country_id" data-bind="value:country_id" style="width: 100%;" />
         </div> 
@@ -262,7 +258,9 @@
         <div class="col-12">
           <label for="city_id">Province/City</label>
           <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
-        </div> 
+        </div>  
+      </div>
+      <div class="row-6">
         
         <div class="col-12">
           <label for="region">Region</label>
@@ -276,12 +274,17 @@
         
         <div class="col-12">
           <label for="address">Address</label>
-          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
         </div>
         
         <div class="col-12">
           <label for="detail">Detail</label>
-          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+        </div>
+
+        <div class="col-12">
+          <label for="branch_id">Branch</label>
+          <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
         </div>
 
         <div class="col-12">
