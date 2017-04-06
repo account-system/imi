@@ -62,7 +62,7 @@ class DoctorController extends Controller
 	 */
 	public function get()
 	{
-		$doctor = Doctor::all()->sortByDesc('created_at')->values()->all();
+		$doctor = Doctor::all()->sortByDesc('id')->values()->all();
 
 		return Response()->Json($doctor);
 	}
@@ -76,7 +76,7 @@ class DoctorController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$doctorsRequest = json_decode($request->input('models'));
+		$doctorsRequest = json_decode($request->input('doctors'));
 
 		foreach ($doctorsRequest as $key => $doctorRequest) {
 			try {
@@ -122,7 +122,7 @@ class DoctorController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$doctorsRequest = json_decode($request->input('models'));
+		$doctorsRequest = json_decode($request->input('doctors'));
 
 		foreach ($doctorsRequest as $key => $doctorRequest) {
 			try {
@@ -167,7 +167,7 @@ class DoctorController extends Controller
 	 */
 	public function destroy(Request $request)
 	{
-		$doctorsRequest = json_decode($request->input('models'));
+		$doctorsRequest = json_decode($request->input('doctors'));
 
 		foreach ($doctorsRequest as $key => $doctorRequest) {
 			try {

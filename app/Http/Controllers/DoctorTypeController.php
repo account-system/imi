@@ -55,7 +55,7 @@ class DoctorTypeController extends Controller
      */
     public function get()
     {
-        $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords()->get()->sortByDesc('created_at')->values()->all();
+        $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords()->get()->sortByDesc('id')->values()->all();
         return Response()->Json($doctorType);
     }
     /**
@@ -81,7 +81,7 @@ class DoctorTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $doctortypesRequest = json_decode($request->input('models'));
+        $doctortypesRequest = json_decode($request->input('doctors'));
   
         foreach ($doctortypesRequest as $key => $doctortypeRequest) {
             try {
@@ -114,7 +114,7 @@ class DoctorTypeController extends Controller
      */
     public function update(Request $request)
     {
-        $doctortypesRequest = json_decode($request->input('models'));
+        $doctortypesRequest = json_decode($request->input('doctors'));
   
         foreach ($doctortypesRequest as $key => $doctortypeRequest) {
             try {
@@ -144,7 +144,7 @@ class DoctorTypeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $doctortypesRequest = json_decode($request->input('models'));
+        $doctortypesRequest = json_decode($request->input('doctors'));
   
         foreach ($doctortypesRequest as $key => $doctortypeRequest) {
             try {

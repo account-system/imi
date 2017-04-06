@@ -11,6 +11,7 @@
     <h1>Customer List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
+      <li class="active">Customers</li>
       <li class="active">Customer List</li>
     </ol>
   </section>
@@ -75,7 +76,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { models: kendo.stringify(options.models) };
+              return { customers: kendo.stringify(options.models) };
             }
           }
       },
@@ -102,11 +103,6 @@
             customer_type_id: { 
               field: "customer_type_id", 
               type: "number"
-            },
-            branch_id: { 
-              field: "branch_id", 
-              type: "number",
-              defaultValue: 0
             },
             phone: {
 
@@ -159,6 +155,11 @@
               nullable: true,
 
             }, 
+             branch_id: { 
+              field: "branch_id", 
+              type: "number",
+              defaultValue: 0
+            },
             status: { 
               field: "status", 
               type: "string",
@@ -194,7 +195,6 @@
       { field: "gender", title: "Gender", values: genderDataSource },
       { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true },
       { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
-      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "phone",title: "Phone" ,hidden: true },
       { field: "email",title: "Email" ,hidden: true },
       { field: "relative_contact",title: "Relative Contact" ,hidden: true },
@@ -205,6 +205,7 @@
       { field: "postal_code",title: "Postal Code" ,hidden: true },
       { field: "address",title: "Address",hidden: true },
       { field: "detail",title: "Detail" ,hidden: true },
+      { field: "branch_id", title: "Branch", values: branchDataSource },
       { field: "status", title: "Status", values: statusDataSource ,hidden: true },
       { command: ["edit", "destroy"], title: "Action" ,menu: false }
     ],
@@ -259,11 +260,6 @@
           value   : q
         },
         {
-          field   : "branch_id",
-          operator: "contains",
-          value   : q
-        },
-        {
           field   : "phone",
           operator: "contains",
           value   : q
@@ -310,6 +306,11 @@
         },
         {
           field   : "detail",
+          operator: "contains",
+          value   : q
+        },
+        {
+          field   : "branch_id",
           operator: "contains",
           value   : q
         },
@@ -384,11 +385,6 @@ function initDropDownLists(){
         <label for="customer_type_id">Type</label>
         <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
     </div> 
-    
-    <div class="col-12">
-        <label for="branch_id">Branch</label>
-        <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
-    </div>
 
     <div class="col-12">
       <label for="phone">Phone</label>
@@ -410,13 +406,13 @@ function initDropDownLists(){
       <input type="string" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" attern="^[0-9\ \]{9,13}$" validationMessage="Phone relative format is not valid" style="width: 100%;"/>
     </div> 
 
-    </div>
-  <div class="col-6">
-    <div class="col-12">
+     <div class="col-12">
         <label for="country_id">Country</label>
         <input id="country" data-bind="value:country_id"  style="width: 100%;" />
     </div> 
-    
+
+  </div>
+  <div class="col-6"> 
     <div class="col-12">
         <label for="city_id">Province/City</label>
         <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
@@ -434,12 +430,17 @@ function initDropDownLists(){
 
     <div class="col-12">
       <label for="address">Address</label>
-      <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+      <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
     </div>
     
     <div class="col-12">
       <label for="detail">Detail</label>
-      <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+      <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+    </div>
+
+     <div class="col-12">
+        <label for="branch_id">Branch</label>
+        <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
     </div>
 
     <div class="col-12">

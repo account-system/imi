@@ -60,7 +60,7 @@ class SupplierController extends Controller
 	 */
 	public function get()
 	{
-		$suppliers = Supplier::all()->sortByDesc('created_at')->values()->all();
+		$suppliers = Supplier::all()->sortByDesc('id')->values()->all();
 
 		return Response()->Json($suppliers);
 	}

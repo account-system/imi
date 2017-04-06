@@ -11,6 +11,7 @@
     <h1>Doctor List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
+      <li class="active">Doctors</li>
       <li class="active">Doctor List</li>
     </ol>
   </section>
@@ -75,7 +76,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { models: kendo.stringify(options.models) };
+              return { doctors: kendo.stringify(options.models) };
             }
           }
       },
@@ -101,6 +102,10 @@
 
                 type: "string",
             },
+            doctor_type_id: { 
+
+              type: "number"
+            },
             gender: { 
 
               type: "string",
@@ -109,10 +114,6 @@
 
                 type: "date",
                 defaultValue: null
-            },
-            doctor_type_id: { 
-
-              type: "number"
             },
             phone: {
 
@@ -187,9 +188,9 @@
       { field: "first_name", title: "First Name" },
       { field: "last_name", title: "Last Name" },
       { field: "job_title", title: "Job Title" ,hidden: true },
+      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
       { field: "gender", title: "Gender", values: genderDataSource ,hidden: true },
       { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
-      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
       { field: "phone",title: "Phone" ,hidden: true },
       { field: "email",title: "Email" ,hidden: true },
       { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
@@ -248,17 +249,17 @@
           value   : q
         },
         {
+          field   : "doctor_type_id",
+          operator: "eq",
+          value   : q
+        },
+        {
           field   : "gender",
           operator: "contains",
           value   : q
         },
         {
           field   : "date_of_birth",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "doctor_type_id",
           operator: "eq",
           value   : q
         },
