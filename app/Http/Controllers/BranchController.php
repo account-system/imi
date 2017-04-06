@@ -54,7 +54,7 @@ class BranchController extends Controller
      */
     public function get()
     {
-        $branchs = MasterType::find($this->branchTable)->branchRecords()->get()->sortByDesc('created_at')->values()->all();
+        $branchs = MasterType::find($this->branchTable)->branchRecords()->get()->sortByDesc('id')->values()->all();
 
         return Response()->Json($branchs);
     }
@@ -96,7 +96,7 @@ class BranchController extends Controller
 
                 $branchObject = new MasterDetail();
 
-                $branchObject->master_type_id   =   $this->vendorTypeTable;
+                $branchObject->master_type_id   =   $this->branchTable;
                 $branchObject->name             =   $branchRequest->name;
                 $branchObject->description      =   $branchRequest->description;
                 $branchObject->status           =   $branchRequest->status;

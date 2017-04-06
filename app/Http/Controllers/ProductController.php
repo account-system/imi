@@ -77,7 +77,7 @@ class ProductController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$productsRequest = json_decode($request->input('models'));
+		$productsRequest = json_decode($request->input('products'));
 
 		foreach ($productsRequest as $key => $productRequest) {
 			try {
@@ -115,7 +115,7 @@ class ProductController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$productsRequest = json_decode($request->input('models'));
+		$productsRequest = json_decode($request->input('products'));
 
 		foreach ($productsRequest as $key => $productRequest) {
 			try {
@@ -152,7 +152,7 @@ class ProductController extends Controller
 	 */
 	public function destroy(Request $request)
 	{
-		$productsRequest = json_decode($request->input('models'));
+		$productsRequest = json_decode($request->input('products'));
 
 		foreach ($productsRequest as $key => $productRequest) {
 			try {
