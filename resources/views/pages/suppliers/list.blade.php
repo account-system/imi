@@ -115,7 +115,7 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create", text: "Add New Supplier"}, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ { name: "create" ,text: "Add New Supplier" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
           { field: "company_name", title: "Company Name" },
           { field: "contact_name", title: "Contact Name" },
@@ -253,15 +253,16 @@
          <div class="col-12">
           <label for="country_id">Country</label>
           <input id="country" name="country_id" data-bind="value:country_id" style="width: 100%;" />
-        </div> 
-        
+        </div>  
+
         <div class="col-12">
           <label for="city_id">Province/City</label>
           <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
         </div>  
       </div>
       <div class="row-6">
-        
+      </div>
+      <div class="row-6">        
         <div class="col-12">
           <label for="region">Region</label>
           <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>

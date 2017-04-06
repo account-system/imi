@@ -187,6 +187,12 @@
         {value: "Female", text: "Female"}
       ];
 
+      /*discontinue data source*/
+    var discontinueDataSource = [
+        {value: 1, text: "True"},
+        {value: 0, text: "False"}
+      ];
+
       // To make Pace works on Ajax calls
       $(document).ajaxStart(function() { Pace.restart(); });
 
@@ -286,6 +292,15 @@
         });
       }
 
+       /*Initialize discontinue dropdownlist*/ 
+      function initDiscontinueDropDownList()
+      {
+        $("#discontinue").kendoDropDownList({
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: discontinueDataSource  
+        });
+      }
     </script>
 
     <!-- Create textbox multi search toolbar for input HTML element --> 

@@ -89,7 +89,6 @@ class SupplierController extends Controller
 				$supplierObject->contact_title  		=   $supplierRequest->contact_title;
 				$supplierObject->gender 				= 	$supplierRequest->gender;
 				$supplierObject->supplier_type_id		=   $supplierRequest->supplier_type_id;
-				$supplierObject->branch_id        		=   $supplierRequest->branch_id;
 				$supplierObject->phone            		=   $supplierRequest->phone;
 				$supplierObject->email            		=   $supplierRequest->email;
 				$supplierObject->country_id     		=   $supplierRequest->country_id;
@@ -98,6 +97,7 @@ class SupplierController extends Controller
 				$supplierObject->postal_code    		=   $supplierRequest->postal_code;
 				$supplierObject->address        		=   $supplierRequest->address;
 				$supplierObject->detail          		=   $supplierRequest->detail;
+				$supplierObject->branch_id        		=   $supplierRequest->branch_id;
 				$supplierObject->status           		=   $supplierRequest->status;
 				$supplierObject->created_by      		=   auth::id();
 				$supplierObject->updated_by      		=   auth::id();
@@ -134,7 +134,6 @@ class SupplierController extends Controller
 				$supplierObject->contact_title  		=   $supplierRequest->contact_title;
 				$supplierObject->gender 				= 	$supplierRequest->gender;
 				$supplierObject->supplier_type_id		=   $supplierRequest->supplier_type_id;
-				$supplierObject->branch_id        		=   $supplierRequest->branch_id;
 				$supplierObject->phone            		=   $supplierRequest->phone;
 				$supplierObject->email            		=   $supplierRequest->email;
 				$supplierObject->country_id     		=   $supplierRequest->country_id;
@@ -143,6 +142,7 @@ class SupplierController extends Controller
 				$supplierObject->postal_code    		=   $supplierRequest->postal_code;
 				$supplierObject->address          		=   $supplierRequest->address;
 				$supplierObject->detail          		=   $supplierRequest->detail;
+				$supplierObject->branch_id        		=   $supplierRequest->branch_id;
 				$supplierObject->status           		=   $supplierRequest->status;
 				$supplierObject->updated_by     		=   auth::id();
 

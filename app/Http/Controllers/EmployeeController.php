@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\EmployeeTypeController;
+use App\Employee;
 use App\Http\Controllers\BranchController;
-use App\Http\Controllers\CountryController;
 use App\Http\Controllers\Controller;
-
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\EmployeeTypeController;
+use App\MasterType;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-
-use App\MasterType;
-use App\Employee;
 
 
 class EmployeeController extends Controller
@@ -85,13 +84,28 @@ class EmployeeController extends Controller
 
 				$employeeObject = new Employee();
 
+				$employeeObject->identity_card 		= 	$employeeRequest->identity_card;
+				$employeeObject->first_name 		= 	$employeeRequest->first_name;
+				$employeeObject->last_name 			= 	$employeeRequest->last_name;
+				$employeeObject->job_title 			= 	$employeeRequest->job_title;
 				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
-				$employeeObject->name 				= 	$employeeRequest->name;
 				$employeeObject->gender 			= 	$employeeRequest->gender;
-				$employeeObject->identity_card		= 	$employeeRequest->identity_card;
-				$employeeObject->position			= 	$employeeRequest->position;
+				$employeeObject->date_of_birth	 	= 	new Carbon($employeeRequest->date_of_birth);
+				$employeeObject->start_work	 		= 	new Carbon($employeeRequest->start_work);
+				$employeeObject->end_work	 		= 	new Carbon($employeeRequest->end_work);
+				$employeeObject->start_contract	 	= 	new Carbon($employeeRequest->start_contract);
+				$employeeObject->end_contract	 	= 	new Carbon($employeeRequest->end_contract);
+				$employeeObject->spouse 			= 	$employeeRequest->spouse;
+				$employeeObject->minor 				= 	$employeeRequest->minor;
 				$employeeObject->phone 				= 	$employeeRequest->phone;
-				$employeeObject->address 			= 	$employeeRequest->address;
+				$employeeObject->email 				= 	$employeeRequest->email;
+				$employeeObject->country_id 		= 	$employeeRequest->country_id;
+				$employeeObject->city_id 			= 	$employeeRequest->city_id;
+				$employeeObject->region 			=   $employeeRequest->region;
+				$employeeObject->postal_code     	=   $employeeRequest->postal_code;
+				$employeeObject->address         	=   $employeeRequest->address;
+				$employeeObject->detail          	=   $employeeRequest->detail;
+				$employeeObject->branch_id 			= 	$employeeRequest->branch_id;
 				$employeeObject->status          	=   $employeeRequest->status;
 				$employeeObject->created_by      	=   auth::id();
 				$employeeObject->updated_by      	=   auth::id();
@@ -123,13 +137,28 @@ class EmployeeController extends Controller
 
 				$employeeObject = new Employee();
 
+				$employeeObject->identity_card 		= 	$employeeRequest->identity_card;
+				$employeeObject->first_name 		= 	$employeeRequest->first_name;
+				$employeeObject->last_name 			= 	$employeeRequest->last_name;
+				$employeeObject->job_title 			= 	$employeeRequest->job_title;
 				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
-				$employeeObject->name 				= 	$employeeRequest->name;
 				$employeeObject->gender 			= 	$employeeRequest->gender;
-				$employeeObject->identity_card		= 	$employeeRequest->identity_card;
-				$employeeObject->position			= 	$employeeRequest->position;
+				$employeeObject->date_of_birth	 	= 	new Carbon($employeeRequest->date_of_birth);
+				$employeeObject->start_work	 		= 	new Carbon($employeeRequest->start_work);
+				$employeeObject->end_work	 		= 	new Carbon($employeeRequest->end_work);
+				$employeeObject->start_contract	 	= 	new Carbon($employeeRequest->start_contract);
+				$employeeObject->end_contract	 	= 	new Carbon($employeeRequest->end_contract);
+				$employeeObject->spouse 			= 	$employeeRequest->spouse;
+				$employeeObject->minor 				= 	$employeeRequest->minor;
 				$employeeObject->phone 				= 	$employeeRequest->phone;
-				$employeeObject->address 			= 	$employeeRequest->address;
+				$employeeObject->email 				= 	$employeeRequest->email;
+				$employeeObject->country_id 		= 	$employeeRequest->country_id;
+				$employeeObject->city_id 			= 	$employeeRequest->city_id;
+				$employeeObject->region 			=   $employeeRequest->region;
+				$employeeObject->postal_code     	=   $employeeRequest->postal_code;
+				$employeeObject->address         	=   $employeeRequest->address;
+				$employeeObject->detail          	=   $employeeRequest->detail;
+				$employeeObject->branch_id 			= 	$employeeRequest->branch_id;
 				$employeeObject->status          	=   $employeeRequest->status;
 				$employeeObject->updated_by     	=   auth::id();
 
@@ -163,7 +192,6 @@ class EmployeeController extends Controller
 				$employeeObject->delete();
 
 				$employeesResponse[] = $employeeRequest;
-
 					
 			} catch (Exception $e) {
 					

@@ -15,13 +15,16 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code',60);
             $table->string('name',60);
             $table->integer('product_type_id')->unsigned();
-            $table->string('barcode',30);
-            $table->integer('price_in');
-            $table->integer('price_out');
+            $table->decimal('unit_price', 10, 2);
+            $table->decimal('unit_sale_price', 10, 2);
             $table->integer('quantity');
-            $table->string('detail',200)->nullable()->default(null);
+            $table->string('quantity_per_unit',60)->nullable()->default(null);
+            $table->boolean('discontinue')->default(0);
+            $table->string('description',200)->nullable()->default(null);
+            $table->integer('branch_id')->unsigned();
             $table->enum('status',['Enabled','Disabled'])->default('Enabled');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
