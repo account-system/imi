@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Controller;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ProductTypeController;
-use App\Http\Controllers\BranchController;
-use App\Product;
 
 class ProductController extends Controller
 {
@@ -34,15 +34,15 @@ class ProductController extends Controller
 	 */
 	public function view()
 	{
-		$this->data['title'] 			= 	'Product List';
+		$this->data['title'] 		= 	'Product List';
 
-		$productTypesController 		= 	new ProductTypeController;
-		$this->data['productTypes'] 	= 	$productTypesController->getList('all')->content();
+		$categoryController 		= 	new CategoryController;
+		$this->data['categories'] 	= 	$categoryController->getList('all')->content();
 
-		$branchController 				= 	new BranchController;
-		$this->data['branches'] 		= 	$branchController->getList('all')->content();
+		$branchController 			= 	new BranchController;
+		$this->data['branches'] 	= 	$branchController->getList('all')->content();
 
-		return view('pages.products.list',$this->data);
+		return view('pages.products.product',$this->data);
 	}
 
 	/**
@@ -75,9 +75,9 @@ class ProductController extends Controller
 
 				$productObject->code 		  		=   $productRequest->code;
 				$productObject->name 		  		=   $productRequest->name;
-				$productObject->product_type_id		=   $productRequest->category_id;
+				$productObject->category_id			=   $productRequest->category_id;
 				$productObject->unit_price        	=   $productRequest->unit_price;
-				$productObject->unit_sale_price     =   $productRequest->unit_sale_price;
+				$productObject->sale_price     		=   $productRequest->sale_price;
 				$productObject->quantity           	=   $productRequest->quantity;
 				$productObject->quantity_per_unit   =   $productRequest->quantity_per_unit;
 				$productObject->discontinue     	=   $productRequest->discontinue;
@@ -116,14 +116,14 @@ class ProductController extends Controller
 
 				$productObject->code 		  		=   $productRequest->code;
 				$productObject->name 		  		=   $productRequest->name;
-				$productObject->product_type_id		=   $productRequest->category_id;
+				$productObject->category_id			=   $productRequest->category_id;
 				$productObject->unit_price        	=   $productRequest->unit_price;
-				$productObject->unit_sale_price     =   $productRequest->unit_sale_price;
+				$productObject->sale_price     		=   $productRequest->sale_price;
 				$productObject->quantity           	=   $productRequest->quantity;
 				$productObject->quantity_per_unit   =   $productRequest->quantity_per_unit;
 				$productObject->discontinue     	=   $productRequest->discontinue;
 				$productObject->description         =   $productRequest->description;
-				$productObject->brach_id          	=   $productRequest->brach_id;
+				$productObject->branch_id          	=   $productRequest->branch_id;
 				$productObject->status           	=   $productRequest->status;
 				$productObject->updated_by     		=   auth::id();
 
@@ -164,6 +164,6 @@ class ProductController extends Controller
 			}
 		}
 
-		return Response()->Json($prductsResponse);
+		return Response()->Json($productsResponse);
 	}
 }

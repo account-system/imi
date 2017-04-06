@@ -21,6 +21,6 @@ class Product extends Model
      * @var array
      */
     protected $casts = [
-        
+       'discontinue' => 'boolean' 
     ];
 }

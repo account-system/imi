@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\SupplierTypeController;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
-use App\Http\Controllers\SupplierTypeController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\Controller;
-
-use App\MasterType;
-use App\Supplier;
 
 
 class SupplierController extends Controller
@@ -41,7 +38,7 @@ class SupplierController extends Controller
 	{
 		$this->data['title'] 		= 	'Supplier List';
 
-		$supplierTypeController 		= 	new supplierTypeController;
+		$supplierTypeController 		= 	new SupplierTypeController;
 		$this->data['supplierType'] 	= 	$supplierTypeController->getList('all')->content();
 
 		$branchController 			= 	new BranchController;
@@ -50,7 +47,7 @@ class SupplierController extends Controller
 		$countryController 			= 	new CountryController;
 		$this->data['countries'] 	= 	$countryController->getList('all')->content();
 
-		$cityController				=	new cityController;
+		$cityController				=	new CityController;
 		$this->data['cities']		=	$cityController->getList('all')->content();
 
 		return view('pages.suppliers.list',$this->data);

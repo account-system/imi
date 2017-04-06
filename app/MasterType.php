@@ -39,9 +39,9 @@ class MasterType extends Model
     }
 
     /**
-     * Get all product records belong to product table.
+     * Get all category records belong to category table.
      */
-    public function productRecords()
+    public function categoryRecords()
     {
         return $this->hasMany('App\MasterDetail');
     }

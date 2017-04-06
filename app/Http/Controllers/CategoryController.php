@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
 use App\MasterDetail;
 use App\MasterType;
 
@@ -17,7 +15,7 @@ class CategoryController extends Controller
     *The category type table
     *@var int
     */
-    private $categoriesTable = 5;
+    private $categoryTable = 5;
 
     /**
     *The information we send to the view
@@ -42,8 +40,8 @@ class CategoryController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Category';
-        return view('pages.categorys.categoriess',$this->data);
+        $this->data['title'] = 'Category List';
+        return view('pages.products.category',$this->data);
     }
 
     /**
@@ -53,28 +51,28 @@ class CategoryController extends Controller
      */
     public function get()
     {
-        $category = MasterType::find($this->categoriesTable)->categoryRecords()->get()->sortByDesc('created_at')->values()->all();
-        return Response()->Json($category);
+        $categories = MasterType::find($this->categoryTable)->categoryRecords()->get()->sortByDesc('id')->values()->all();
+        return Response()->Json($categories);
     }
     /**
-     * Get a listing of the resource for dropdownlist.
+     * Get a listing of the resource that contains(value, text)
      *
      * @return \Illuminate\Http\Response
      */
     public function getList($option=null)
     {
-        $category = [];
+        $categories = [];
 
         if($option == 'filter'){
-            //Get all city records filter status = enabled
-            $category = MasterType::find($this->categoriesTable)->categoryRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            //Get all category records filter status = enabled
+            $categories = MasterType::find($this->categoryTable)->categoryRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
-            //Get all city records
-            $category = MasterType::find($this->categoriesTable)->categoryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            //Get all category records
+            $categories = MasterType::find($this->categoryTable)->categoryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
-        return Response()->Json($category);
+        return Response()->Json($categories);
 
     }
     /**
@@ -85,22 +83,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $categoriessRequest = json_decode($request->input('models'));
+        $categoriesRequest = json_decode($request->input('categories'));
   
-        foreach ($categoriessRequest as $key => $categoriesRequest) {
+        foreach ($categoriesRequest as $key => $categoryRequest) {
             try {
 
-                $categoriesObject = new MasterDetail();
+                $categoryObject = new MasterDetail();
 
-                $categoriesObject->master_type_id   = $this->categoriesTable;
-                $categoriesObject->name             = $categoriesRequest->name;
-                $categoriesObject->description      = $categoriesRequest->description;
-                $categoriesObject->status           = $categoriesRequest->status;
-                $categoriesObject->created_by       = auth::id();
-                $categoriesObject->updated_by       = auth::id();
-                $categoriesObject->save();
+                $categoryObject->master_type_id   = $this->categoryTable;
+                $categoryObject->name             = $categoryRequest->name;
+                $categoryObject->description      = $categoryRequest->description;
+                $categoryObject->status           = $categoryRequest->status;
+                $categoryObject->created_by       = auth::id();
+                $categoryObject->updated_by       = auth::id();
 
-                $categoriesResponse[]= $categoriesObject;
+                $categoryObject->save();
+
+                $categoriesResponse[]= $categoryObject;
 
             } catch (Exception $e) {
                 
@@ -118,19 +117,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request)
     {
-        $categoriessRequest = json_decode($request->input('models'));
+        $categoriesRequest = json_decode($request->input('categories'));
   
-        foreach ($categoriessRequest as $key => $categoriesRequest) {
+        foreach ($categoriesRequest as $key => $categoryRequest) {
             try {
 
-                $categoriesObject = MasterDetail::findOrFail($categoriesRequest->id);
-                $categoriesObject->name         = $categoriesRequest->name;
-                $categoriesObject->description  = $categoriesRequest->description;
-                $categoriesObject->status       = $categoriesRequest->status;
-                $categoriesObject->updated_by   = auth::id();
-                $categoriesObject->save();
+                $categoryObject = MasterDetail::findOrFail($categoryRequest->id);
 
-                $categoriesResponse[]   = $categoriesObject;
+                $categoryObject->name         = $categoryRequest->name;
+                $categoryObject->description  = $categoryRequest->description;
+                $categoryObject->status       = $categoryRequest->status;
+                $categoryObject->updated_by   = auth::id();
+
+                $categoryObject->save();
+
+                $categoriesResponse[]   = $categoryObject;
 
             } catch (Exception $e) {
                 
@@ -148,15 +149,16 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request)
     {
-        $categoriessRequest = json_decode($request->input('models'));
+        $categoriesRequest = json_decode($request->input('categories'));
   
-        foreach ($categoriessRequest as $key => $categoriesRequest) {
+        foreach ($categoriesRequest as $key => $categoryRequest) {
             try {
 
-                $categoriesObject = MasterDetail::findOrFail($categoriesRequest->id);
-                $categoriesObject->delete();
+                $categoryObject = MasterDetail::findOrFail($categoryRequest->id);
 
-                $categoriesResponse[]= $categoriesRequest;
+                $categoryObject->delete();
+
+                $categoriesResponse[]= $categoryRequest;
 
             } catch (Exception $e) {
                 

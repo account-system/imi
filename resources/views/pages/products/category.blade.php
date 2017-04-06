@@ -8,11 +8,11 @@
 
 @section('header')
     <section class="content-header">
-      <h1>Supplier Type</h1>
+      <h1>Category List</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
-        <li class="active">Supplier</li>
-        <li class="active">Supplier Type</li>
+        <li class="active">Product</li>
+        <li class="active">Category List</li>
       </ol>
     </section>
 @endsection
@@ -36,29 +36,29 @@
       var dataSource = new kendo.data.DataSource({
         transport: {
           read:  {
-            url: crudBaseUrl + "/supplier/type/get",
+            url: crudBaseUrl + "/product/category/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/supplier/type/update",
+            url: crudBaseUrl + "/product/category/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/supplier/type/destroy",
+            url: crudBaseUrl + "/product/category/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/supplier/type/store",
+            url: crudBaseUrl + "/product/category/store",
             type: "POST",
             dataType: "json"
           },
           parameterMap: function(options, operation) {
-            if (operation !== "read" && options.models) {
-                return {supplierTypes: kendo.stringify(options.models)};
-            }
+              if (operation !== "read" && options.models) {
+                  return {categories: kendo.stringify(options.models)};
+              }
           }
         },
         batch: true,
@@ -70,7 +70,7 @@
               id: { editable: false, nullable: true },
               name: { type: "string" },
               description: { type: "string", nullable: true },
-              status: { field: "status", type: "string", defaultValue: "Enabled"}                     
+              status: { field: "status", type: "string", defaultValue: "Enabled" }        
             }
           }
         }
@@ -83,24 +83,24 @@
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
-        pageable: { refresh:true, pageSizes: true,buttonCount: 5 },
+        pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [{name: "create" ,text: "Add New Supplier" },{template: kendo.template($("#textbox-multi-search").html())}],
+        toolbar: [{name: "create" ,text: "Add New Category"},{template: kendo.template($("#textbox-multi-search").html())}],
         columns: [
-          { field:"name", title: "Name" },
-          { field: "description", title: "Description"},
-          { field: "status", title: "Status", values: statusDataSource },
-          { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
+            { field:"name", title: "Name" },
+            { field: "description", title: "Description"},
+            { field: "status", title: "Status", values: statusDataSource },
+            { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-type").html()) },
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Supplier Type');
+              e.container.data("kendoWindow").title('Add New Category');
               $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-              e.container.data("kendoWindow").title('Edit Supplier Type');
+              e.container.data("kendoWindow").title('Edit Category');
           }
 
           /*Initialize status dropdownlist*/
@@ -115,9 +115,9 @@
         $("#grid").data("kendoGrid").dataSource.filter({
           logic  : "or",
           filters: [
-            {field: "name", operator: "contains", value: q },
-            {field: "description", operator: "contains", value: q },
-            {field: "status", operator: "eq", value: q }
+            { field: "name", operator: "contains", value: q },
+            { field: "description", operator: "contains", value: q },
+            { field: "status", operator: "eq", value: q }
           ]
         });  
       });

@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('name',60);
             $table->integer('category_id')->unsigned();
             $table->decimal('unit_price', 10, 2)->unsigned();
-            $table->decimal('unit_sale_price', 10, 2)->unsigned();
+            $table->decimal('sale_price', 10, 2)->unsigned();
             $table->integer('quantity')->unsigned();
             $table->string('quantity_per_unit',60)->nullable()->default(null);
             $table->boolean('discontinue')->default(0);

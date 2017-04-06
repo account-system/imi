@@ -8,10 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
 use App\MasterDetail;
 use App\MasterType;
-/**
- *
- *@param
- */
+
 class SupplierTypeController extends Controller
 {
     
@@ -58,7 +55,7 @@ class SupplierTypeController extends Controller
      */
     public function get()
     {
-        $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->get()->sortByDesc('created_at')->values()->all();
+        $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->get()->sortByDesc('id')->values()->all();
         
         return Response()->Json($supplierTypes);
     }
@@ -92,7 +89,7 @@ class SupplierTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $suppliertypesRequest = json_decode($request->input('models'));
+        $suppliertypesRequest = json_decode($request->input('supplierTypes'));
   
         foreach ($suppliertypesRequest as $key => $suppliertypeRequest) {
             try {
@@ -126,7 +123,7 @@ class SupplierTypeController extends Controller
      */
     public function update(Request $request)
     {
-        $suppliertypesRequest = json_decode($request->input('models'));
+        $suppliertypesRequest = json_decode($request->input('supplierTypes'));
   
         foreach ($suppliertypesRequest as $key => $suppliertypeRequest) {
             try {
@@ -157,7 +154,7 @@ class SupplierTypeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $suppliertypesRequest = json_decode($request->input('models'));
+        $suppliertypesRequest = json_decode($request->input('supplierTypes'));
   
         foreach ($suppliertypesRequest as $key => $suppliertypeRequest) {
             try {
