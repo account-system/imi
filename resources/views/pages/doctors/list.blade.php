@@ -180,7 +180,7 @@
     },
     height: 550,
     toolbar: [
-      { name: "create" text: "Add New Doctor" },
+      { name: "create" ,text: "Add New Doctor" },
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [

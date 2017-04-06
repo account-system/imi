@@ -114,7 +114,7 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create" text: "Add New Supplier" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ { name: "create" ,text: "Add New Supplier" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
           { field: "company_name", title: "Company Name" },
           { field: "contact_name", title: "Contact Name" },

@@ -186,7 +186,7 @@
     },
     height: 550,
     toolbar: [
-      { name: "create" text: "Add New Cusotmer" },
+      { name: "create" ,text: "Add New Cusotmer" },
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
     columns: [
