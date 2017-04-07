@@ -11,6 +11,7 @@
       <h1>Employee Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
+        <li class="active">Employee</li>
         <li class="active">Employee Type</li>
       </ol>
     </section>

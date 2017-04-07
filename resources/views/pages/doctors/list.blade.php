@@ -11,7 +11,7 @@
     <h1>Doctor List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Doctors</li>
+      <li class="active">Doctor</li>
       <li class="active">Doctor List</li>
     </ol>
   </section>

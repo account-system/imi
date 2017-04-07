@@ -14,8 +14,7 @@ use App\MasterType;
 use App\Doctor;
 
 class DoctorController extends Controller
-{
-    
+{   
     /**
 	 *The information we send to the view
 	 *@var array
