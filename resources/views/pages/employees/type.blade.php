@@ -121,6 +121,7 @@
         $("#grid").kendoGrid({
             dataSource: dataSource,
             navigatable: true,
+            reorderable: true,
             resizable: true,
             columnMenu: true,
             filterable: true,
@@ -148,17 +149,17 @@
               template: kendo.template($("#popup-editor-type").html())
             },
            edit: function (e) {
-           //Call function status Initailize status dropdownlist 
-            initStatusDropDownList();
-
+           
           //Customize popup title and button label 
           if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Vendor Type');
+              e.container.data("kendoWindow").title('Add New Employee Type');
               $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-              e.container.data("kendoWindow").title('Edit Vendor Type');
+              e.container.data("kendoWindow").title('Edit Employee Type');
           }
+          //Call function status Initailize status dropdownlist 
+            initStatusDropDownList();
         }  
       });
 

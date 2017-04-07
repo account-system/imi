@@ -202,6 +202,7 @@
     dataSource: gridDataSource,
     navigatable: true,
     resizable: true,
+    reorderable: true,
     columnMenu: true,
     filterable: true,
     sortable: {
@@ -222,10 +223,10 @@
       { field: "identity_card", title: "Identity Card" },
       { field: "first_name", title: "First Name" },
       { field: "last_name", title: "Last Name" },
-      { field: "job_title", title: "Job Title" ,hidden: true },
-      { field: "employee_type_id", title: "employee Type ", values: employeeTypeDataSource },
-      { field: "gender", title: "Gender", values: genderDataSource ,hidden: true },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
+      { field: "job_title", title: "Job Title" },
+      { field: "employee_type_id", title: "Type ", values: employeeTypeDataSource },
+      { field: "gender", title: "Gender", values: genderDataSource },
+      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
       { field: "start_work",title: "Start Work", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
       { field: "end_work",title: "End Work", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
       { field: "start_contract",title: "Start Contract", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
@@ -252,8 +253,8 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      ///Call function  init dropdownlists
-      initDropDownLists();
+      ///Call function  init form control
+      initFormControl();
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
@@ -394,8 +395,8 @@
   });
 });
 
-/*Initailize all dropdownlist*/  
-function initDropDownLists(){
+/*Initailize all form Control */  
+function initFormControl(){
   $("#employeeType").kendoDropDownList({
     optionLabel: "Select Employee type...",
     dataValueField: "value",
@@ -410,8 +411,9 @@ function initDropDownLists(){
       }
     }
   }); 
-  /*Initailize branch dropdownlist*/
-  initBranchDropDownList();
+
+  /*Initailize gender dropdownlist*/
+  initGenderDropDownList();
 
   /*Initailize country dropdownlist*/
   initCountryDropDownList();
@@ -419,31 +421,37 @@ function initDropDownLists(){
   /*Initailize city dropdownlist*/
   initCityDropDownList();
 
+  /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
+
   /*Initailize status dropdownlist*/
   initStatusDropDownList();
-
-  /*Initailize gender dropdownlist*/
-  initGenderDropDownList();
-
+  
+  /* Date of birth format */
    $("#dob").kendoDatePicker({
     format: "yyyy/MM/dd"
-  });
+  }); 
+
+  /* start work format */
    $("#sw").kendoDatePicker({
     format: "yyyy/MM/dd"
   });
+
+  /* end work format */
    $("#ew").kendoDatePicker({
     format: "yyyy/MM/dd"
   });
+
+  /* start contract format */
    $("#sc").kendoDatePicker({
     format: "yyyy/MM/dd"
   });
+
+  /* end contract format */
    $("#ec").kendoDatePicker({
     format: "yyyy/MM/dd"
   });
-
-
 }
-
 </script>
 
 <!-- Customize popup editor employee --> 
@@ -454,31 +462,32 @@ function initDropDownLists(){
 
        <div class="col-12">
         <label for="identity_card">Identity Card</label>
-        <input type="text" class="k-textbox" name="identity_card" placeholder="Enter First Name" data-bind="value:identity_card" pattern=".{1,60}" validationMessage="The identity card may not be greater than 60 characters" style="width: 100%;"/>
+        <input type="text" class="k-textbox" name="identity_card" placeholder="Enter identity card" data-bind="value:identity_card" pattern=".{1,60}" validationMessage="The identity card may not be greater than 60 characters" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
         <label for="first_name">First Name</label>
-        <input type="text" class="k-textbox" name="first_name" placeholder="Enter First Name" data-bind="value:first_name" required data-required-msg="The first name field is required" pattern=".{1,30}" validationMessage="The first name may not be greater than 30 characters" style="width: 100%;"/>
+        <input type="text" class="k-textbox" name="first_name" placeholder="Enter first name" data-bind="value:first_name" required data-required-msg="The first name field is required" pattern=".{1,30}" validationMessage="The first name may not be greater than 30 characters" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
         <label for="last_name">Last Name</label>
-        <input type="text" class="k-textbox" name="last_name" placeholder="Enter Last Name" data-bind="value:last_name" required data-required-msg="The last name field is required" pattern=".{1,30}" validationMessage="The last name may not be greater than 30 characters" style="width: 100%;"/>
+        <input type="text" class="k-textbox" name="last_name" placeholder="Enter last name" data-bind="value:last_name" required data-required-msg="The last name field is required" pattern=".{1,30}" validationMessage="The last name may not be greater than 30 characters" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
         <label for="job_title">Job Title</label>
-        <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" required data-required-msg="The job title field is required" pattern=".{1,30}" validationMessage="The job title may not be greater than 30 characters" style="width: 100%;"/>
+        <input type="text" class="k-textbox" name="job_title" placeholder="Enter your job title" data-bind="value:job_title" required data-required-msg="The job title field is required" pattern=".{1,30}" validationMessage="The job title may not be greater than 30 characters" style="width: 100%;"/>
       </div>
-      <div class="col-12">
-          <label for="gender">Gender</label>
-          <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
-      </div>
-      
+
       <div class="col-12">
           <label for="employee_type_id">Type</label>
           <input id="employeeType" name="employee_type_id" data-bind="value:employee_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+      </div>
+
+      <div class="col-12">
+          <label for="gender">Gender</label>
+          <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
       </div>
 
       <div class="col-12">
@@ -513,7 +522,7 @@ function initDropDownLists(){
 
       <div class="col-12">
         <label for="minor">Minor</label>
-        <input type="number" class="k-textbox" name="minor" placeholder="Enter minor" data-bind="value:minor" pattern=".{0,30}" validationMessage="The spouse may not be greater than 30 characters" style="width: 100%;"/>
+        <input type="number" class="k-textbox" name="minor" placeholder="Enter minor" data-bind="value:minor" pattern=".{0,30}" validationMessage="The minor may not be greater than 30 characters" style="width: 100%;"/>
       </div>
     </div>
     <div class="row-6">  
