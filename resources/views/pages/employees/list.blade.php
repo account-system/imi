@@ -39,41 +39,26 @@
       var employeeTypeDataSource  =   <?php echo json_encode($employeeTypes) ?>;
       employeeTypeDataSource      =   JSON.parse(employeeTypeDataSource);
 
-      /*Branch data source*/
-      var branchDataSource      =   <?php echo json_encode($branches) ?>;
-      branchDataSource          =   JSON.parse(branchDataSource);
-
       /*Country data source*/
-      var countryDataSource     =   <?php echo json_encode($countries) ?>;
-      countryDataSource         =   JSON.parse(countryDataSource);
+      var countryDataSource       =   <?php echo json_encode($countries) ?>;
+      countryDataSource           =   JSON.parse(countryDataSource);
       
       /*City data source*/
-      var cityDataSource        =   <?php echo json_encode($cities) ?>;
-      cityDataSource            =   JSON.parse(cityDataSource);
+      var cityDataSource          =   <?php echo json_encode($cities) ?>;
+      cityDataSource              =   JSON.parse(cityDataSource);
+
+      /*Branch data source*/
+      var branchDataSource        =   <?php echo json_encode($branches) ?>;
+      branchDataSource            =   JSON.parse(branchDataSource);
 
       /*employee data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
-          read: {
-            url: crudBaseUrl + "/employee/get",
-            type: "GET",
-            dataType: "json"
-          },
-          update: {
-            url: crudBaseUrl + "/employee/update",
-            type: "POST",
-            dataType: "json"
-          },
-          destroy: {
-            url: crudBaseUrl + "/employee/destroy",
-            type: "POST",
-            dataType: "json"
-          },
-          create: {
-            url: crudBaseUrl + "/employee/store",
-            type: "POST",
-            dataType: "json"
-          },
+          read:   { url: crudBaseUrl + "/employee/get", type: "GET", dataType: "json" },
+          update: { url: crudBaseUrl + "/employee/update", type: "POST", dataType: "json" },
+          destroy:{ url: crudBaseUrl + "/employee/destroy", type: "POST", dataType: "json" },
+          create: { url: crudBaseUrl + "/employee/store", type: "POST", dataType: "json" },
+
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
               return { employees: kendo.stringify(options.models) };
@@ -85,114 +70,31 @@
       schema: {
         model: {
           id: "id",
-          fields: {
-            id: { 
-              editable: false,
-              nullable: true 
-            },
-            identity_card: {
-
-                type: "string",
-            },
-            first_name: {
-
-                type: "string",
-            },
-            last_name: {
-
-                type: "string",
-            },
-            job_title: {
-
-                type: "string",
-            },
-            employee_type_id: { 
-
-              type: "number"
-            },
-            gender: { 
-
-              type: "string",
-            },  
-            date_of_birth: {
-
-                type: "date",
-                defaultValue: null
-            },
-            start_work: {
-
-                type: "date",
-                defaultValue: null
-            },
-            end_work: {
-
-                type: "date",
-                defaultValue: null
-            },
-            start_contract: {
-
-                type: "date",
-                defaultValue: null
-            },
-            end_contract: {
-
-                type: "date",
-                defaultValue: null
-            },
-            spouse: {
-
-                type: "string", 
-                defaultValue: 0
-            },
-            minor: {
-
-                type: "string",
-                defaultValue: 0  
-            },
-            phone: {
-
-                type: "string",  
-            },
-            email: {
-                type: "string",
-
-            },
-            country_id: {
-      
-              type: "number",
-              nullable: true
-
-            },   
-            city_id: {
-  
-              type: "number",
-              nullable: true      
-
-            },
-            region: {
-              type: "string",
-              nullable: true
-            }, 
-            postal_code: {
-              type: "string",
-              nullable: true
-            },
-            address: {
-              type: "string",
-              nullable: true
-            },  
-            detail: {
-              type: "string",
-              nullable: true
-            },
-            branch_id: { 
-              type: "number",
-            }, 
-            status: { 
-              field: "status", 
-              type: "string",
-              defaultValue: "Enabled" 
-            }                   
+          fields: { 
+            id: { editable: false, nullable: true },
+            identity_card: { type: "string" },
+            first_name: { type: "string" },
+            last_name: { type: "string" },
+            job_title: { type: "string" },
+            employee_type_id: { type: "number" },
+            gender: { type: "string" },  
+            date_of_birth: { type: "date", defaultValue: null },
+            start_work: { type: "date", defaultValue: null },
+            end_work: {  type: "date", defaultValue: null  },
+            start_contract: {  type: "date", defaultValue: null },
+            end_contract: { type: "date", defaultValue: null },
+            spouse: { type: "string", defaultValue: 0 },
+            minor:  { type: "string", defaultValue: 0  },
+            phone:  { type: "string" },
+            email:  { type: "string" },
+            country_id: { type: "number", nullable: true },   
+            city_id: { type: "number", nullable: true },
+            region: { type: "string", nullable: true }, 
+            postal_code: { type: "string", nullable: true },
+            address: { type: "string",  nullable: true },  
+            detail: { type: "string",  nullable: true },
+            branch_id: { type: "number" }, 
+            status: { field: "status", type: "string", defaultValue: "Enabled" }                   
           }
         }
       }
@@ -205,15 +107,8 @@
     reorderable: true,
     columnMenu: true,
     filterable: true,
-    sortable: {
-    mode: "single",
-    allowUnsort: false
-    },
-    pageable: {
-      refresh:true,
-      pageSizes: true,
-      buttonCount: 5
-    },
+    sortable: { mode: "single", allowUnsort: false },
+    pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
     height: 550,
     toolbar: [
       { name: "create" ,text: "Add New Employee "},
@@ -247,15 +142,10 @@
     ],
     editable: {
       mode: "popup",
-      window: {
-        width: "600px"   
-      },
+      window: { width: "600px" },
       template: kendo.template($("#popup-editor-vedor").html())
     },
-    edit: function (e) {
-      ///Call function  init form control
-      initFormControl();
-
+    edit: function (e) { 
       //Customize popup title and button label 
       if (e.model.isNew()) {
         e.container.data("kendoWindow").title('Add New Employee');
@@ -264,132 +154,39 @@
       else {
         e.container.data("kendoWindow").title('Edit Employee');
       }
+      ///Call function  init form control
+      initFormControl();
     } 
   }); 
 
   /*Event response to key up in textbox multi search*/
-  $("#txtMultiSearch").keyup(function(e){
-     
+  $("#txtMultiSearch").keyup(function(e){    
     var q = $('#txtMultiSearch').val();
-
     $("#grid").data("kendoGrid").dataSource.filter({
       logic  : "or",
       filters: [
-          {
-          field   : "identity_card",
-          operator: "contains",
-          value   : q
-          },
-         {
-          field   : "first_name",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "last_name",
-          operator: "contains",
-          value   : q
-        },
-         {
-          field   : "job_title",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "employee_type_id",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "gender",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "date_of_birth",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "start_work",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "end_work",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "start_contract",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "end_contract",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "spouse",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "minor",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "phone",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "email",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "country_id",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "city_id",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "region",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "postal_code",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "address",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "detail",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "branch_id",
-          operator: "eq",
-          value   : q
-        },
-        {
-          field   : "status",
-          operator: "eq",
-          value   : q
-        }
+        { field  : "identity_card", operator: "contains", value : q },
+        { field  : "first_name", operator: "contains", value : q },
+        { field  : "last_name", operator: "contains",  value  : q },
+        { field  : "job_title",  operator: "contains",  value : q },
+        { field  : "employee_type_id", operator: "eq", value : q },
+        { field  : "gender", operator: "contains", value : q },
+        { field  : "date_of_birth", operator: "eq", value : q },
+        { field  : "start_work", operator: "eq", value : q },
+        { field  : "end_work", operator: "eq", value   : q },
+        { field  : "start_contract", operator: "eq", value : q },
+        { field  : "end_contract", operator: "eq", value  : q },
+        { field  : "spouse",  operator: "contains", value : q  },
+        { field  : "minor", operator: "contains", value  : q },
+        { field  : "phone", operator: "contains",  value : q  },
+        { field  : "email", operator: "contains",  value : q },
+        { field  : "country_id",  operator: "eq",  value : q },
+        { field  : "city_id",  operator: "eq",  value : q },
+        { field  : "region",  operator: "contains",  value : q },
+        { field  : "postal_code",  operator: "contains", value : q },
+        { field  : "address",  operator: "contains", value : q  },
+        { field  : "detail",  operator: "contains",  value : q },
+        { field  : "branch_id",  operator: "eq", value : q }
       ]
     });  
   });
@@ -459,8 +256,7 @@ function initFormControl(){
   
   <div class="row-12">
     <div class="row-6">
-
-       <div class="col-12">
+      <div class="col-12">
         <label for="identity_card">Identity Card</label>
         <input type="text" class="k-textbox" name="identity_card" placeholder="Enter identity card" data-bind="value:identity_card" pattern=".{1,60}" validationMessage="The identity card may not be greater than 60 characters" style="width: 100%;"/>
       </div>
@@ -510,12 +306,12 @@ function initFormControl(){
         <input id="sc" name="start_contract" placeholder="Select start contract" data-bind="value:start_contract" style="width: 100%;"/>
       </div> 
 
-       <div class="col-12">
+      <div class="col-12">
         <label for="end_contract">End Contract</label>
         <input id="ec" name="end_contract" placeholder="Select end contract" data-bind="value:end_contract" style="width: 100%;"/>
       </div> 
       
-       <div class="col-12">
+      <div class="col-12">
         <label for="spouse">Spouse</label>
         <input type="number" class="k-textbox" name="spouse" placeholder="Enter spouse" data-bind="value:spouse" min="0" max="30" validationMessage="The spouse may not be greater than 30 characters" style="width: 100%;"/>
       </div>
@@ -526,9 +322,9 @@ function initFormControl(){
       </div>
     </div>
     <div class="row-6">  
-       <div class="col-12">
+      <div class="col-12">
         <label for="phone">Phone</label>
-        <input type="string" class="k-textbox" name="phone" data-bind="value:phone" placeholder="Enter Phone Number"  required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
+        <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" placeholder="Enter Phone Number"  required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
@@ -536,7 +332,7 @@ function initFormControl(){
         <input type="email" class="k-textbox" name="Email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
       </div> 
 
-       <div class="col-12">
+      <div class="col-12">
           <label for="country_id">Country</label>
           <input id="country" data-bind="value:country_id"  style="width: 100%;" />
       </div>  
@@ -549,34 +345,34 @@ function initFormControl(){
       <div class="col-12">
           <label for="region">Region</label>
           <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+      </div>  
+      
+      <div class="col-12">
+        <label for="postal_code">Postal Code</label>
+        <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
       </div>
-        
-        <div class="col-12">
-          <label for="postal_code">Postal Code</label>
-          <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
-        </div>
-        
-        <div class="col-12">
-          <label for="address">Address</label>
-          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
-        </div>
-        
-        <div class="col-12">
-          <label for="detail">Detail</label>
-          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
-        </div>
+      
+      <div class="col-12">
+        <label for="address">Address</label>
+        <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" pattern=".{0,200}" validationMessage="The address may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+      </div>
+      
+      <div class="col-12">
+        <label for="detail">Detail</label>
+        <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" pattern=".{0,200}" validationMessage="The detail may not be greater than 200 characters" style="width: 100%; height: 97px;"/></textarea> 
+      </div>
 
-        <div class="col-12">
-          <label for="branch_id">Branch</label>
-          <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
-        </div>
+      <div class="col-12">
+        <label for="branch_id">Branch</label>
+        <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
+      </div>
 
-        <div class="col-12">
-            <label for="status">Status</label>
-            <input id="status" data-bind="value:status"  style="width: 100%;" />
-        </div>
+      <div class="col-12">
+          <label for="status">Status</label>
+          <input id="status" data-bind="value:status"  style="width: 100%;" />
+      </div>
     </div>
-</div>
+  </div>
 
 </script>  
 
