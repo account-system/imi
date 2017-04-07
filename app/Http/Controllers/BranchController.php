@@ -64,7 +64,7 @@ class BranchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         $branchs = [];
 

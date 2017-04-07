@@ -8,11 +8,11 @@
 
 @section('header')
   <section class="content-header">
-    <h1>Product List</h1>
+    <h1>Item List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Product</li>
-      <li class="active">Product List</li>
+      <li class="active">Item</li>
+      <li class="active">Item List</li>
     </ol>
   </section>
 @endsection
@@ -23,7 +23,6 @@
       <div class="box box-default">
         <div class="box-body">
           <div id="grid"></div>
-
         </div>
       </div>
     </div>
@@ -45,22 +44,22 @@
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/product/get",
+            url: crudBaseUrl + "/item/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/product/update",
+            url: crudBaseUrl + "/item/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/product/destroy",
+            url: crudBaseUrl + "/item/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/product/store",
+            url: crudBaseUrl + "/item/store",
             type: "POST",
             dataType: "json"
           },
@@ -103,11 +102,11 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create", text: "Add New Product" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ { name: "create", text: "Add New Item" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
           { field: "code", title: "Code" },
           { field: "name",title: "Name" },
-          { field: "category_id", title: "Category", values: categoryDataSource, },
+          { field: "category_id", title: "Type", values: categoryDataSource, },
           { field: "unit_price",title: "Unit Price" ,format: "{0:c}" },
           { field: "sale_price",title: "Sale Price",format: "{0:c}" },
           { field: "quantity",title: "Quantity" },
@@ -122,11 +121,11 @@
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-            e.container.data("kendoWindow").title('Add New Product');
+            e.container.data("kendoWindow").title('Add New Item');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-            e.container.data("kendoWindow").title('Edit Product');
+            e.container.data("kendoWindow").title('Edit Item');
           }
 
           //Call function  init form controll
@@ -143,9 +142,9 @@
             { field: "code", operator: "contains", value: q },
             { field: "name", operator: "contains", value: q },
             { field: "category_id", operator: "eq", value: q },
-            { field: "unit_price", operator: "contains", value: q },
-            { field: "sale_price", operator: "contains", value: q }, 
-            { field: "quantity", operator: "contains", value: q },
+            { field: "unit_price", operator: "eq", value: q },
+            { field: "sale_price", operator: "eq", value: q }, 
+            { field: "quantity", operator: "eq", value: q },
             { field: "quantity_per_unit", operator: "contains", value: q },
             { field: "discontinue", operator: "eq", value: q },
             { field: "description", operator: "contains", value: q },
@@ -160,14 +159,14 @@
     /*Initialize all form controller*/  
     function initFormControll(){
       /*Initialize category dropdownlist*/
-      $("#category").kendoDropDownList({
-        optionLabel: "Select category...",
+      $("#type").kendoDropDownList({
+        optionLabel: "Select type...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl+"/product/category/list/filter",
+              url: crudBaseUrl+"/item/type/list/filter",
               type: "GET",
               dataType: "json"
             }
@@ -235,8 +234,8 @@
         </div>
 
         <div class="col-12">
-          <label for="category_id">Category</label>
-          <input id="category" name="category_id" data-bind="value:category_id" required data-required-msg="The category field is required" style="width: 100%;" />
+          <label for="category_id">Type</label>
+          <input id="type" name="category_id" data-bind="value:category_id" required data-required-msg="The type field is required" style="width: 100%;" />
         </div> 
         
         <div class="col-12">

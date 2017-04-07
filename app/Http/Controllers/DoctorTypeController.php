@@ -63,7 +63,7 @@ class DoctorTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords();
          if($option == 'filter'){
@@ -96,7 +96,7 @@ class DoctorTypeController extends Controller
                 $doctorTypeObject->updated_by       =   auth::id();
                 $doctorTypeObject->save();
 
-                $doctortypesResponse[]= $doctorTypeObject;
+                $doctortypesResponse[] = $doctorTypeObject;
 
             } catch (Exception $e) {
                 
@@ -152,7 +152,7 @@ class DoctorTypeController extends Controller
                 $doctorTypeObject = MasterDetail::findOrFail($doctortypeRequest->id);
                 $doctorTypeObject->delete();
 
-                $doctortypesResponse[]= $doctortypeRequest;
+                $doctortypesResponse[] = $doctortypeRequest;
 
             } catch (Exception $e) {
                 

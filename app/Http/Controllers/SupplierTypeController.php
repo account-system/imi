@@ -65,7 +65,7 @@ class SupplierTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         $supplierTypes = [];
 
@@ -134,6 +134,7 @@ class SupplierTypeController extends Controller
                 $supplierTypeObject->description  =   $suppliertypeRequest->description;
                 $supplierTypeObject->status       =   $suppliertypeRequest->status;
                 $supplierTypeObject->updated_by   =   auth::id();
+                
                 $supplierTypeObject->save();
 
                 $suppliertypesResponse[] = $supplierTypeObject;

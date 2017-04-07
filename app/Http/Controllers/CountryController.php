@@ -64,7 +64,7 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         
         $countries = [];
@@ -92,7 +92,7 @@ class CountryController extends Controller
      */
     public function store(Request $request)
     {
-        $countriesRequest = json_decode($request->input('models'));
+        $countriesRequest = json_decode($request->input('countries'));
   
         foreach ($countriesRequest as $key => $countryRequest) {
             try {
@@ -126,7 +126,7 @@ class CountryController extends Controller
      */
     public function update(Request $request)
     {
-        $countriesRequest = json_decode($request->input('models'));
+        $countriesRequest = json_decode($request->input('countries'));
   
         foreach ($countriesRequest as $key => $countryRequest) {
             try {
@@ -158,7 +158,7 @@ class CountryController extends Controller
      */
     public function destroy(Request $request)
     {
-        $countriesRequest = json_decode($request->input('models'));
+        $countriesRequest = json_decode($request->input('countries'));
   
         foreach ($countriesRequest as $key => $countryRequest) {
             try {

@@ -59,7 +59,7 @@ class EmployeeTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords();
         
@@ -94,7 +94,7 @@ class EmployeeTypeController extends Controller
                 $employeeTypeObject->updated_by     = auth::id();
                 $employeeTypeObject->save();
 
-                $employeetypesResponse[]= $employeeTypeObject;
+                $employeetypesResponse[] = $employeeTypeObject;
 
             } catch (Exception $e) {
                 
@@ -124,7 +124,7 @@ class EmployeeTypeController extends Controller
                 $employeeTypeObject->updated_by = auth::id();
                 $employeeTypeObject->save();
 
-                $employeetypesResponse[]= $employeeTypeObject;
+                $employeetypesResponse[] = $employeeTypeObject;
 
             } catch (Exception $e) {
                 
@@ -150,7 +150,7 @@ class EmployeeTypeController extends Controller
                 $employeeTypeObject = MasterDetail::findOrFail($employeetypeRequest->id);
                 $employeeTypeObject->delete();
 
-                $employeetypesResponse[]= $employeetypeRequest;
+                $employeetypesResponse[] = $employeetypeRequest;
 
             } catch (Exception $e) {
                 

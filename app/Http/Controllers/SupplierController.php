@@ -38,8 +38,8 @@ class SupplierController extends Controller
 	{
 		$this->data['title'] 		= 	'Supplier List';
 
-		$supplierTypeController 		= 	new SupplierTypeController;
-		$this->data['supplierType'] 	= 	$supplierTypeController->getList('all')->content();
+		$supplierTypeController 	= 	new SupplierTypeController;
+		$this->data['supplierType'] = 	$supplierTypeController->getList('all')->content();
 
 		$branchController 			= 	new BranchController;
 		$this->data['branches'] 	= 	$branchController->getList('all')->content();
@@ -50,7 +50,7 @@ class SupplierController extends Controller
 		$cityController				=	new CityController;
 		$this->data['cities']		=	$cityController->getList('all')->content();
 
-		return view('pages.suppliers.list',$this->data);
+		return view('pages.suppliers.supplier',$this->data);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class SupplierController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$suppliersRequest = json_decode($request->input('models'));
+		$suppliersRequest = json_decode($request->input('suppliers'));
 
 		foreach ($suppliersRequest as $key => $supplierRequest) {
 			try {
@@ -119,7 +119,7 @@ class SupplierController extends Controller
 	 */
 	public function update(Request $request)
 	{
-		$suppliersRequest = json_decode($request->input('models'));
+		$suppliersRequest = json_decode($request->input('suppliers'));
 
 		foreach ($suppliersRequest as $key => $supplierRequest) {
 			try {
@@ -163,7 +163,7 @@ class SupplierController extends Controller
 	 */
 	public function destroy(Request $request)
 	{
-		$suppliersRequest = json_decode($request->input('models'));
+		$suppliersRequest = json_decode($request->input('suppliers'));
 
 		foreach ($suppliersRequest as $key => $supplierRequest) {
 			try {
@@ -173,7 +173,6 @@ class SupplierController extends Controller
 				$supplierObject->delete();
 
 				$suppliersResponse[] = $supplierRequest;
-
 					
 			} catch (Exception $e) {
 					

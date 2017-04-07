@@ -59,7 +59,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         $categories = [];
 
@@ -99,7 +99,7 @@ class CategoryController extends Controller
 
                 $categoryObject->save();
 
-                $categoriesResponse[]= $categoryObject;
+                $categoriesResponse[] = $categoryObject;
 
             } catch (Exception $e) {
                 

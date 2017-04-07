@@ -357,8 +357,8 @@ function initDropDownLists(){
   initGenderDropDownList();
 
   $("#dob").kendoDatePicker({
-  format: "yyyy/MM/dd"
-});
+    format: "yyyy/MM/dd"
+  });
 }
 </script>
 
@@ -412,7 +412,7 @@ function initDropDownLists(){
     </div> 
 
   </div>
-  <div class="col-6"> 
+  <div class="row-6"> 
     <div class="col-12">
         <label for="city_id">Province/City</label>
         <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
@@ -447,7 +447,7 @@ function initDropDownLists(){
         <label for="status">Status</label>
         <input id="status" data-bind="value:status"  style="width: 100%;" />
     </div>
-  </dic>
+  </div>
 </div>
 </script>  
 

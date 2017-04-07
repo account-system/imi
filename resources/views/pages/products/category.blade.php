@@ -8,11 +8,11 @@
 
 @section('header')
     <section class="content-header">
-      <h1>Category List</h1>
+      <h1>Item Type</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
-        <li class="active">Product</li>
-        <li class="active">Category List</li>
+        <li class="active">Item</li>
+        <li class="active">Item Type</li>
       </ol>
     </section>
 @endsection
@@ -23,7 +23,6 @@
         <div class="box box-default">
           <div class="box-body">
             <div id="grid"></div>
-
           </div>
         </div>
       </div>
@@ -33,25 +32,26 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
+      /*Category data source*/
       var dataSource = new kendo.data.DataSource({
         transport: {
           read:  {
-            url: crudBaseUrl + "/product/category/get",
+            url: crudBaseUrl + "/item/type/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/product/category/update",
+            url: crudBaseUrl + "/item/type/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/product/category/destroy",
+            url: crudBaseUrl + "/item/type/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/product/category/store",
+            url: crudBaseUrl + "/item/type/store",
             type: "POST",
             dataType: "json"
           },
@@ -79,13 +79,14 @@
       $("#grid").kendoGrid({
         dataSource: dataSource,
         navigatable: true,
+        reorderable: true,
         resizable: true,
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [{name: "create" ,text: "Add New Category"},{template: kendo.template($("#textbox-multi-search").html())}],
+        toolbar: [{name: "create" ,text: "Add New Item Type"},{template: kendo.template($("#textbox-multi-search").html())}],
         columns: [
             { field:"name", title: "Name" },
             { field: "description", title: "Description"},
@@ -96,11 +97,11 @@
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Category');
+              e.container.data("kendoWindow").title('Add New Item Type');
               $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-              e.container.data("kendoWindow").title('Edit Category');
+              e.container.data("kendoWindow").title('Edit Item Type');
           }
 
           /*Initialize status dropdownlist*/

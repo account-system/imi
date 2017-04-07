@@ -59,7 +59,7 @@ class CustomerTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getList($option=null)
+    public function getList($option = null)
     {
         $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords();
         if ($option == 'filter') {

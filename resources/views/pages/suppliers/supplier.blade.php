@@ -23,7 +23,6 @@
       <div class="box box-default">
         <div class="box-body">
           <div id="grid"></div>
-
         </div>
       </div>
     </div>
@@ -74,7 +73,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { models: kendo.stringify(options.models) };
+              return { suppliers: kendo.stringify(options.models) };
             }
           }
         },
@@ -136,9 +135,6 @@
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-vedor").html()) },
         edit: function (e) {
-          //Call function  init dropdownlists
-          initDropDownLists();
-        
           //Customize popup title and button label 
           if (e.model.isNew()) {
             e.container.data("kendoWindow").title('Add New Supplier');
@@ -147,6 +143,9 @@
           else {
             e.container.data("kendoWindow").title('Edit Supplier');
           }
+
+          //Call function  init form control
+          initFormControl();
         } 
       }); 
 
@@ -176,11 +175,8 @@
       });
     });
 
-    /*Initialize all dropdownlist*/  
-    function initDropDownLists(){
-      /*Initialize gender dropdownlist*/
-      initGenderDropDownList();
-
+    /*Initialize all form control*/  
+    function initFormControl(){
       /*Initialize supplier type dropdownlist*/
       $("#supplierType").kendoDropDownList({
         optionLabel: "Select type...",
@@ -197,14 +193,17 @@
         }
       });
 
-      /*Initialize branch dropdownlist*/
-      initBranchDropDownList();
+      /*Initialize gender dropdownlist*/
+      initGenderDropDownList();
 
       /*Initialize country dropdownlist*/
       initCountryDropDownList();
 
       /*Initialize city dropdownlist*/
       initCityDropDownList();
+
+      /*Initialize branch dropdownlist*/
+      initBranchDropDownList();
 
       /*Initialize status dropdownlist*/
       initStatusDropDownList();
@@ -222,7 +221,7 @@
 
         <div class="col-12">
           <label for="contact_name">Contact Name</label>
-          <input type="text" class="k-textbox" name="Contact name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The contact name field is required" pattern=".{1,60}" validationMessage="The contact name may not be greater than 60 characters" style="width: 100%;"/>   
+          <input type="text" class="k-textbox" name="contact_name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The contact name field is required" pattern=".{1,60}" validationMessage="The contact name may not be greater than 60 characters" style="width: 100%;"/>   
         </div> 
 
         <div class="col-12">
@@ -259,13 +258,11 @@
           <label for="city_id">Province/City</label>
           <input id="city" name="city_id" data-bind="value:city_id"  style="width: 100%;" />
         </div>  
-      </div>
-      <div class="row-6">
-      </div>
+      </div> 
       <div class="row-6">        
         <div class="col-12">
           <label for="region">Region</label>
-          <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The region may not be greater than 30 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">

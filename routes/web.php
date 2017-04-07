@@ -103,7 +103,7 @@ Route::group(['prefix' => '/supplier'], function () {
 });
 
 //Route product
-Route::group(['prefix' => '/product'], function () {
+Route::group(['prefix' => '/item'], function () {
     Route::get('/', 'ProductController@view');
     Route::get('/get', 'ProductController@get');
     Route::post('/store', 'ProductController@store');
@@ -111,7 +111,7 @@ Route::group(['prefix' => '/product'], function () {
     Route::post('/destroy', 'ProductController@destroy');
 
     //Route product type
-    Route::group(['prefix' => '/category'], function () {
+    Route::group(['prefix' => '/type'], function () {
     Route::get('/', 'CategoryController@view');
     Route::get('/get', 'CategoryController@get');
     Route::get('/list/{option}', 'CategoryController@getList');

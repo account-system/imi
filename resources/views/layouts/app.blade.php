@@ -172,16 +172,16 @@
       
       /*Global variable use in this application*/
 
-      //crud base url
+      /*crud base url*/
       var crudBaseUrl = "{{url('')}}";
 
-      //It's status data
+      /*It's status data*/
       var statusDataSource = [
         {value: "Enabled", text: "Enabled"},
         {value: "Disabled", text: "Disabled"}
       ];
 
-      //It's gender data
+      /*It's gender data*/
       var genderDataSource = [
         {value: "Male", text: "Male"},
         {value: "Female", text: "Female"}
@@ -193,7 +193,7 @@
         {value: true, text: "True"}
       ];
 
-      // To make Pace works on Ajax calls
+      /*To make Pace works on Ajax calls*/
       $(document).ajaxStart(function() { Pace.restart(); });
 
       // Ajax calls should always have the CSRF token attached to them, otherwise they won't work
@@ -203,7 +203,7 @@
         }
       });
       
-      // Set active state on menu element
+      /*Set active state on menu element*/
       var current_url = window.location.href;
       $("ul.sidebar-menu li a").each(function() {
         if ($(this).attr('href') === current_url || current_url === $(this).attr('href'))
@@ -271,12 +271,13 @@
           dataValueField: "cityId",
           cascadeFrom: "country",
           dataSource: {
-              type: "json",
-              transport: {   
-                read: {
-                  url: crudBaseUrl + "/city/list/cascade",  
-                }
+            transport: {   
+              read: {
+                url: crudBaseUrl + "/city/list/cascade", 
+                type: "GET",
+                dataType: "json" 
               }
+            }
           }
         }).data("kendoDropDownList"); 
       }

@@ -23,7 +23,6 @@
         <div class="box box-default">
           <div class="box-body">
             <div id="grid"></div>
-
           </div>
         </div>
       </div>
@@ -79,13 +78,14 @@
       $("#grid").kendoGrid({
         dataSource: dataSource,
         navigatable: true,
+        reorderable: true,
         resizable: true,
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true,buttonCount: 5 },
         height: 550,
-        toolbar: [{name: "create" ,text: "Add New Supplier" },{template: kendo.template($("#textbox-multi-search").html())}],
+        toolbar: [{name: "create" ,text: "Add New Supplier Type" },{template: kendo.template($("#textbox-multi-search").html())}],
         columns: [
           { field:"name", title: "Name" },
           { field: "description", title: "Description"},

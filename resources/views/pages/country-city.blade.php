@@ -58,7 +58,7 @@
           },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
-              return { models: kendo.stringify(options.models) };
+              return { countries: kendo.stringify(options.models) };
             }
           }
         },
@@ -97,10 +97,7 @@
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-type").html()) },
         edit: function (e) {
-          /*Initialize status dropdownlist*/
-          initStatusDropDownList();
-        
-          //Customize popup title and button label 
+          /*Customize popup title and button label */
           if (e.model.isNew()) {
             e.container.data("kendoWindow").title('Add New Country');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
@@ -108,6 +105,8 @@
           else {
             e.container.data("kendoWindow").title('Edit Country');
           }
+          /*Initialize status dropdownlist*/
+          initStatusDropDownList();
         } 
       }); 
 
@@ -124,7 +123,7 @@
         });
       });
 
-      //Detail
+      /*City data source*/
       function detailInit(event){
         var countryId = event.data.id;
         $("<div/>").appendTo(event.detailCell).kendoGrid({
@@ -152,7 +151,7 @@
               },
               parameterMap: function (options, operation) {
                 if (operation !== "read" && options.models) {
-                  return { models: kendo.stringify(options.models) };
+                  return { cities: kendo.stringify(options.models) };
                 }
               }
             },
@@ -187,10 +186,7 @@
           ],
           editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-type").html()) },
           edit: function (e) {
-            /*Initialize status dropdownlist*/
-            initStatusDropDownList();
-          
-            //Customize popup title and button label 
+            /*Customize popup title and button label*/
             if (e.model.isNew()) {
               e.container.data("kendoWindow").title('Add New City');
               $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
@@ -198,6 +194,9 @@
             else {
               e.container.data("kendoWindow").title('Edit City');
             }
+
+            /*Initialize status dropdownlist*/
+            initStatusDropDownList();
           } 
         });
       }

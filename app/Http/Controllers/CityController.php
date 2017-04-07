@@ -55,7 +55,7 @@ class CityController extends Controller
      */
     public function get()
     {
-        $cities = MasterType::find($this->cityTable)->cityRecords()->get()->sortByDesc('created_at')->values()->all();
+        $cities = MasterType::find($this->cityTable)->cityRecords()->get()->sortByDesc('id')->values()->all();
         
         return Response()->Json($cities);
     }
@@ -96,11 +96,11 @@ class CityController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = enabled
-            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::Enabled)->get()->sortBy('created_at')->values()->all();
+            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::Enabled)->get()->sortByDesc('id')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all city records
-            $cities = MasterDetail::find($countryId)->cityRecords()->get()->sortBy('created_at')->values()->all(); 
+            $cities = MasterDetail::find($countryId)->cityRecords()->get()->sortByDesc('id')->values()->all(); 
         }
         
         return Response()->Json($cities);
@@ -114,7 +114,7 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        $citiesRequest = json_decode($request->input('models'));
+        $citiesRequest = json_decode($request->input('cities'));
   
         foreach ($citiesRequest as $key => $cityRequest) {
             try {
@@ -149,7 +149,7 @@ class CityController extends Controller
      */
     public function update(Request $request)
     {
-        $citiesRequest = json_decode($request->input('models'));
+        $citiesRequest = json_decode($request->input('cities'));
   
         foreach ($citiesRequest as $key => $cityRequest) {
             try {
@@ -181,7 +181,7 @@ class CityController extends Controller
      */
     public function destroy(Request $request)
     {
-        $citiesRequest = json_decode($request->input('models'));
+        $citiesRequest = json_decode($request->input('cities'));
   
         foreach ($citiesRequest as $key => $cityRequest) {
             try {
