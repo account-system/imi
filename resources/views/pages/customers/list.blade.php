@@ -33,9 +33,9 @@
 @section('after_scripts') 
   <script>
 
-      $(document).ready(function () {
+    $(document).ready(function () {
 
-        /*Customer type data source*/
+      /*Customer type data source*/
       var customerTypeDataSource  =   <?php echo json_encode($customerTypes) ?>;
       customerTypeDataSource      =   JSON.parse(customerTypeDataSource);
 
@@ -48,8 +48,8 @@
       countryDataSource           =   JSON.parse(countryDataSource);
 
       /*City data source*/
-      var cityDataSource        =   <?php echo json_encode($cities) ?>;
-      cityDataSource            =   JSON.parse(cityDataSource);
+      var cityDataSource          =   <?php echo json_encode($cities) ?>;
+      cityDataSource              =   JSON.parse(cityDataSource);
 
       /*Vedor data source*/
       var gridDataSource = new kendo.data.DataSource({
@@ -93,16 +93,16 @@
             customer_name: {
                 type: "string"
             },
+            customer_type_id: { 
+              field: "customer_type_id", 
+              type: "number"
+            },
             gender: { 
               type: "string",
             },  
             date_of_birth: {
                 type: "date",
                 defaultValue: null
-            },
-            customer_type_id: { 
-              field: "customer_type_id", 
-              type: "number"
             },
             phone: {
 
@@ -174,6 +174,7 @@
     dataSource: gridDataSource,
     navigatable: true,
     resizable: true,
+    reorderable: true,
     columnMenu: true,
     filterable: true,
     sortable: {
@@ -192,11 +193,11 @@
     ],
     columns: [
       { field: "customer_name", title: "Cusotmer Name" },
+      { field: "customer_type_id", title: "Type ", values: customerTypeDataSource },
       { field: "gender", title: "Gender", values: genderDataSource },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true },
-      { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
-      { field: "phone",title: "Phone" ,hidden: true },
-      { field: "email",title: "Email" ,hidden: true },
+      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
+      { field: "phone",title: "Phone" },
+      { field: "email",title: "Email" },
       { field: "relative_contact",title: "Relative Contact" ,hidden: true },
       { field: "relative_phone",title: "Relative Phone" ,hidden: true },
       { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
@@ -217,8 +218,6 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-     //Call function  init dropdownlists
-      initDropDownLists();
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
@@ -228,7 +227,9 @@
       else {
         e.container.data("kendoWindow").title('Edit Customer');
       }
-    } 
+        //Call function  init form control
+        intiFormControl(); 
+      }
   }); 
 
   /*Event response to key up in textbox multi search*/
@@ -245,17 +246,17 @@
           value   : q
         },
         {
+          field   : "customer_type_id",
+          operator: "contains",
+          value   : q
+        },
+        {
           field   : "gender",
           operator: "contains",
           value   : q
         },
         {
           field   : "date_of_birth",
-          operator: "contains",
-          value   : q
-        },
-        {
-          field   : "customer_type_id",
           operator: "contains",
           value   : q
         },
@@ -324,8 +325,8 @@
   });
  });
 
-/*Initailize all dropdownlist*/  
-function initDropDownLists(){
+/*Initailize all form control*/ 
+function intiFormControl(){
   $("#customerTypes").kendoDropDownList({
     optionLabel: "Select customer Type...",
     dataValueField: "value",
@@ -341,6 +342,12 @@ function initDropDownLists(){
     }
   });
 
+  /*Initailize gender dropdownlist*/
+  initGenderDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
+
  /*Initailize branch dropdownlist*/
   initBranchDropDownList();
 
@@ -350,15 +357,9 @@ function initDropDownLists(){
   /*Initailize city dropdownlist*/
   initCityDropDownList();
 
-  /*Initailize status dropdownlist*/
-  initStatusDropDownList();
-
-  /*Initailize gender dropdownlist*/
-  initGenderDropDownList();
-
   $("#dob").kendoDatePicker({
-  format: "yyyy/MM/dd"
-});
+    format: "yyyy/MM/dd"
+  });
 }
 </script>
 
@@ -368,9 +369,14 @@ function initDropDownLists(){
   <div class="row-6">
     <div class="col-12">
       <label for="customer_name">Customer Name</label>
-      <input type="text" class="k-textbox" name="customer_name" placeholder="Enter Customer Name" data-bind="value:customer_name" required data-required-msg="The Customer name field is required" pattern=".{1,60}" validationMessage="The customer name may not be greater than 60 characters" style="width: 100%;"/>
+      <input type="text" class="k-textbox" name="customer_name" placeholder="Enter customer name" data-bind="value:customer_name" required data-required-msg="The customer name field is required" pattern=".{1,60}" validationMessage="The customer name may not be greater than 60 characters" style="width: 100%;"/>
     </div>
     
+    <div class="col-12">
+        <label for="customer_type_id">Type</label>
+        <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+    </div> 
+
    <div class="col-12">
       <label for="gender">Gender</label>
       <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
@@ -382,13 +388,8 @@ function initDropDownLists(){
     </div>
 
     <div class="col-12">
-        <label for="customer_type_id">Type</label>
-        <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
-    </div> 
-
-    <div class="col-12">
       <label for="phone">Phone</label>
-      <input type="string" class="k-textbox" name="Phone" placeholder="Enter Phone Number" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
+      <input type="tel" class="k-textbox" name="Phone" placeholder="Enter phone number" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
     </div>
     
     <div class="col-12">
@@ -398,12 +399,12 @@ function initDropDownLists(){
     
     <div class="col-12">
       <label for="relative_contact">Relative Contact</label>
-      <input type="text" class="k-textbox" name="relative_contact" placeholder="Enter Relative Contact" data-bind="value:relative_contact" pattern=".{1,30}" validationMessage="The relative contact may not be greater than 30 characters" style="width: 100%;"/>
+      <input type="text" class="k-textbox" name="relative_contact" placeholder="Enter relative contact" data-bind="value:relative_contact" pattern=".{1,30}" validationMessage="The relative contact may not be greater than 30 characters" style="width: 100%;"/>
     </div> 
   
     <div class="col-12">
       <label for="relative_phone">Relative Phone</label>
-      <input type="string" class="k-textbox" name="relative_phone" placeholder="Enter Relative Phone" data-bind="value:relative_phone" attern="^[0-9\ \]{9,13}$" validationMessage="Phone relative format is not valid" style="width: 100%;"/>
+      <input type="tel" class="k-textbox" name="relative_phone" placeholder="Enter relative phone" data-bind="value:relative_phone" validationMessage="Phone relative format is not valid" style="width: 100%;"/>
     </div> 
 
      <div class="col-12">
@@ -412,7 +413,7 @@ function initDropDownLists(){
     </div> 
 
   </div>
-  <div class="col-6"> 
+  <div class="row-6"> 
     <div class="col-12">
         <label for="city_id">Province/City</label>
         <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />
@@ -447,7 +448,7 @@ function initDropDownLists(){
         <label for="status">Status</label>
         <input id="status" data-bind="value:status"  style="width: 100%;" />
     </div>
-  </dic>
+  </div>
 </div>
 </script>  
 

@@ -167,6 +167,7 @@
     $("#grid").kendoGrid({
     dataSource: gridDataSource,
     navigatable: true,
+    reorderable: true,
     resizable: true,
     columnMenu: true,
     filterable: true,
@@ -187,11 +188,11 @@
     columns: [
       { field: "first_name", title: "First Name" },
       { field: "last_name", title: "Last Name" },
-      { field: "job_title", title: "Job Title" ,hidden: true },
-      { field: "doctor_type_id", title: "doctor Type ", values: doctorTypeDataSource },
-      { field: "gender", title: "Gender", values: genderDataSource ,hidden: true },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
-      { field: "phone",title: "Phone" ,hidden: true },
+      { field: "job_title", title: "Job Title" },
+      { field: "doctor_type_id", title: "Type ", values: doctorTypeDataSource },
+      { field: "gender", title: "Gender", values: genderDataSource },
+      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
+      { field: "phone",title: "Phone" },
       { field: "email",title: "Email" ,hidden: true },
       { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
       { field: "city_id",title: "City", values: cityDataSource ,hidden: true },
@@ -199,7 +200,7 @@
       { field: "postal_code",title: "Postal Code" ,hidden: true },
       { field: "address",title: "Address" ,hidden: true },
       { field: "detail",title: "Detail" ,hidden: true },
-      { field: "branch_id", title: "Branch", values: branchDataSource },
+      { field: "branch_id", title: "Branch", values: branchDataSource ,hidden: true },
       { field: "status", title: "Status", values: statusDataSource ,hidden: true },
       { command: ["edit", "destroy"], title: "Action" ,menu: false }
     ],
@@ -211,8 +212,6 @@
       template: kendo.template($("#popup-editor-vedor").html())
     },
     edit: function (e) {
-      //Call function  init dropdownlists
-      initDropDownLists();
 
       //Customize popup title and button label 
       if (e.model.isNew()) {
@@ -222,6 +221,8 @@
       else {
         e.container.data("kendoWindow").title('Edit Doctor');
       }
+      //Call function  init from control
+      initFormControl();
     } 
   }); 
 
@@ -317,8 +318,8 @@
     });  
   });
  });
-/*Initailize all dropdownlist*/  
-function initDropDownLists(){
+/*Initailize all form control*/  
+function initFormControl(){
   $("#doctorType").kendoDropDownList({
     optionLabel: "Select Doctor Type...",
     dataValueField: "value",
@@ -334,8 +335,11 @@ function initDropDownLists(){
     }
   });
 
-  /*Initailize branch dropdownlist*/
-  initBranchDropDownList();
+  /*Initailize gender dropdownlist*/
+  initGenderDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
 
   /*Initailize country dropdownlist*/
   initCountryDropDownList();
@@ -343,15 +347,12 @@ function initDropDownLists(){
   /*Initailize city dropdownlist*/
   initCityDropDownList();
 
-  /*Initailize status dropdownlist*/
-  initStatusDropDownList();
-
-  /*Initailize gender dropdownlist*/
-  initGenderDropDownList();
+  /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
 
   $("#dob").kendoDatePicker({
-  format: "yyyy/MM/dd"
-});
+    format: "yyyy/MM/dd"
+  });
 }
 </script>
 
@@ -373,6 +374,12 @@ function initDropDownLists(){
         <label for="job_title">Job Title</label>
         <input type="text" class="k-textbox" name="job_title" placeholder="Enter Your Job Title" data-bind="value:job_title" required data-required-msg="The job title field is required" pattern=".{1,60}" validationMessage="The job title may not be greater than 60 characters" style="width: 100%;"/>
       </div>
+
+       <div class="col-12">
+          <label for="doctor_type_id">Type</label>
+          <input id="doctorType" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
+      </div> 
+
       <div class="col-12">
           <label for="gender">Gender</label>
           <input id="gender" name="gender" data-bind="value:gender" required data-required-msg="The gender field is required" style="width: 100%;" />
@@ -384,13 +391,8 @@ function initDropDownLists(){
       </div>
 
       <div class="col-12">
-          <label for="doctor_type_id">Type</label>
-          <input id="doctorType" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
-      </div> 
-
-      <div class="col-12">
         <label for="phone">Phone</label>
-        <input type="string" class="k-textbox" name="phone" data-bind="value:phone" placeholder="Enter Phone Number"  required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
+        <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" placeholder="Enter Phone Number"  required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
@@ -403,7 +405,7 @@ function initDropDownLists(){
           <input id="country" data-bind="value:country_id"  style="width: 100%;" />
       </div>  
     </div>
-    <div class="col-6">   
+    <div class="row-6">   
       <div class="col-12">
           <label for="city_id">Province/City</label>
           <input id="city" data-bind="value:city_id" disabled="disabled" style="width: 100%;" />

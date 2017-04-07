@@ -91,6 +91,7 @@
           dataSource: dataSource,
           navigatable: true,
           resizable: true,
+          reorderable: true,
           columnMenu: true,
           filterable: true,
           sortable: {
