@@ -415,9 +415,6 @@ function initFormControl(){
   /*Initailize gender dropdownlist*/
   initGenderDropDownList();
 
-  /*Initailize status dropdownlist*/
-  initStatusDropDownList();
-
   /*Initailize country dropdownlist*/
   initCountryDropDownList();
 
@@ -426,6 +423,10 @@ function initFormControl(){
 
   /*Initailize branch dropdownlist*/
   initBranchDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
+  
   /* Date of birth format */
    $("#dob").kendoDatePicker({
     format: "yyyy/MM/dd"

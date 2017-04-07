@@ -345,17 +345,17 @@ function intiFormControl(){
   /*Initailize gender dropdownlist*/
   initGenderDropDownList();
 
-  /*Initailize status dropdownlist*/
-  initStatusDropDownList();
-
- /*Initailize branch dropdownlist*/
-  initBranchDropDownList();
-
   /*Initailize country dropdownlist*/
   initCountryDropDownList();
 
   /*Initailize city dropdownlist*/
   initCityDropDownList();
+
+  /*Initailize branch dropdownlist*/
+  initBranchDropDownList();
+
+  /*Initailize status dropdownlist*/
+  initStatusDropDownList();
 
   $("#dob").kendoDatePicker({
     format: "yyyy/MM/dd"
