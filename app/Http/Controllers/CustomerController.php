@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\CustomerTypeController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\CountryController;
-use Carbon\Carbon;
-use App\MasterType;
 use App\Customer;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CustomerTypeController;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -41,16 +41,16 @@ class CustomerController extends Controller
 		$customerTypeController 		= 	new CustomerTypeController;
 		$this->data['customerTypes'] 	= 	$customerTypeController->getList('all')->content();
 
-		$branchController 				= 	new BranchController;
-		$this->data['branches'] 		= 	$branchController->getList('all')->content();
-		
 		$countryController 				= 	new CountryController;
 		$this->data['countries'] 		= 	$countryController->getList('all')->content();
 
-		$cityController					= 	new cityController;
+		$cityController					= 	new CityController;
 		$this->data['cities']			= 	$cityController->getList('all')->content();
 
-		return view('pages.customers.list',$this->data);
+		$branchController 				= 	new BranchController;
+		$this->data['branches'] 		= 	$branchController->getList('all')->content();
+
+		return view('pages.customers.customer',$this->data);
 	}
 
 	/**
@@ -60,9 +60,9 @@ class CustomerController extends Controller
 	 */
 	public function get()
 	{
-		$customer = Customer::all()->sortByDesc('id')->values()->all();
+		$customers = Customer::all()->sortByDesc('id')->values()->all();
 
-		return Response()->Json($customer);
+		return Response()->Json($customers);
 	}
 
 
@@ -82,9 +82,10 @@ class CustomerController extends Controller
 				$customerObject = new Customer();
 
 				$customerObject->customer_name 		= 	$customerRequest->customer_name;
-				$customerObject->gender 			= 	$customerRequest->gender;
-				$customerObject->date_of_birth	 	= 	new Carbon($customerRequest->date_of_birth);
 				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
+				$customerObject->gender 			= 	$customerRequest->gender;
+				$customerObject->date_of_birth	 	= 	is_null($customerRequest->date_of_birth) ? 
+														$customerRequest->date_of_birth : new Carbon($customerRequest->date_of_birth);
 				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
 				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
@@ -128,9 +129,10 @@ class CustomerController extends Controller
 				$customerObject = Customer::findOrFail($customerRequest->id);
 				
 				$customerObject->customer_name 		= 	$customerRequest->customer_name;
-				$customerObject->gender 			= 	$customerRequest->gender;
-				$customerObject->date_of_birth	 	= 	new Carbon($customerRequest->date_of_birth);
 				$customerObject->customer_type_id 	= 	$customerRequest->customer_type_id;
+				$customerObject->gender 			= 	$customerRequest->gender;
+				$customerObject->date_of_birth	 	= 	is_null($customerRequest->date_of_birth) ? 
+														$customerRequest->date_of_birth : new Carbon($customerRequest->date_of_birth);
 				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
 				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
