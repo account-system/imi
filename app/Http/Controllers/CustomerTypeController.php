@@ -55,17 +55,23 @@ class CustomerTypeController extends Controller
     }
 
     /**
-     * Get a listing of the resource for dropdownlist.
+     * Get a listing of the resource that contains(value, text).
      *
      * @return \Illuminate\Http\Response
      */
     public function getList($option = null)
     {
-        $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords();
-        if ($option == 'filter') {
-            $customerTypes = $customerTypes->where('status',Status::Enabled);
+        $customerTypes = [];
+
+        if($option == 'filter'){
+            //Get all customer type records filter status = enabled
+            $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+     
+        }elseif ($option == 'all') {
+            //Get all customer type records
+            $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
-        $customerTypes = $customerTypes->get(['id as value','name as text'])->sortBy('text')->values()->all();
+        
         return Response()->Json($customerTypes);
     }
     /**
@@ -89,9 +95,10 @@ class CustomerTypeController extends Controller
                 $customerTypeObject->status             = $customertypeRequest->status;
                 $customerTypeObject->created_by         = auth::id();
                 $customerTypeObject->updated_by         = auth::id();
+
                 $customerTypeObject->save();
 
-                $customertypesResponse[]= $customerTypeObject;
+                $customertypesResponse[] = $customerTypeObject;
 
             } catch (Exception $e) {
                 
@@ -120,9 +127,10 @@ class CustomerTypeController extends Controller
                 $customerTypeObject->description    = $customertypeRequest->description;
                 $customerTypeObject->status         = $customertypeRequest->status;
                 $customerTypeObject->updated_by     = auth::id();
+
                 $customerTypeObject->save();
 
-                $customertypesResponse[]= $customerTypeObject;
+                $customertypesResponse[] = $customerTypeObject;
 
             } catch (Exception $e) {
                 
@@ -146,9 +154,10 @@ class CustomerTypeController extends Controller
             try {
 
                 $customerTypeObject = MasterDetail::findOrFail($customertypeRequest->id);
+                
                 $customerTypeObject->delete();
 
-                $customertypesResponse[]= $customertypeRequest;
+                $customertypesResponse[] = $customertypeRequest;
 
             } catch (Exception $e) {
                 
