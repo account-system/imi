@@ -269,7 +269,7 @@
       
       <div class="col-12">
         <label for="postal_code">Postal Code</label>
-        <input type="text" class="k-textbox" name="Postal code" placeholder="Enter Postal Code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
+        <input type="text" class="k-textbox" name="Postal code" placeholder="Enter postal code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
