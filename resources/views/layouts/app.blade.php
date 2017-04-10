@@ -286,7 +286,6 @@
       function initStatusDropDownList()
       {
         $("#status").kendoDropDownList({
-          optionLabel: "Select status...",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: statusDataSource  

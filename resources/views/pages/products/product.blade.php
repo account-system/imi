@@ -36,8 +36,8 @@
     categoryDataSource      =   JSON.parse(categoryDataSource);
 
     /*Branch data source*/
-    var branchDataSource      =   <?php echo json_encode($branches) ?>;
-    branchDataSource          =   JSON.parse(branchDataSource);
+    var branchDataSource    =   <?php echo json_encode($branches) ?>;
+    branchDataSource        =   JSON.parse(branchDataSource);
 
     $(document).ready(function () {
       /*Product data source*/
@@ -100,21 +100,21 @@
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
-        pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
         toolbar: [ { name: "create", text: "Add New Item" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
           { field: "code", title: "Code" },
           { field: "name",title: "Name" },
-          { field: "category_id", title: "Type", values: categoryDataSource, },
-          { field: "unit_price",title: "Unit Price" ,format: "{0:c}" },
-          { field: "sale_price",title: "Sale Price",format: "{0:c}" },
-          { field: "quantity",title: "Quantity" },
-          { field: "quantity_per_unit",title: "Quantity Per Unit", hidden: true},
-          { field: "discontinue",title: "Discontinue", values: booleanDataSource },
-          { field: "description",title: "Description" ,hidden: true },
-          { field: "branch_id",title: "Branch", values: branchDataSource ,hidden: true },
-          { field: "status", title: "Status", values: statusDataSource ,hidden: true },
+          { field: "category_id", title: "Type", values: categoryDataSource },
+          { field: "unit_price", title: "Unit Price", format: "{0:c}" },
+          { field: "sale_price", title: "Sale Price", format: "{0:c}" },
+          { field: "quantity", title: "Quantity" },
+          { field: "quantity_per_unit", title: "Quantity Per Unit", hidden: true},
+          { field: "discontinue", title: "Discontinue", values: booleanDataSource },
+          { field: "description", title: "Description", hidden: true },
+          { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
+          { field: "status", title: "Status", values: statusDataSource, hidden: true },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-vedor").html()) },
@@ -205,7 +205,6 @@
 
       /*Initialize discontinue dropdownlist*/ 
       $("#discontinue").kendoDropDownList({
-        optionLabel: "Select discontinue...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: booleanDataSource  

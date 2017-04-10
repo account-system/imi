@@ -35,17 +35,17 @@
     var supplierTypeDataSource  =   <?php echo json_encode($supplierType) ?>;
     supplierTypeDataSource      =   JSON.parse(supplierTypeDataSource);
 
-    /*Branch data source*/
-    var branchDataSource      =   <?php echo json_encode($branches) ?>;
-    branchDataSource          =   JSON.parse(branchDataSource);
-
     /*Country data source*/
-    var countryDataSource     =   <?php echo json_encode($countries) ?>;
-    countryDataSource         =   JSON.parse(countryDataSource);
+    var countryDataSource       =   <?php echo json_encode($countries) ?>;
+    countryDataSource           =   JSON.parse(countryDataSource);
 
     /*City data source*/
-    var cityDataSource        =   <?php echo json_encode($cities) ?>;
-    cityDataSource            =   JSON.parse(cityDataSource);
+    var cityDataSource          =   <?php echo json_encode($cities) ?>;
+    cityDataSource              =   JSON.parse(cityDataSource);
+
+    /*Branch data source*/
+    var branchDataSource        =   <?php echo json_encode($branches) ?>;
+    branchDataSource            =   JSON.parse(branchDataSource);
 
     $(document).ready(function () {
       /*Supplier data source*/
@@ -112,7 +112,7 @@
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
-        pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
         toolbar: [ { name: "create" ,text: "Add New Supplier" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [

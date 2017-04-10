@@ -40,15 +40,15 @@ class SupplierController extends Controller
 
 		$supplierTypeController 	= 	new SupplierTypeController;
 		$this->data['supplierType'] = 	$supplierTypeController->getList('all')->content();
-
-		$branchController 			= 	new BranchController;
-		$this->data['branches'] 	= 	$branchController->getList('all')->content();
 		
 		$countryController 			= 	new CountryController;
 		$this->data['countries'] 	= 	$countryController->getList('all')->content();
 
 		$cityController				=	new CityController;
 		$this->data['cities']		=	$cityController->getList('all')->content();
+
+		$branchController 			= 	new BranchController;
+		$this->data['branches'] 	= 	$branchController->getList('all')->content();
 
 		return view('pages.suppliers.supplier',$this->data);
 	}

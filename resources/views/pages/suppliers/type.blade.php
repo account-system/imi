@@ -69,7 +69,7 @@
               id: { editable: false, nullable: true },
               name: { type: "string" },
               description: { type: "string", nullable: true },
-              status: { field: "status", type: "string", defaultValue: "Enabled"}                     
+              status: { type: "string", defaultValue: "Enabled"}                     
             }
           }
         }
@@ -83,9 +83,9 @@
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
-        pageable: { refresh:true, pageSizes: true,buttonCount: 5 },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [{name: "create" ,text: "Add New Supplier Type" },{template: kendo.template($("#textbox-multi-search").html())}],
+        toolbar: [ {name: "create", text: "Add New Supplier Type" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
           { field:"name", title: "Name" },
           { field: "description", title: "Description"},

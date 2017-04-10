@@ -23,8 +23,8 @@
         <div class="box box-default">
           <div class="box-body">
             <div id="grid"></div>  
-          </div><!-- /box-body-->
-        </div><!-- /box box-default-->
+          </div>
+        </div>
       </div>
     </div>   
 @endsection
@@ -32,128 +32,91 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-      var crudServiceBaseUrl = "{{url('')}}",
-          dataSource = new kendo.data.DataSource({
-              transport: {
-                  read:  {
-                      url: crudServiceBaseUrl + "/customer/type/get",
-                      type: "GET",
-                      dataType: "json"
-                  },
-                  update: {
-                      url: crudServiceBaseUrl + "/customer/type/update",
-                      type: "Post",
-                      dataType: "json"
-                  },
-                  destroy: {
-                      url: crudServiceBaseUrl + "/customer/type/destroy",
-                      type: "Post",
-                      dataType: "json"
-                  },
-                  create: {
-                      url: crudServiceBaseUrl + "/customer/type/store",
-                      type: "Post",
-                      dataType: "json"
-                  },
-                  parameterMap: function(options, operation) {
-                      if (operation !== "read" && options.models) {
-                          return {customers: kendo.stringify(options.models)};
-                      }
-                  }
-              },
-              batch: true,
-              pageSize: 20,
-              schema: {
-                  model: {
-                      id: "id",
-                      fields: {
-                          id: { 
-                            editable: false,
-                            nullable: true 
-                          },
-                          name: {
-                            type: "string"
-                          },
-                          description: { 
-                            type: "string",
-                            nullable: true,
-                          },
-                          status: { 
-                            type: "string", 
-                            defaultValue: "Enabled" 
-                          }                     
-                      }
-                  }
-              }
-          });
+      var dataSource = new kendo.data.DataSource({
+        transport: {
+          read:  {
+            url: crudBaseUrl + "/customer/type/get",
+            type: "GET",
+            dataType: "json"
+          },
+          update: {
+            url: crudBaseUrl + "/customer/type/update",
+            type: "POST",
+            dataType: "json"
+          },
+          destroy: {
+            url: crudBaseUrl + "/customer/type/destroy",
+            type: "POST",
+            dataType: "json"
+          },
+          create: {
+            url: crudBaseUrl + "/customer/type/store",
+            type: "POST",
+            dataType: "json"
+          },
+          parameterMap: function(options, operation) {
+            if (operation !== "read" && options.models) {
+              return {customers: kendo.stringify(options.models)};
+            }
+          }
+        },
+        batch: true,
+        pageSize: 20,
+        schema: {
+          model: {
+            id: "id",
+            fields: {
+              id: { editable: false, nullable: true },
+              name: { type: "string" },
+              description: { type: "string", nullable: true },
+              status: { type: "string", defaultValue: "Enabled" }                     
+            }
+          }
+        }
+      }); 
 
       $("#grid").kendoGrid({
-          dataSource: dataSource,
-          navigatable: true,
-          resizable: true,
-          reorderable: true,
-          columnMenu: true,
-          filterable: true,
-          sortable: {
-            mode: "single",
-            allowUnsort: false
-          },
-          pageable: {
-            refresh:true,
-            pageSizes: true,
-            buttonCount: 5
-          },
-          height: 550,
-          toolbar: [{name: "create" ,text: "Add New Customer Type"},{template: kendo.template($("#textbox-multi-search").html())}],
-          columns: [
-              { field:"name", title: " Name" },
-              { field: "description", title: " Description"},
-              {  field: "status", values: statusDataSource, title: "Status" },
-              { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-          editable: {
-            mode: "popup",
-            template: kendo.template($("#popup-editor-type").html())
-          },
-          edit: function (e) {
-            //Call function status Initailize status dropdownlist 
-            initStatusDropDownList();
-
-            //Customize popup title and button label 
-            if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Customer Type');
-              $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-            }
-            else {
-              e.container.data("kendoWindow").title('Edit Customer Type');
-            }
-          }  
+        dataSource: dataSource,
+        navigatable: true,
+        resizable: true,
+        reorderable: true,
+        columnMenu: true,
+        filterable: true,
+        sortable: { mode: "single", allowUnsort: false },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
+        height: 550,
+        toolbar: [ { name: "create", text: "Add New Customer Type" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        columns: [
+          { field:"name", title: "Name" },
+          { field: "description", title: "Description"},
+          {  field: "status", title: "Status", values: statusDataSource },
+          { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
+        ],
+        editable: { mode: "popup", template: kendo.template($("#popup-editor-type").html()) },
+        edit: function (e) {
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
+            e.container.data("kendoWindow").title('Add New Customer Type');
+            $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+          }
+          else {
+            e.container.data("kendoWindow").title('Edit Customer Type');
+          }
+          //Initailize status dropdownlist 
+          initStatusDropDownList();
+        }  
       });
 
       $("#txtMultiSearch").keyup(function(e){
-          var q = $('#txtMultiSearch').val();
-
-          $("#grid").data("kendoGrid").dataSource.filter({
-            logic  : "or",
-            filters: [
-              {
-                  field   : "name",
-                  operator: "contains",
-                  value   : q
-              },
-              {
-                  field   : "description",
-                  operator: "contains",
-                  value   : q
-              },
-              {
-                  field   : "status",
-                  operator: "eq",
-                  value   : q
-              }
-
-            ]
-          });  
-       
+        var q = $('#txtMultiSearch').val();
+        $("#grid").data("kendoGrid").dataSource.filter({
+          logic  : "or",
+          filters: [
+            { field: "name", operator: "contains", value: q },
+            { field: "description", operator: "contains", value: q },
+            { field: "status", operator: "eq", value: q }
+          ]
+        });  
       });
     });  
   </script>

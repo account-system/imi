@@ -84,7 +84,7 @@
         columnMenu: true,
         filterable: true,
         sortable: { mode: "single", allowUnsort: false },
-        pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
         toolbar: [{name: "create" ,text: "Add New Item Type"},{template: kendo.template($("#textbox-multi-search").html())}],
         columns: [
