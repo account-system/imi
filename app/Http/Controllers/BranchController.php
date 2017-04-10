@@ -54,6 +54,7 @@ class BranchController extends Controller
      */
     public function get()
     {
+
         $branchs = MasterType::find($this->branchTable)->branchRecords()->get()->sortByDesc('id')->values()->all();
 
         return Response()->Json($branchs);
@@ -69,11 +70,11 @@ class BranchController extends Controller
         $branchs = [];
 
         if($option == 'filter'){
-            //Get all city records filter status = enabled
+            //Get all branch records filter status = enabled
             $branchs = MasterType::find($this->branchTable)->branchRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
-            //Get all city records
+            //Get all branch records
             $branchs = MasterType::find($this->branchTable)->branchRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
@@ -89,7 +90,7 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        $branchsRequest = json_decode($request->input('models'));
+       $branchsRequest = json_decode($request->input('branchs'));
   
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
@@ -102,7 +103,6 @@ class BranchController extends Controller
                 $branchObject->status           =   $branchRequest->status;
                 $branchObject->created_by       =   auth::id();
                 $branchObject->updated_by       =   auth::id();
-
                 $branchObject->save();
 
                 $branchsResponse[] = $branchObject;
@@ -123,7 +123,7 @@ class BranchController extends Controller
      */
     public function update(Request $request)
     {
-        $branchsRequest = json_decode($request->input('models'));
+        $branchsRequest = json_decode($request->input('branchs'));
   
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
@@ -155,12 +155,12 @@ class BranchController extends Controller
      */
     public function destroy(Request $request)
     {
-        $branchsRequest = json_decode($request->input('models'));
+        $branchsRequest = json_decode($request->input('branchs'));
   
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
 
-                $branchObject = MasterTypeDetail::findOrFail($branchRequest->id);
+                $branchObject = MasterDetail::findOrFail($branchRequest->id);
 
                 $branchObject->delete();
 
