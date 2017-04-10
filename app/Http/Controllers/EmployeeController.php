@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Employee;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EmployeeTypeController;
 use App\MasterType;
 use Carbon\Carbon;
-use App\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,16 +44,17 @@ class EmployeeController extends Controller
 		$employeeTypeController 		= 	new EmployeeTypeController;
 		$this->data['employeeTypes'] 	= 	$employeeTypeController->getList('all')->content();
 
-		$branchController 				= 	new BranchController;
-		$this->data['branches'] 		= 	$branchController->getList('all')->content();
-		
 		$countryController 				= 	new CountryController;
 		$this->data['countries'] 		= 	$countryController->getList('all')->content();
 
-		$cityController					=	new cityController;
+		$cityController					=	new CityController;
 		$this->data['cities']			=	$cityController->getList('all')->content();
 
-		return view('pages.employees.list',$this->data);
+		$branchController 				= 	new BranchController;
+		$this->data['branches'] 		= 	$branchController->getList('all')->content();
+		
+
+		return view('pages.employees.employee', $this->data);
 	}
 
 	/**
@@ -90,10 +92,18 @@ class EmployeeController extends Controller
 				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
 				$employeeObject->gender 			= 	$employeeRequest->gender;
 				$employeeObject->date_of_birth	 	= 	new Carbon($employeeRequest->date_of_birth);
-				$employeeObject->start_work	 		= 	new Carbon($employeeRequest->start_work);
-				$employeeObject->end_work	 		= 	new Carbon($employeeRequest->end_work);
-				$employeeObject->start_contract	 	= 	new Carbon($employeeRequest->start_contract);
-				$employeeObject->end_contract	 	= 	new Carbon($employeeRequest->end_contract);
+				$employeeObject->start_work	 		= 	is_null($employeeRequest->start_work) ? 
+														$employeeRequest->start_work : 
+														new Carbon($employeeRequest->start_work);
+				$employeeObject->end_work	 		= 	is_null($employeeRequest->end_work) ? 
+														$employeeRequest->end_work : 
+														new Carbon($employeeRequest->end_work);
+				$employeeObject->start_contract	 	= 	is_null($employeeRequest->start_contract) ? 
+														$employeeRequest->start_contract : 
+														new Carbon($employeeRequest->start_contract);
+				$employeeObject->end_contract	 	= 	is_null($employeeRequest->end_contract) ? 
+														$employeeRequest->end_contract : 
+														new Carbon($employeeRequest->end_contract);
 				$employeeObject->spouse 			= 	$employeeRequest->spouse;
 				$employeeObject->minor 				= 	$employeeRequest->minor;
 				$employeeObject->phone 				= 	$employeeRequest->phone;
@@ -134,7 +144,7 @@ class EmployeeController extends Controller
 		foreach ($employeesRequest as $key => $employeeRequest) {
 			try {
 
-				$employeeObject = new Employee();
+				$employeeObject = Employee::findOrFail($employeeRequest->id);
 
 				$employeeObject->identity_card 		= 	$employeeRequest->identity_card;
 				$employeeObject->first_name 		= 	$employeeRequest->first_name;
@@ -143,10 +153,18 @@ class EmployeeController extends Controller
 				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
 				$employeeObject->gender 			= 	$employeeRequest->gender;
 				$employeeObject->date_of_birth	 	= 	new Carbon($employeeRequest->date_of_birth);
-				$employeeObject->start_work	 		= 	new Carbon($employeeRequest->start_work);
-				$employeeObject->end_work	 		= 	new Carbon($employeeRequest->end_work);
-				$employeeObject->start_contract	 	= 	new Carbon($employeeRequest->start_contract);
-				$employeeObject->end_contract	 	= 	new Carbon($employeeRequest->end_contract);
+				$employeeObject->start_work	 		= 	is_null($employeeRequest->start_work) ? 
+														$employeeRequest->start_work : 
+														new Carbon($employeeRequest->start_work);
+				$employeeObject->end_work	 		= 	is_null($employeeRequest->end_work) ? 
+														$employeeRequest->end_work : 
+														new Carbon($employeeRequest->end_work);
+				$employeeObject->start_contract	 	= 	is_null($employeeRequest->start_contract) ? 
+														$employeeRequest->start_contract : 
+														new Carbon($employeeRequest->start_contract);
+				$employeeObject->end_contract	 	= 	is_null($employeeRequest->end_contract) ? 
+														$employeeRequest->end_contract : 
+														new Carbon($employeeRequest->end_contract);
 				$employeeObject->spouse 			= 	$employeeRequest->spouse;
 				$employeeObject->minor 				= 	$employeeRequest->minor;
 				$employeeObject->phone 				= 	$employeeRequest->phone;

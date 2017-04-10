@@ -92,6 +92,9 @@
       .k-edit-form-container{
         width: 100%; 
       }
+      .k-input{
+        padding: 0px;
+      }
 
     </style>
 

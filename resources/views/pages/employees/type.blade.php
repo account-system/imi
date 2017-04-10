@@ -23,9 +23,8 @@
         <div class="box box-default">
           <div class="box-body">
             <div id="grid"></div>
-
-          </div><!-- /box-body-->
-        </div><!-- /box box-default-->
+          </div>
+        </div>
       </div>
     </div>   
 @endsection
@@ -33,159 +32,93 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-        var crudBaseUrl = "{{url('')}}",
-            dataSource = new kendo.data.DataSource({
-                transport: {
-                    read:  {
-                        url: crudBaseUrl + "/employee/type/get",
-                        type: "GET",
-                        dataType: "json"
-                    },
-                    update: {
-                        url: crudBaseUrl + "/employee/type/update",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    destroy: {
-                        url: crudBaseUrl + "/employee/type/destroy",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    create: {
-                        url: crudBaseUrl + "/employee/type/store",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    parameterMap: function(options, operation) {
-                        if (operation !== "read" && options.models) {
-                            return {employees: kendo.stringify(options.models)};
-                        }
-                    }
-                },
-                batch: true,
-                pageSize: 20,
-                schema: {
-                    model: {
-                        id: "id",
-                        fields: {
-                            id: { editable: false, nullable: true },
-                            name: {
-                              type: "string",
-                              validation: {
-                                  required: true,
-                                  namevalidation: function (input) {
-                                      if (input.is("[name='name']") && input.val() != "") {
-                                          input.attr("data-namevalidation-msg", "Name should start with capital letter");
-                                          return /^[A-Z]/.test(input.val());
-                                      }
-
-                                      return true;
-                                  },
-                                  maxlength:function(input) { 
-                                    if (input.is("[name='name']") && input.val().length > 60) {
-                                       input.attr("data-maxlength-msg", "Max length is 60");
-                                       return false;
-                                    }                                   
-                                    return true;
-                                  }
-                              }
-                            },
-                            description: { nullable: true, validation: {
-                                  descriptionvalidation: function (input) {
-                                      if (input.is("[name='description']") && input.val() != "") {
-                                          input.attr("data-descriptionvalidation-msg", "description should start with capital letter");
-                                          return /^[A-Z]/.test(input.val());
-                                      }
-
-                                      return true;
-                                  },
-                                  maxlength:function(input) { 
-                                    if (input.is("[name='description']") && input.val().length > 200) {
-                                       input.attr("data-maxlength-msg", "Max length is 200");
-                                       return false;
-                                    }                                   
-                                    return true;
-                                  }
-                              } 
-                            },
-                            status: { 
-                            field: "status", 
-                            type: "string", 
-                            defaultValue: "Enabled" 
-                           }  
-                        }
-                    }
-                }
-            });
-
-        $("#grid").kendoGrid({
-            dataSource: dataSource,
-            navigatable: true,
-            reorderable: true,
-            resizable: true,
-            columnMenu: true,
-            filterable: true,
-            sortable: {
-              mode: "single",
-              allowUnsort: false
-            },
-            pageable: {
-              refresh:true,
-              pageSizes: true,
-              buttonCount: 5
-            },
-            height: 550,
-            toolbar: [{name: "create" ,text: "Add New Employee Type"},{template: kendo.template($("#textbox-multi-search").html())}],
-            columns: [
-                { field:"name", title: " Name" },
-                { field: "description", title: " Description"},
-                { field: "status", values: statusDataSource, title: "Status" },
-                { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-            editable:{
-              mode: "popup",
-              window: {
-                width: "600px"   
-              },
-              template: kendo.template($("#popup-editor-type").html())
-            },
-           edit: function (e) {
-           
-          //Customize popup title and button label 
-          if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Employee Type');
-              $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+      var dataSource = new kendo.data.DataSource({
+        transport: {
+          read:  {
+            url: crudBaseUrl + "/employee/type/get",
+            type: "GET",
+            dataType: "json"
+          },
+          update: {
+            url: crudBaseUrl + "/employee/type/update",
+            type: "Post",
+            dataType: "json"
+          },
+          destroy: {
+            url: crudBaseUrl + "/employee/type/destroy",
+            type: "Post",
+            dataType: "json"
+          },
+          create: {
+            url: crudBaseUrl + "/employee/type/store",
+            type: "Post",
+            dataType: "json"
+          },
+          parameterMap: function(options, operation) {
+            if (operation !== "read" && options.models) {
+              return {employees: kendo.stringify(options.models)};
+            }
           }
-          else {
-              e.container.data("kendoWindow").title('Edit Employee Type');
+        },
+        batch: true,
+        pageSize: 20,
+        schema: {
+          model: {
+            id: "id",
+            fields: {
+              id: { editable: false, nullable: true },
+              name: { type: "string" },
+              description: { type: "string", nullable: true }, 
+              status: { type: "string", defaultValue: "Enabled" }  
+            }
           }
-          //Call function status Initailize status dropdownlist 
-            initStatusDropDownList();
-        }  
+        }
       });
 
-      $("#txtMultiSearch").keyup(function(e){
-       
-        var q = $('#txtMultiSearch').val();
+      $("#grid").kendoGrid({
+        dataSource: dataSource,
+        navigatable: true,
+        reorderable: true,
+        resizable: true,
+        columnMenu: true,
+        filterable: true,
+        sortable: { mode: "single", allowUnsort: false },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
+        height: 550,
+        toolbar: [ 
+          { name: "create", text: "Add New Employee Type" }, 
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
+        columns: [
+            { field:"name", title: " Name" },
+            { field: "description", title: " Description"},
+            { field: "status", values: statusDataSource, title: "Status" },
+            { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false } 
+        ],
+        editable:{ mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-type").html()) },
+        edit: function (e) {
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
+            e.container.data("kendoWindow").title('Add New Employee Type');
+            $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+          }
+          else {
+            e.container.data("kendoWindow").title('Edit Employee Type');
+          }
 
+          //Initailize status dropdownlist 
+          initStatusDropDownList();
+        }   
+      });
+
+      $("#txtMultiSearch").keyup(function(e){ 
+        var q = $('#txtMultiSearch').val();
         $("#grid").data("kendoGrid").dataSource.filter({
           logic  : "or",
           filters: [
-            {
-                field   : "name",
-                operator: "contains",
-                value   : q
-            },
-            {
-                field   : "description",
-                operator: "contains",
-                value   : q
-            },
-            {
-                field   : "status",
-                operator: "eq",
-                value   : q
-            }
-
+            { field: "name", operator: "contains", value: q },
+            { field: "description", operator: "contains", value: q },
+            { field: "status", operator: "eq", value: q }
           ]
         });  
       });
