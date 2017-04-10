@@ -64,8 +64,6 @@ class CustomerController extends Controller
 
 		return Response()->Json($customers);
 	}
-
-
 	/**
 	 * Store a newly created resource in storage.
 	 *
