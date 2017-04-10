@@ -190,7 +190,7 @@
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl+"/customer/type/list/filter",
+              url: crudBaseUrl + "/customer/type/list/filter",
               type: "GET",
               dataType: "json"
             }
@@ -203,8 +203,9 @@
 
       /*Initailize date of birth datepicker*/
       $("#dob").kendoDatePicker({
-        format: "yyyy/MM/dd"
-      }).attr("readonly", "readonly");
+        format: "yyyy/MM/dd",
+        parseFormats: ["dd/MM/yyyy", "yyyy/MM/dd"]
+      });
 
       /*Initailize country dropdownlist*/
       initCountryDropDownList();
@@ -241,7 +242,7 @@
 
         <div class="col-12">
           <label for="date_of_birth">Date Of Birth</label>
-          <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" style="width: 100%;"/>
+          <input type="text" data-type="date" id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
         </div>
 
         <div class="col-12">

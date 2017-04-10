@@ -304,27 +304,27 @@ function initFormControl(){
 
       <div class="col-12">
         <label for="date_of_birth">Date Of Birth</label>
-        <input id="dob" name="date_of_birth" placeholder="Select date of birth"  data-bind="value:date_of_birth" required data-required-msg="The date of birth field is required" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
+        <input type="text" data-type="date" id="dob" name="date_of_birth" placeholder="Select date of birth"  data-bind="value:date_of_birth" required data-required-msg="The date of birth field is required" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
       </div> 
 
       <div class="col-12">
         <label for="start_work">Start Work</label>
-        <input type="text" data-type="date" id="sw" name="start_work" placeholder="Select start work" data-bind="value:start_work" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
+        <input type="text" data-type="date" id="sw" name="start_work" placeholder="Select start work" data-bind="value:start_work" data-role='datepicker' validationMessage="Start work is not valid date" style="width: 100%;"/>
       </div> 
 
       <div class="col-12">
         <label for="end_work">End Work</label>
-        <input type="text" data-type="date" id="ew" name="end_work" placeholder="Select end work" data-bind="value:end_work" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
+        <input type="text" data-type="date" id="ew" name="end_work" placeholder="Select end work" data-bind="value:end_work" data-role='datepicker' validationMessage="End work is not valid date" style="width: 100%;"/>
       </div> 
       
       <div class="col-12">
         <label for="start_contract">Start Contract</label>
-        <input type="text" data-type="date" id="sc" name="start_contract" placeholder="Select start contract" data-bind="value:start_contract" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
+        <input type="text" data-type="date" id="sc" name="start_contract" placeholder="Select start contract" data-bind="value:start_contract" data-role='datepicker' validationMessage="Start contract is not valid date" style="width: 100%;"/>
       </div> 
 
       <div class="col-12">
         <label for="end_contract">End Contract</label>
-        <input type="text" data-type="date" id="ec" name="end_contract" placeholder="Select end contract" data-bind="value:end_contract" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
+        <input type="text" data-type="date" id="ec" name="end_contract" placeholder="Select end contract" data-bind="value:end_contract" data-role='datepicker' validationMessage="End contract is not valid date" style="width: 100%;"/>
       </div> 
       
       <div class="col-12">

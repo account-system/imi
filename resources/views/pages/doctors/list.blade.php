@@ -200,8 +200,9 @@ function initFormControl(){
   initStatusDropDownList();
 
   $("#dob").kendoDatePicker({
-    format: "yyyy/MM/dd"
-  }).attr("readonly", "readonly");
+    format: "yyyy/MM/dd",
+    parseFormats: ["dd/MM/yyyy", "yyyy/MM/dd"]
+  });
 }
 </script>
 
@@ -236,7 +237,7 @@ function initFormControl(){
         
         <div class="col-12">
           <label for="date_of_birth">Date Of Birth</label>
-          <input id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" required data-required-msg="The date of birth field is required" style="width: 100%;"/>
+          <input type="text" data-type="date" id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" required data-required-msg="The date of birth field is required" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
         </div>
 
         <div class="col-12">
