@@ -33,26 +33,26 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-        var crudServiceBaseUrl = "{{url('')}}",
+        var crudBaseUrl = "{{url('')}}",
             dataSource = new kendo.data.DataSource({
                 transport: {
                     read:  {
-                        url: crudServiceBaseUrl + "/employee/type/get",
+                        url: crudBaseUrl + "/employee/type/get",
                         type: "GET",
                         dataType: "json"
                     },
                     update: {
-                        url: crudServiceBaseUrl + "/employee/type/update",
+                        url: crudBaseUrl + "/employee/type/update",
                         type: "Post",
                         dataType: "json"
                     },
                     destroy: {
-                        url: crudServiceBaseUrl + "/employee/type/destroy",
+                        url: crudBaseUrl + "/employee/type/destroy",
                         type: "Post",
                         dataType: "json"
                     },
                     create: {
-                        url: crudServiceBaseUrl + "/employee/type/store",
+                        url: crudBaseUrl + "/employee/type/store",
                         type: "Post",
                         dataType: "json"
                     },

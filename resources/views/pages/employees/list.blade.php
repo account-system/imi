@@ -121,11 +121,11 @@
       { field: "job_title", title: "Job Title" },
       { field: "employee_type_id", title: "Type ", values: employeeTypeDataSource },
       { field: "gender", title: "Gender", values: genderDataSource },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
-      { field: "start_work",title: "Start Work", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
-      { field: "end_work",title: "End Work", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
-      { field: "start_contract",title: "Start Contract", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true},
-      { field: "end_contract",title: "end_contract", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" ,hidden: true },
+      { field: "date_of_birth",title: "Date Of Birth", format: "{0:yyyy/MM/dd}" },
+      { field: "start_work",title: "Start Work", format: "{0:yyyy/MM/dd}" ,hidden: true},
+      { field: "end_work",title: "End Work", format: "{0:yyyy/MM/dd}" ,hidden: true},
+      { field: "start_contract",title: "Start Contract", format: "{0:yyyy/MM/dd}" ,hidden: true},
+      { field: "end_contract",title: "end_contract", format: "{0:yyyy/MM/dd}" ,hidden: true },
       { field: "spouse",title: "Spouse" ,hidden: true },
       { field: "minor",title: "minor" ,hidden: true },
       { field: "phone",title: "Phone" ,hidden: true },
@@ -227,27 +227,27 @@ function initFormControl(){
   /* Date of birth format */
    $("#dob").kendoDatePicker({
     format: "yyyy/MM/dd"
-  }); 
+  }).attr("readonly", "readonly"); 
 
   /* start work format */
    $("#sw").kendoDatePicker({
     format: "yyyy/MM/dd"
-  });
+  }).attr("readonly", "readonly");
 
   /* end work format */
    $("#ew").kendoDatePicker({
     format: "yyyy/MM/dd"
-  });
+  }).attr("readonly", "readonly");
 
   /* start contract format */
    $("#sc").kendoDatePicker({
     format: "yyyy/MM/dd"
-  });
+  }).attr("readonly", "readonly");
 
   /* end contract format */
    $("#ec").kendoDatePicker({
     format: "yyyy/MM/dd"
-  });
+  }).attr("readonly", "readonly");
 }
 </script>
 

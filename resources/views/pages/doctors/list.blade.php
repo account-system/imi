@@ -111,7 +111,7 @@
       { field: "job_title", title: "Job Title" },
       { field: "doctor_type_id", title: "Type ", values: doctorTypeDataSource },
       { field: "gender", title: "Gender", values: genderDataSource },
-      { field: "date_of_birth",title: "Date Of Birth", template: "#= kendo.toString(kendo.parseDate(date_of_birth, 'yyyy-MM-dd'), 'yyyy/MM/dd') #" },
+      { field: "date_of_birth",title: "Date Of Birth", format: "{0:yyyy/MM/dd}" },
       { field: "phone",title: "Phone" },
       { field: "email",title: "Email" ,hidden: true },
       { field: "country_id",title: "Country", values: countryDataSource ,hidden: true },
@@ -151,7 +151,7 @@
     $("#grid").data("kendoGrid").dataSource.filter({
       logic  : "or",
       filters: [
-        { field  : "first_name" operator: "contains", value   : q },
+        { field  : "first_name", operator: "contains", value   : q },
         { field  : "last_name",  operator: "contains",  value   : q },
         { field  : "job_title", operator: "contains",  value   : q  },
         { field  : "doctor_type_id", operator: "eq", value   : q },
@@ -201,7 +201,7 @@ function initFormControl(){
 
   $("#dob").kendoDatePicker({
     format: "yyyy/MM/dd"
-  });
+  }).attr("readonly", "readonly");
 }
 </script>
 
