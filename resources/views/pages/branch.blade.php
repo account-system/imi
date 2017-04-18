@@ -16,7 +16,7 @@
   .fieldlist li span {
       width: 220px;
   }
-  </style>
+  </style>s
 @endsection
 
 @section('header')
