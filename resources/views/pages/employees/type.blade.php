@@ -106,7 +106,7 @@
             e.container.data("kendoWindow").title('Edit Employee Type');
           }
 
-          //Initailize status dropdownlist 
+          /*Initialize status dropdownlist*/
           initStatusDropDownList();
         }   
       });

@@ -88,10 +88,13 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create", text: "Add New Country"}, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ 
+          { name: "create", text: "Add New Country" }, 
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
         columns: [
           { field: "name", title: "Name" },
-          { field: "description",title: "Description" },
+          { field: "description", title: "Description" },
           { field: "status", title: "Status", values: statusDataSource },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
@@ -177,10 +180,10 @@
           filterable: true,
           sortable: { mode: "single", allowUnsort: false },
           pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
-          toolbar: [{ name: "create", text: "Add New City"}],
+          toolbar: [ { name: "create", text: "Add New City"} ],
           columns: [
             { field: "name", title: "Name" },
-            { field: "description",title: "Description" },
+            { field: "description", title: "Description" },
             { field: "status", title: "Status", values: statusDataSource },
             { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
           ],
@@ -201,7 +204,6 @@
         });
       }
     });
-
   </script>  
 
 @endsection

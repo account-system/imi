@@ -158,15 +158,15 @@
 
     /*Initialize all form controller*/  
     function initFormControll(){
-      /*Initialize category dropdownlist*/
+      /*Initialize item type dropdownlist*/
       $("#type").kendoDropDownList({
-        optionLabel: "Select type...",
+        optionLabel: "Select item type...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl+"/item/type/list/filter",
+              url: crudBaseUrl + "/item/type/list/filter",
               type: "GET",
               dataType: "json"
             }

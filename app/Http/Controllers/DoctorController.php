@@ -51,7 +51,7 @@ class DoctorController extends Controller
 		$cityController					= new cityController;
 		$this->data['cities']			= $cityController->getList('all')->content();
 
-		return view('pages.doctors.list',$this->data);
+		return view('pages.doctors.doctor',$this->data);
 	}
 
 	/**

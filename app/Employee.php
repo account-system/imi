@@ -20,9 +20,14 @@ class Employee extends Model
      * @var array
      */
     protected $dates = [
-        'date_of_birth', 'start_work','end_work','start_contract', 'end_contract'
+        'date_of_birth', 'start_work', 'end_work', 'start_contract', 'end_contract'
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'date_of_birth' => 'date',
         'start_work' => 'date',

@@ -51,10 +51,26 @@
       /*Employee data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
-          read:   { url: crudBaseUrl + "/employee/get", type: "GET", dataType: "json" },
-          update: { url: crudBaseUrl + "/employee/update", type: "POST", dataType: "json" },
-          destroy:{ url: crudBaseUrl + "/employee/destroy", type: "POST", dataType: "json" },
-          create: { url: crudBaseUrl + "/employee/store", type: "POST", dataType: "json" },
+          read: { 
+            url: crudBaseUrl + "/employee/get", 
+            type: "GET", 
+            dataType: "json" 
+          },
+          update: { 
+            url: crudBaseUrl + "/employee/update", 
+            type: "POST", 
+            dataType: "json" 
+          },
+          destroy: { 
+            url: crudBaseUrl + "/employee/destroy", 
+            type: "POST", 
+            dataType: "json" 
+          },
+          create: { 
+            url: crudBaseUrl + "/employee/store", 
+            type: "POST", 
+            dataType: "json" 
+          },
           parameterMap: function (options, operation) {
             if (operation !== "read" && options.models) {
               return { employees: kendo.stringify(options.models) };
@@ -194,7 +210,7 @@ function initFormControl(){
     dataSource: {
       transport: {
         read: {
-          url: crudBaseUrl+"/employee/type/list/filter",
+          url: crudBaseUrl + "/employee/type/list/filter",
           type: "GET",
           dataType: "json"
         }
@@ -329,12 +345,12 @@ function initFormControl(){
       
       <div class="col-12">
         <label for="spouse">Spouse</label>
-        <input type="number" id="spouse" name="spouse" data-bind="value:spouse" style="width: 100%;"/>
+        <input type="number" id="spouse" name="spouse" data-bind="value:spouse" required data-required-msg="The spouse field is required" style="width: 100%;"/>
       </div>
 
       <div class="col-12">
         <label for="minor">Minor</label>
-        <input type="number" id="minor" name="minor" data-bind="value:minor"  style="width: 100%;"/>
+        <input type="number" id="minor" name="minor" data-bind="value:minor" required data-required-msg="The minor field is required" style="width: 100%;"/>
       </div>
     </div>
     <div class="row-6">  

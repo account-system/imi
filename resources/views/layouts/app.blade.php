@@ -208,6 +208,7 @@
       
       /*Set active state on menu element*/
       var current_url = window.location.href;
+      
       $("ul.sidebar-menu li a").each(function() {
         if ($(this).attr('href') === current_url || current_url === $(this).attr('href'))
         {

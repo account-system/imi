@@ -115,7 +115,10 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh:true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create", text: "Add New Customer" },{ template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ 
+          { name: "create", text: "Add New Customer" },
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
         columns: [
           { field: "customer_name", title: "Cusotmer Name" },
           { field: "customer_type_id", title: "Type ", values: customerTypeDataSource },
@@ -135,9 +138,9 @@
           { field: "status", title: "Status", values: statusDataSource, hidden: true },
           { command: ["edit", "destroy"], title: "Action", menu: false }
         ],
-        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-vedor").html()) },
+        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-customer").html()) },
         edit: function (e) {
-          /*Customize popup title and button label */
+          /*Customize popup title and button label*/
           if (e.model.isNew()) {
             e.container.data("kendoWindow").title('Add New Customer');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
@@ -184,7 +187,7 @@
     function initFormControl(){
       /*Initailize customer type dropdownlist*/
       $("#customerTypes").kendoDropDownList({
-        optionLabel: "Select customer Type...",
+        optionLabel: "Select customer type...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
@@ -221,8 +224,8 @@
     }
   </script>
 
-  <!-- Customize popup editor customer list --> 
-  <script type="text/x-kendo-template" id="popup-editor-vedor">
+  <!-- Customize popup editor customer --> 
+  <script type="text/x-kendo-template" id="popup-editor-customer">
     <div class="row-12">
       <div class="row-6">
         <div class="col-12">
@@ -247,12 +250,12 @@
 
         <div class="col-12">
           <label for="phone">Phone</label>
-          <input type="tel" class="k-textbox" name="Phone" placeholder="Enter phone number" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
+          <input type="tel" class="k-textbox" name="phone" placeholder="Enter phone number" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
           <label for="email">Email</label>
-          <input type="email" class="k-textbox" name="Email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
         </div>  
         
         <div class="col-12">
@@ -262,7 +265,7 @@
       
         <div class="col-12">
           <label for="relative_phone">Relative Phone</label>
-          <input type="tel" class="k-textbox" name="relative_phone" placeholder="Enter relative phone" data-bind="value:relative_phone" pattern="^[0-9\ \]{9,13}$" validationMessage="Relative phone munber format is not valid" style="width: 100%;"/>
+          <input type="tel" class="k-textbox" name="relative_phone" placeholder="Enter relative phone number" data-bind="value:relative_phone" pattern="^[0-9\ \]{9,13}$" validationMessage="Relative phone munber format is not valid" style="width: 100%;"/>
         </div> 
 
          <div class="col-12">
@@ -283,17 +286,17 @@
         
         <div class="col-12">
           <label for="postal_code">Postal Code</label>
-          <input type="text" class="k-textbox" name="Postal code" placeholder="Enter Postal Code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="postal_code" placeholder="Enter postal code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
         </div>
 
         <div class="col-12">
           <label for="address">Address</label>
-          <textarea class="k-textbox" name="Address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
         </div>
         
         <div class="col-12">
           <label for="detail">Detail</label>
-          <textarea class="k-textbox" name="Detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
         </div>
 
          <div class="col-12">

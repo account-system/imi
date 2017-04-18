@@ -24,6 +24,11 @@ class Doctor extends Model
         'date_of_birth'
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'date_of_birth' => 'date'
     ];

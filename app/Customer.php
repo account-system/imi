@@ -24,4 +24,13 @@ class Customer extends Model
     protected $dates = [
         'date_of_birth'
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date_of_birth' => 'date'
+    ];
 }

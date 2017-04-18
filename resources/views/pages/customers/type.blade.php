@@ -32,6 +32,7 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
+      /*Customer type data source*/
       var dataSource = new kendo.data.DataSource({
         transport: {
           read:  {

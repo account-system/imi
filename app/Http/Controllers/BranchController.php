@@ -90,7 +90,7 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-       $branchsRequest = json_decode($request->input('branchs'));
+       $branchsRequest = json_decode($request->input('branches'));
   
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
@@ -123,7 +123,7 @@ class BranchController extends Controller
      */
     public function update(Request $request)
     {
-        $branchsRequest = json_decode($request->input('branchs'));
+        $branchsRequest = json_decode($request->input('branches'));
   
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
@@ -155,7 +155,7 @@ class BranchController extends Controller
      */
     public function destroy(Request $request)
     {
-        $branchsRequest = json_decode($request->input('branchs'));
+        $branchsRequest = json_decode($request->input('branches'));
   
         foreach ($branchsRequest as $key => $branchRequest) {
             try {
