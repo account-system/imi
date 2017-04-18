@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
 use App\MasterDetail;
 use App\MasterType;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BranchController extends Controller
 {
