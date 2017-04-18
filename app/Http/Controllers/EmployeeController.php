@@ -91,19 +91,19 @@ class EmployeeController extends Controller
 				$employeeObject->job_title 			= 	$employeeRequest->job_title;
 				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
 				$employeeObject->gender 			= 	$employeeRequest->gender;
-				$employeeObject->date_of_birth	 	= 	new Carbon($employeeRequest->date_of_birth);
+				$employeeObject->date_of_birth	 	= 	Carbon::parse($employeeRequest->date_of_birth)->addDay();
 				$employeeObject->start_work	 		= 	is_null($employeeRequest->start_work) ? 
 														$employeeRequest->start_work : 
-														new Carbon($employeeRequest->start_work);
+														Carbon::parse($employeeRequest->start_work)->addDay();
 				$employeeObject->end_work	 		= 	is_null($employeeRequest->end_work) ? 
 														$employeeRequest->end_work : 
-														new Carbon($employeeRequest->end_work);
+														Carbon::parse($employeeRequest->end_work)->addDay();
 				$employeeObject->start_contract	 	= 	is_null($employeeRequest->start_contract) ? 
 														$employeeRequest->start_contract : 
-														new Carbon($employeeRequest->start_contract);
+														Carbon::parse($employeeRequest->start_contract)->addDay();
 				$employeeObject->end_contract	 	= 	is_null($employeeRequest->end_contract) ? 
 														$employeeRequest->end_contract : 
-														new Carbon($employeeRequest->end_contract);
+														Carbon::parse($employeeRequest->end_contract)->addDay();
 				$employeeObject->spouse 			= 	$employeeRequest->spouse;
 				$employeeObject->minor 				= 	$employeeRequest->minor;
 				$employeeObject->phone 				= 	$employeeRequest->phone;
@@ -152,19 +152,19 @@ class EmployeeController extends Controller
 				$employeeObject->job_title 			= 	$employeeRequest->job_title;
 				$employeeObject->employee_type_id 	= 	$employeeRequest->employee_type_id;
 				$employeeObject->gender 			= 	$employeeRequest->gender;
-				$employeeObject->date_of_birth	 	= 	new Carbon($employeeRequest->date_of_birth);
+				$employeeObject->date_of_birth	 	= 	Carbon::parse($employeeRequest->date_of_birth)->addDay();
 				$employeeObject->start_work	 		= 	is_null($employeeRequest->start_work) ? 
 														$employeeRequest->start_work : 
-														new Carbon($employeeRequest->start_work);
+														Carbon::parse($employeeRequest->start_work)->addDay();
 				$employeeObject->end_work	 		= 	is_null($employeeRequest->end_work) ? 
 														$employeeRequest->end_work : 
-														new Carbon($employeeRequest->end_work);
+														Carbon::parse($employeeRequest->end_work)->addDay();
 				$employeeObject->start_contract	 	= 	is_null($employeeRequest->start_contract) ? 
 														$employeeRequest->start_contract : 
-														new Carbon($employeeRequest->start_contract);
+														Carbon::parse($employeeRequest->start_contract)->addDay();
 				$employeeObject->end_contract	 	= 	is_null($employeeRequest->end_contract) ? 
 														$employeeRequest->end_contract : 
-														new Carbon($employeeRequest->end_contract);
+														Carbon::parse($employeeRequest->end_contract)->addDay();
 				$employeeObject->spouse 			= 	$employeeRequest->spouse;
 				$employeeObject->minor 				= 	$employeeRequest->minor;
 				$employeeObject->phone 				= 	$employeeRequest->phone;

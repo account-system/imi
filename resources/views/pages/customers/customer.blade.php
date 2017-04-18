@@ -206,8 +206,8 @@
 
       /*Initailize date of birth datepicker*/
       $("#dob").kendoDatePicker({
-        format: "yyyy/MM/dd",
-        parseFormats: ["dd/MM/yyyy", "yyyy/MM/dd"]
+        parseFormats: ["dd/MM/yyyy", "yyyy/MM/dd"],
+        format: "yyyy/MM/dd" 
       });
 
       /*Initailize country dropdownlist*/
