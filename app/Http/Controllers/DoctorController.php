@@ -86,7 +86,7 @@ class DoctorController extends Controller
 				$doctorObject->last_name 			= 	$doctorRequest->last_name;
 				$doctorObject->job_title 			= 	$doctorRequest->job_title;
 				$doctorObject->gender 				= 	$doctorRequest->gender;
-				$doctorObject->date_of_birth	 	= 	new Carbon($doctorRequest->date_of_birth);
+				$doctorObject->date_of_birth	 	= 	Carbon::parse($doctorRequest->date_of_birth)->addDay();
 				$doctorObject->doctor_type_id 		= 	$doctorRequest->doctor_type_id;
 				$doctorObject->phone 				= 	$doctorRequest->phone;
 				$doctorObject->email 				= 	$doctorRequest->email;
@@ -132,7 +132,7 @@ class DoctorController extends Controller
 				$doctorObject->last_name 			= 	$doctorRequest->last_name;
 				$doctorObject->job_title 			= 	$doctorRequest->job_title;
 				$doctorObject->gender 				= 	$doctorRequest->gender;
-				$doctorObject->date_of_birth	 	= 	new Carbon($doctorRequest->date_of_birth);
+				$doctorObject->date_of_birth	 	= 	Carbon::parse($doctorRequest->date_of_birth)->addDay();
 				$doctorObject->doctor_type_id 		= 	$doctorRequest->doctor_type_id;
 				$doctorObject->phone 				= 	$doctorRequest->phone;
 				$doctorObject->email 				= 	$doctorRequest->email;

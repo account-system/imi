@@ -85,7 +85,7 @@ class CustomerController extends Controller
 				$customerObject->gender 			= 	$customerRequest->gender;
 				$customerObject->date_of_birth	 	= 	is_null($customerRequest->date_of_birth) ? 
 														$customerRequest->date_of_birth : 
-														new Carbon($customerRequest->date_of_birth);
+														Carbon::parse($customerRequest->date_of_birth)->addDay();
 				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
 				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
@@ -133,7 +133,7 @@ class CustomerController extends Controller
 				$customerObject->gender 			= 	$customerRequest->gender;
 				$customerObject->date_of_birth	 	= 	is_null($customerRequest->date_of_birth) ? 
 														$customerRequest->date_of_birth : 
-														new Carbon($customerRequest->date_of_birth);
+														Carbon::parse($customerRequest->date_of_birth)->addDay();
 				$customerObject->phone 				= 	$customerRequest->phone;
 				$customerObject->email 				= 	$customerRequest->email;
 				$customerObject->relative_contact 	= 	$customerRequest->relative_contact;
