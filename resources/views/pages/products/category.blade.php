@@ -32,7 +32,7 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-      /*Category data source*/
+      /*Item type data source*/
       var dataSource = new kendo.data.DataSource({
         transport: {
           read:  {
@@ -86,9 +86,12 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [{name: "create" ,text: "Add New Item Type"},{template: kendo.template($("#textbox-multi-search").html())}],
+        toolbar: [
+          { name: "create" ,text: "Add New Item Type" },
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
         columns: [
-            { field:"name", title: "Name" },
+            { field: "name", title: "Name" },
             { field: "description", title: "Description"},
             { field: "status", title: "Status", values: statusDataSource },
             { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
@@ -97,11 +100,11 @@
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Item Type');
-              $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+            e.container.data("kendoWindow").title('Add New Item Type');
+            $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-              e.container.data("kendoWindow").title('Edit Item Type');
+            e.container.data("kendoWindow").title('Edit Item Type');
           }
 
           /*Initialize status dropdownlist*/

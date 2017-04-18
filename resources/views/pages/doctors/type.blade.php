@@ -2,20 +2,7 @@
 
 @section('after_styles')
   <style>
-  .toolbar-search {
-    float: right;
-  }
-  .fieldlist {
-    padding-right: 12px;
-  }
 
-  .fieldlist li {
-      list-style: none;
-  }
-
-  .fieldlist li span {
-      width: 220px;
-  }
   </style>
 @endsection
 
@@ -36,9 +23,8 @@
         <div class="box box-default">
           <div class="box-body">
             <div id="grid"></div>
-
-          </div><!-- /box-body-->
-        </div><!-- /box box-default-->
+          </div>
+        </div>
       </div>
     </div>   
 @endsection
@@ -46,164 +32,97 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-
-        var crudBaseUrl = "{{url('')}}",
-            dataSource = new kendo.data.DataSource({
-                transport: {
-                    read:  {
-                        url: crudBaseUrl + "/doctor/type/get",
-                        type: "GET",
-                        dataType: "json"
-                    },
-                    update: {
-                        url: crudBaseUrl + "/doctor/type/update",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    destroy: {
-                        url: crudBaseUrl + "/doctor/type/destroy",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    create: {
-                        url: crudBaseUrl + "/doctor/type/store",
-                        type: "Post",
-                        dataType: "json"
-                    },
-                    parameterMap: function(options, operation) {
-                        if (operation !== "read" && options.models) {
-                            return {doctors: kendo.stringify(options.models)};
-                        }
-                    }
-                },
-                batch: true,
-                pageSize: 20,
-                schema: {
-                    model: {
-                        id: "id",
-                        fields: {
-                            id: { editable: false, nullable: true },
-                            name: {
-                              type: "string",
-                              validation: {
-                                  required: true,
-                                  namevalidation: function (input) {
-                                      if (input.is("[name='name']") && input.val() != "") {
-                                          input.attr("data-namevalidation-msg", "Name should start with capital letter");
-                                          return /^[A-Z]/.test(input.val());
-                                      }
-
-                                      return true;
-                                  },
-                                  maxlength:function(input) { 
-                                    if (input.is("[name='name']") && input.val().length > 60) {
-                                       input.attr("data-maxlength-msg", "Max length is 60");
-                                       return false;
-                                    }                                   
-                                    return true;
-                                  }
-                              }
-                            },
-                            description: { nullable: true, validation: {
-                                  descriptionvalidation: function (input) {
-                                      if (input.is("[name='description']") && input.val() != "") {
-                                          input.attr("data-descriptionvalidation-msg", "description should start with capital letter");
-                                          return /^[A-Z]/.test(input.val());
-                                      }
-
-                                      return true;
-                                  },
-                                  maxlength:function(input) { 
-                                    if (input.is("[name='description']") && input.val().length > 200) {
-                                       input.attr("data-maxlength-msg", "Max length is 200");
-                                       return false;
-                                    }                                   
-                                    return true;
-                                  }
-                              } 
-                            },
-                            status: { 
-                            field: "status", 
-                            type: "string", 
-                            defaultValue: "Enabled" 
-                          }                      
-                        }
-                    }
-                }
-            });
-
-        $("#grid").kendoGrid({
-            dataSource: dataSource,
-            navigatable: true,
-            resizable: true,
-            reorderable: true,
-            columnMenu: true,
-            filterable: true,
-            sortable: {
-              mode: "single",
-              allowUnsort: false
-            },
-            pageable: {
-              refresh:true,
-              pageSizes: true,
-              buttonCount: 5
-            },
-            height: 550,
-            toolbar: [{name: "create",text: "Add New Doctor Type"},{template: kendo.template($("#textbox-multi-search").html())}],
-            columns: [
-                { field:"name", title: " Name" },
-                { field: "description", title: " Description"},
-                { field: "status", values: statusDataSource, title: "Status" },
-                { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-            editable:{
-            mode: "popup",
-            window: {
-              width: "600px"   
-            },
-            template: kendo.template($("#popup-editor-type").html())
+      /*Doctor type data source*/
+      var dataSource = new kendo.data.DataSource({
+        transport: {
+          read:  {
+            url: crudBaseUrl + "/doctor/type/get",
+            type: "GET",
+            dataType: "json"
           },
-          edit: function (e) {
-            //Call function status Initailize status dropdownlist 
-            initStatusDropDownList();
+          update: {
+            url: crudBaseUrl + "/doctor/type/update",
+            type: "POST",
+            dataType: "json"
+          },
+          destroy: {
+            url: crudBaseUrl + "/doctor/type/destroy",
+            type: "POST",
+            dataType: "json"
+          },
+          create: {
+            url: crudBaseUrl + "/doctor/type/store",
+            type: "POST",
+            dataType: "json"
+          },
+          parameterMap: function(options, operation) {
+            if (operation !== "read" && options.models) {
+              return {doctors: kendo.stringify(options.models)};
+            }
+          }
+        },
+        batch: true,
+        pageSize: 20,
+        schema: {
+          model: {
+            id: "id",
+            fields: {
+              id: { editable: false, nullable: true },
+              name: { type: "string" },
+              description: { type: "string", nullable: true },
+              status: { type: "string", defaultValue: "Enabled" }                      
+            }
+          }
+        }
+      });
 
-            //Customize popup title and button label 
-            if (e.model.isNew()) {
-                e.container.data("kendoWindow").title('Add New Doctor Type');
-                $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-            }
-            else {
-                e.container.data("kendoWindow").title('Edit Doctor Type');
-            }
-          }  
-        });
+      $("#grid").kendoGrid({
+        dataSource: dataSource,
+        navigatable: true,
+        resizable: true,
+        reorderable: true,
+        columnMenu: true,
+        filterable: true,
+        sortable: { mode: "single", allowUnsort: false },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
+        height: 550,
+        toolbar: [
+          { name: "create", text: "Add New Doctor Type" },
+          { template: kendo.template($("#textbox-multi-search").html()) }
+        ],
+        columns: [
+          { field: "name", title: "Name" },
+          { field: "description", title: "Description" },
+          { field: "status", title: "Status", values: statusDataSource },
+          { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
+        ],
+        editable:{ mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-type").html()) },
+        edit: function (e) {
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
+            e.container.data("kendoWindow").title('Add New Doctor Type');
+            $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+          }
+          else {
+            e.container.data("kendoWindow").title('Edit Doctor Type');
+          }
+
+          /*Initialize status dropdownlist*/
+          initStatusDropDownList();
+        }  
+      });
 
       $("#txtMultiSearch").keyup(function(e){
-       
         var q = $('#txtMultiSearch').val();
-
         $("#grid").data("kendoGrid").dataSource.filter({
           logic  : "or",
           filters: [
-            {
-                field   : "name",
-                operator: "contains",
-                value   : q
-            },
-            {
-                field   : "description",
-                operator: "contains",
-                value   : q
-            },
-            {
-                field   : "status",
-                operator: "eq",
-                value   : q
-            }
-
+            { field: "name", operator: "contains", value: q },
+            { field: "description", operator: "contains", value: q },
+            { field: "status", operator: "eq", value: q }
           ]
         });  
       });
-
     });
   </script>   
 @endsection

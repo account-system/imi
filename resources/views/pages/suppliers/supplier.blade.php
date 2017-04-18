@@ -179,13 +179,13 @@
     function initFormControl(){
       /*Initialize supplier type dropdownlist*/
       $("#supplierType").kendoDropDownList({
-        optionLabel: "Select type...",
+        optionLabel: "Select supplier type...",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl+"/supplier/type/list/filter",
+              url: crudBaseUrl + "/supplier/type/list/filter",
               type: "GET",
               dataType: "json"
             }

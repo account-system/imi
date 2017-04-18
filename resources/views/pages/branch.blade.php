@@ -2,20 +2,7 @@
 
 @section('after_styles')
   <style>
-  .toolbar-search {
-    float: right;
-  }
-  .fieldlist {
-    padding-right: 12px;
-  }
-
-  .fieldlist li {
-      list-style: none;
-  }
-
-  .fieldlist li span {
-      width: 220px;
-  }
+  
   </style>
 @endsection
 
@@ -24,6 +11,7 @@
       <h1>Setup Branch</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
+        <li class="active">Setup Data</li>
         <li class="active">Setup Branch</li>
       </ol>
     </section>
@@ -35,8 +23,8 @@
         <div class="box box-default">
           <div class="box-body">
             <div id="grid"></div>
-          </div><!-- /box-body-->
-        </div><!-- /box box-default-->
+          </div>
+        </div>
       </div>
     </div>   
 @endsection
@@ -44,34 +32,34 @@
 @section('after_scripts')
   <script>
     $(document).ready(function () {
-       /*Branch data source*/
+      /*Branch data source*/
       var dataSource = new kendo.data.DataSource({
         transport: {
-            read:  {
-                url: crudBaseUrl + "/branch/get",
-                type: "GET",
-                dataType: "json"
-            },
-            update: {
-                url: crudBaseUrl + "/branch/update",
-                type: "Post",
-                dataType: "json"
-            },
-            destroy: {
-                url: crudBaseUrl + "/branch/destroy",
-                type: "Post",
-                dataType: "json"
-            },
-            create: {
-                url: crudBaseUrl + "/branch/store",
-                type: "Post",
-                dataType: "json"
-            },
-            parameterMap: function(options, operation) {
-                if (operation !== "read" && options.models) {
-                    return {branchs: kendo.stringify(options.models)};
-                }
+          read:  {
+            url: crudBaseUrl + "/branch/get",
+            type: "GET",
+            dataType: "json"
+          },
+          update: {
+            url: crudBaseUrl + "/branch/update",
+            type: "POST",
+            dataType: "json"
+          },
+          destroy: {
+            url: crudBaseUrl + "/branch/destroy",
+            type: "POST",
+            dataType: "json"
+          },
+          create: {
+            url: crudBaseUrl + "/branch/store",
+            type: "POST",
+            dataType: "json"
+          },
+          parameterMap: function(options, operation) {
+            if (operation !== "read" && options.models) {
+                return {branches: kendo.stringify(options.models)};
             }
+          }
         },
         batch: true,
         pageSize: 20,
@@ -80,125 +68,60 @@
             id: "id",
             fields: {
               id: { editable: false, nullable: true },
-              name: {
-                type: "string",
-                validation: {
-                  required: true,
-                  namevalidation: function (input) {
-                    if (input.is("[name='name']") && input.val() != "") {
-                      input.attr("data-namevalidation-msg", "Name should start with capital letter");
-                      return /^[A-Z]/.test(input.val());
-                    }
-                    return true;
-                  },    
-                  maxlength:function(input) { 
-                    if (input.is("[name='name']") && input.val().length > 60) {
-                      input.attr("data-maxlength-msg", "Max length is 60");
-                      return false;
-                    }                                   
-                    return true;
-                  }
-                }
-              },  
-              description: { nullable: true, validation: {
-                descriptionvalidation: function (input) {
-                  if (input.is("[name='description']") && input.val() != "") {
-                    input.attr("data-descriptionvalidation-msg", "description should start with capital letter");
-                    return /^[A-Z]/.test(input.val());
-                  }
-                  return true;
-                  },
-                maxlength:function(input) { 
-                  if (input.is("[name='description']") && input.val().length > 200) {
-                    input.attr("data-maxlength-msg", "Max length is 200");
-                    return false;
-                  }                                   
-                  return true;
-                  }
-                } 
-              },
-              status: { 
-                field: "status", 
-                type: "string", 
-                defaultValue: "Enabled" 
-              }                      
+              name: { type: "string" },  
+              description: { type: "string", nullable: true },
+              status: { type: "string", defaultValue: "Enabled" }                      
             }
           }
         }
       });
 
-    $("#grid").kendoGrid({
+      $("#grid").kendoGrid({
         dataSource: dataSource,
         navigatable: true,
         resizable: true,
         reorderable: true,
         columnMenu: true,
         filterable: true,
-        sortable: {
-          mode: "single",
-          allowUnsort: false
-        },
-        pageable: {
-          refresh:true,
-          pageSizes: true,
-          buttonCount: 5
-        },
+        sortable: { mode: "single", allowUnsort: false },
+        pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [{name: "create",text: "Add New Branch"},{template: kendo.template($("#textbox-multi-search").html())}],
+        toolbar: [ 
+          { name: "create", text: "Add New Branch" }, 
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
         columns: [
-            { field:"name", title: " Name" },
-            { field: "description", title: " Description"},
-            { field: "status", values: statusDataSource, title: "Status" },
-            { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }],
-        editable:{
-        mode: "popup",
-        window: {
-          width: "600px"   
-        },
-        template: kendo.template($("#popup-editor-type").html())
-      },
-      edit: function (e) {
-        //Call function status Initailize status dropdownlist 
-        initStatusDropDownList();
-
-        //Customize popup title and button label 
-        if (e.model.isNew()) {
+          { field: "name", title: " Name" },
+          { field: "description", title: " Description" },
+          { field: "status", title: "Status", values: statusDataSource },
+          { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
+        ],
+        editable:{ mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-type").html()) },
+        edit: function (e) {
+          //Customize popup title and button label 
+          if (e.model.isNew()) {
             e.container.data("kendoWindow").title('Add New Branch');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-        }
-        else {
+          }
+          else {
             e.container.data("kendoWindow").title('Edit Branch');
-        }
-      }  
+          }
+          /*Initialize status dropdownlist*/
+          initStatusDropDownList();
+        }  
+      });
+
+      $("#txtMultiSearch").keyup(function(e){
+        var q = $('#txtMultiSearch').val();
+        $("#grid").data("kendoGrid").dataSource.filter({
+          logic  : "or",
+          filters: [
+            { field: "name", operator: "contains", value: q },
+            { field: "description", operator: "contains", value: q },
+            { field: "status", operator: "eq", value: q }
+          ]
+        });  
+      });
     });
-
-  $("#txtMultiSearch").keyup(function(e){
-   
-    var q = $('#txtMultiSearch').val();
-
-    $("#grid").data("kendoGrid").dataSource.filter({
-      logic  : "or",
-      filters: [
-        {
-            field   : "name",
-            operator: "contains",
-            value   : q
-        },
-        {
-            field   : "description",
-            operator: "contains",
-            value   : q
-        },
-        {
-            field   : "status",
-            operator: "eq",
-            value   : q
-        }
-
-      ]
-    });  
-  });
-
-});
   </script>   
 @endsection

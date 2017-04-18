@@ -87,8 +87,8 @@
         height: 550,
         toolbar: [ {name: "create", text: "Add New Supplier Type" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
         columns: [
-          { field:"name", title: "Name" },
-          { field: "description", title: "Description"},
+          { field: "name", title: "Name" },
+          { field: "description", title: "Description" },
           { field: "status", title: "Status", values: statusDataSource },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
@@ -96,11 +96,11 @@
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-              e.container.data("kendoWindow").title('Add New Supplier Type');
-              $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
+            e.container.data("kendoWindow").title('Add New Supplier Type');
+            $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-              e.container.data("kendoWindow").title('Edit Supplier Type');
+            e.container.data("kendoWindow").title('Edit Supplier Type');
           }
 
           /*Initialize status dropdownlist*/
@@ -109,9 +109,7 @@
       });
 
       $("#txtMultiSearch").keyup(function(e){
-       
         var q = $('#txtMultiSearch').val();
-
         $("#grid").data("kendoGrid").dataSource.filter({
           logic  : "or",
           filters: [
@@ -121,7 +119,6 @@
           ]
         });  
       });
-
     });
   </script>
  
