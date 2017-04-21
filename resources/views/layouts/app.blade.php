@@ -95,7 +95,11 @@
       .k-input{
         padding: 0px;
       }
-
+      .k-multiselect-wrap{
+        padding-top: 1px;
+        padding-bottom: 1px;
+        min-height: 2.15em;
+      }
     </style>
 
     @yield('after_styles')

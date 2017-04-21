@@ -133,7 +133,7 @@
           { field: "status", title: "Status", values: statusDataSource ,hidden: true },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
-        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-vedor").html()) },
+        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-supplier").html()) },
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
@@ -211,7 +211,7 @@
   </script>
 
   <!-- Customize popup editor supplier --> 
-  <script type="text/x-kendo-template" id="popup-editor-vedor">
+  <script type="text/x-kendo-template" id="popup-editor-supplier">
     <div class="row-12">
       <div class="row-6">
         <div class="col-12">

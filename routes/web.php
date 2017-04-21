@@ -152,6 +152,15 @@ Route::group(['prefix' => 'city'], function () {
     Route::post('/destroy', 'CityController@destroy');
 });
 
+//Route user
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', 'UserController@view');
+    Route::get('/get', 'UserController@get');
+    Route::post('/store', 'UserController@store');
+    Route::post('/update', 'UserController@update');
+    Route::post('/destroy', 'UserController@destroy');
+});
+
 
 
 

@@ -16,7 +16,7 @@ class CountryController extends Controller
      *
      *@var int
      */
-    private $countryTable = 7;
+    private $countryTable = 6;
 
     /**
      *The information we send to the view

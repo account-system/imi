@@ -28,9 +28,6 @@ class MasterTypesTableSeeder extends Seeder
         	array(
 	            'name' => 'categories',
         	),
-        	array(
-	            'name' => 'branches',
-        	),
             array(
                 'name' => 'countries',
             ),
