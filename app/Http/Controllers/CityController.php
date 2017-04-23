@@ -17,7 +17,7 @@ class CityController extends Controller
      *
      *@var int
      */
-    private $cityTable = 8;
+    private $cityTable = 7;
 
     /**
      *The information we send to the view

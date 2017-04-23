@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Branch;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
-use App\MasterDetail;
-use App\MasterType;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BranchController extends Controller
 {
-    /**
-     *The branch table
-     *
-     *@var int
-     */
-    private $branchTable = 6;
-
     /**
      *The information we send to the view
      *
@@ -55,7 +47,7 @@ class BranchController extends Controller
     public function get()
     {
 
-        $branchs = MasterType::find($this->branchTable)->branchRecords()->get()->sortByDesc('id')->values()->all();
+        $branchs = Branch::sortByDesc('id')->values()->all();
 
         return Response()->Json($branchs);
     }
@@ -71,11 +63,11 @@ class BranchController extends Controller
 
         if($option == 'filter'){
             //Get all branch records filter status = enabled
-            $branchs = MasterType::find($this->branchTable)->branchRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $branchs = Branch::where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all branch records
-            $branchs = MasterType::find($this->branchTable)->branchRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $branchs = Branch::get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
         return Response()->Json($branchs);

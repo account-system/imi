@@ -7,8 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AccountTypesTableSeeder' => $baseDir . '/database/seeds/AccountTypesTableSeeder.php',
+    'BranchesTableSeeder' => $baseDir . '/database/seeds/BranchesTableSeeder.php',
+    'CitiesTableSeeder' => $baseDir . '/database/seeds/CitiesTableSeeder.php',
+    'CountriesTableSeeder' => $baseDir . '/database/seeds/CountriesTableSeeder.php',
     'CreateAccountTypesTable' => $baseDir . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
-    'CreateBranchTable' => $baseDir . '/database/migrations/2017_04_10_031904_create_branch_table.php',
+    'CreateBranchesTable' => $baseDir . '/database/migrations/2017_04_20_025503_create_branches_table.php',
     'CreateCustomersTable' => $baseDir . '/database/migrations/2017_03_27_031925_create_customers_table.php',
     'CreateDoctorsTable' => $baseDir . '/database/migrations/2017_03_29_015646_create_doctors_table.php',
     'CreateEmployeesTable' => $baseDir . '/database/migrations/2017_03_27_082902_create_employees_table.php',
@@ -551,4 +554,5 @@ return array(
     'SebastianBergmann\\ResourceOperations\\ResourceOperations' => $vendorDir . '/sebastian/resource-operations/src/ResourceOperations.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'UsersTableSeeder' => $baseDir . '/database/seeds/UsersTableSeeder.php',
 );
