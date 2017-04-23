@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
 @section('after_styles')
-<style>
-</style>
+  <style>
+    kendo-pdf-document p {
+      background: url("image.jpg");
+    }
+  </style>
+
 @endsection
 
 @section('header')
@@ -27,7 +31,6 @@
     </div>
   </div>   
 @endsection
-
 @section('after_scripts') 
 <script>
   /*doctor type data source*/
@@ -46,7 +49,7 @@
     var branchDataSource      =   <?php echo json_encode($branches) ?>;
     branchDataSource          =   JSON.parse(branchDataSource);
 
-  $(document).ready(function (){
+    $(document).ready(function (){
     /*doctor data source*/
     var gridDataSource = new kendo.data.DataSource({
       transport: {
@@ -100,8 +103,21 @@
     height: 550,
     toolbar: [
       { name: "create" ,text: "Add New Doctor" },
+      { name: "excel" ,text: "Export to Excel" },
       { template: kendo.template($("#textbox-multi-search").html()) }
     ],
+    excel: {
+        fileName: "Doctor Report.xlsx",
+        filterable: true
+    },
+    // pdfExport: function(e) {
+    //   var grid = $("#grid").data("kendoGrid");
+    //   grid.hideColumn(16);
+    //   e.promise
+    //   .done(function() {
+    //       grid.showColumn(1);
+    //   });
+    // },
     columns: [
       { field: "first_name", title: "First Name" },
       { field: "last_name", title: "Last Name" },
@@ -166,8 +182,8 @@
     });  
   });
  });
-/*Initailize all form control*/  
-function initFormControl(){
+  /*Initailize all form control*/  
+  function initFormControl(){
   $("#doctorType").kendoDropDownList({
     optionLabel: "Select doctor type...",
     dataValueField: "value",
@@ -203,9 +219,8 @@ function initFormControl(){
 
   /*Initailize status dropdownlist*/
   initStatusDropDownList(); 
-}
+  }
 </script>
-
 <!-- Customize popup editor doctor --> 
 <script type="text/x-kendo-template" id="popup-editor-vedor">
   <div class="row-12">
@@ -225,7 +240,7 @@ function initFormControl(){
         <input type="text" class="k-textbox" name="job_title" placeholder="Enter job title" data-bind="value:job_title" required data-required-msg="The job title field is required" pattern=".{1,60}" validationMessage="The job title may not be greater than 60 characters" style="width: 100%;"/>
       </div>
 
-       <div class="col-12">
+      <div class="col-12">
         <label for="doctor_type_id">Type</label>
         <input id="doctorType" name="doctor_type_id" data-bind="value:doctor_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
       </div> 
@@ -250,7 +265,7 @@ function initFormControl(){
         <input type="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
       </div> 
 
-       <div class="col-12">
+      <div class="col-12">
         <label for="country_id">Country</label>
         <input id="country" data-bind="value:country_id"  style="width: 100%;" />
       </div>  
@@ -292,6 +307,6 @@ function initFormControl(){
       </div>
     </div>
   </div>
-</script>  
-
+</script>
 @endsection()
+
