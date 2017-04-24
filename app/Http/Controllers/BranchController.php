@@ -47,7 +47,7 @@ class BranchController extends Controller
     public function get()
     {
 
-        $branchs = Branch::sortByDesc('id')->values()->all();
+        $branchs = Branch::get()->sortByDesc('id')->values()->all();
 
         return Response()->Json($branchs);
     }
