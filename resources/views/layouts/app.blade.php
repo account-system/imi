@@ -167,6 +167,7 @@
     <!-- jQuery -->
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
+    <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/jszip.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/kendo.all.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/bootstrap.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/pace/pace.min.js"></script>

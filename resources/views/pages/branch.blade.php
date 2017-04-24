@@ -3,7 +3,7 @@
 @section('after_styles')
   <style>
   
-  </style>
+  </style>s
 @endsection
 
 @section('header')
