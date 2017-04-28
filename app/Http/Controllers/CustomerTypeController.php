@@ -65,7 +65,7 @@ class CustomerTypeController extends Controller
 
         if($option == 'filter'){
             //Get all customer type records filter status = enabled
-            $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->where('status',Status::Enabled)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->where('status',Status::ENABLED)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all customer type records

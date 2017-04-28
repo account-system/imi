@@ -10,14 +10,11 @@ class Data
   	/*Default password*/
   	const DEFAULT_PASSWORD = '123456';
 
-   	/*role data source*/
-   	public static function role()
-   	{
-        if (Auth::user()->role == Role::OWNER) 
-        {
-            return array(array('value'=>'Accountant','text'=>'Accountant'), array('value'=>'Administrator','text'=>'Administrator'), array('value'=>'Receptionist','text'=>'Receptionist'), array('value'=>'Owner','text'=>'Owner'));
-        }else{
-            return array(array('value'=>'Accountant','text'=>'Accountant'), array('value'=>'Administrator','text'=>'Administrator'), array('value'=>'Receptionist','text'=>'Receptionist'));
-        }
-   	}
+   	/*Role data source*/
+    const ROLE = Array(
+                  array('value'=>'Accountant','text'=>'Accountant'), 
+                  array('value'=>'Administrator','text'=>'Administrator'), 
+                  array('value'=>'Receptionist','text'=>'Receptionist')
+                );
+
 }

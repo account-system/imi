@@ -13,13 +13,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'first_name'    => 	'CST',
-            'last_name'     =>  "Cambodia",
+            'username'      => 	'CST Cambodia',
             'gender'		=> 	'Male',
             'email' 		=> 	'admin@imi.com',
             'phone' 		=> 	'023 212 909',
             'password' 		=> 	bcrypt('admin'),
-            'role' 			=> 	'Owner',
+            'role' 			=> 	'Administrator',
             'branches' 	    => 	'[{"value":1,"text":"IDC Phnom Penh"},{"value":2,"text":"IDC Siem Reap"}]',
             'country_id'	=> 	1,
 	        'city_id'		=> 	22,

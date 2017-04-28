@@ -36,7 +36,7 @@ class UserController extends Controller
     {
         $this->data['title']        =   'User List';
 
-        $this->data['roles']        =   Data::role();
+        $this->data['roles']        =   Data::ROLE;
         
         $branchController           =   new BranchController;
         $this->data['branches']     =   $branchController->getList('all')->content();
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function get()
     {
-        $users = User::whereIn('role',array_column(Data::role(), 'value'))->get()->sortByDesc('id')->values()->all();
+        $users = User::get()->sortByDesc('id')->values()->all();
         return Response()->Json($users);
     }
 
@@ -77,11 +77,10 @@ class UserController extends Controller
 
                 $userObject = new User();
 
-                $userObject->first_name         =   $userRequest->first_name;
-                $userObject->last_name          =   $userRequest->last_name;
+                $userObject->username           =   $userRequest->username;
                 $userObject->gender             =   $userRequest->gender;
                 $userObject->role               =   $userRequest->role;
-                $userObject->branches           =   $userRequest->branchrs;
+                $userObject->branches           =   $userRequest->branches;
                 $userObject->password           =   bcrypt(Data::DEFAULT_PASSWORD);
                 $userObject->phone              =   $userRequest->phone;
                 $userObject->email              =   $userRequest->email;
@@ -119,17 +118,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -144,11 +132,10 @@ class UserController extends Controller
 
                 $userObject = User::findOrFail($userRequest->id);
 
-                $userObject->first_name         =   $userRequest->first_name;
-                $userObject->last_name          =   $userRequest->last_name;
+                $userObject->username           =   $userRequest->username;
                 $userObject->gender             =   $userRequest->gender;
                 $userObject->role               =   $userRequest->role;
-                $userObject->branchrs           =   $userRequest->branchrs;
+                $userObject->branches           =   $userRequest->branches;
                 $userObject->phone              =   $userRequest->phone;
                 $userObject->email              =   $userRequest->email;
                 $userObject->country_id         =   $userRequest->country_id;
@@ -196,5 +183,44 @@ class UserController extends Controller
         }
 
         return Response()->Json($usersResponse);
+    }
+
+    /**
+     * Reset password of user.
+     *
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function resetPassword($id, Request $request)
+    {
+        $user = User::find($id);
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+        return Response()->json($user);
+    }
+
+    /**
+     * Validate user email.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function validatorEmail(Request $request)
+    {   
+        $id     =   $request->input('id');
+        $email  =   $request->input('email');
+
+        $count = User::where('email', $email)->count();
+
+        if (isset($id)) {
+            $count = User::where('id', '<>', $id)->where('email',$email)->count();    
+        }
+        
+        if($count != 0)
+        {
+            return Response()->json(false);
+        }
+        return Response()->json(true);
     }
 }

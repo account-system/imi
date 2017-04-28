@@ -12,12 +12,12 @@
 */
 
 Route::get('/', function () {
-	if (Auth::check()) {
+	if (Auth::check()) 
+    {
     	return redirect('/dashboard');
     }else{
     	return redirect('/login');
-    }
-    
+    }    
 });
 
 Auth::routes();
@@ -156,9 +156,11 @@ Route::group(['prefix' => 'city'], function () {
 Route::group(['prefix' => 'user'], function () {
     Route::get('/', 'UserController@view');
     Route::get('/get', 'UserController@get');
+    Route::get('/validate', 'UserController@validatorEmail');
     Route::post('/store', 'UserController@store');
     Route::post('/update', 'UserController@update');
     Route::post('/destroy', 'UserController@destroy');
+    Route::post('/{id}/reset/password', 'UserController@resetPassword');
 });
 
 
