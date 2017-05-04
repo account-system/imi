@@ -8,11 +8,16 @@
           <div class="pull-left image">
             <img src="https://placehold.it/160x160/00a65a/ffffff/&text={{ mb_substr(Auth::user()->username, 0, 1) }}" class="img-circle" alt="User Image">
           </div>
-          <div class="pull-left info">
+          <div class="user-info">
             <p>{{ Auth::user()->username }}</p>
-            <a href="#">{{ Auth::user()->role }}</a>
+            <a href="javascript:void(0);">{{ Auth::user()->role }}</a>
+            <br/>
+            <a href="javascript:void(0);" id="popover-branch">{{ Auth::user()->branches[0]['text']}}&nbsp;<i class="fa fa-angle-down"></i>
+            </a>
           </div>
         </div>
+        <!-- Popover container -->
+        <div class="popover-container"></div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
           <!-- ================================================ -->
@@ -79,9 +84,9 @@
           </li>
           <!-- ====== Account ================================ -->
           <li class="treeview">
-              <a href="#"><i class="fa fa-usd"></i><span>Account</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="fa fa-usd"></i><span>Accountant</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                  <li><a href="{{ url('').'/chart-account' }}"><span>Chart Account</span></a></li>
+                  <li><a href="{{ url('').'/chart-of-account' }}"><span>Chart of Account</span></a></li>
                   <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/journal-entry') }}"><span>Making Journal Entry</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/pose-exspen') }}"><span>Pose Exspen</span></a></li>
                   <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url(config('backpack.base.route_prefix').'/pose-income') }}"><span>Pose Income</span></a></li>
@@ -148,4 +153,5 @@
       </section>
       <!-- /.sidebar -->
     </aside>
+
 @endif

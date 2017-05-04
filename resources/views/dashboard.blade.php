@@ -74,6 +74,6 @@
 
 @section('after_scripts')
   <script>
-    
+     
   </script>    
 @endsection

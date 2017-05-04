@@ -61,7 +61,7 @@
       var gridDataSource  = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/user/get",
+            url: crudBaseUrl + "/user/get/all",
             type: "GET",
             dataType: "json"
           },
@@ -150,6 +150,9 @@
 
             /*Validate email available*/
             var uservalidator = $("#frmUser").kendoValidator({
+              errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation"' +
+              'style="margin:0.5em"><span class="k-icon k-i-warning"> </span>' +
+              '#=message#<div class="k-callout k-callout-n"></div></div>',
               rules: {
                 available: function(input) {
                   var validate = input.data('available');
@@ -218,6 +221,9 @@
             e.container.data("kendoWindow").title('Edit User');
             /*Validate email available*/
             var uservalidator = $("#frmUser").kendoValidator({
+              errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation"' +
+              'style="margin:0.5em"><span class="k-icon k-i-warning"> </span>' +
+              '#=message#<div class="k-callout k-callout-n"></div></div>',
               rules: {
                 available: function(input) {
                   var validate = input.data('available');
@@ -347,6 +353,8 @@
               if('{{Auth::user()->id}}' == $('#user-id').val()){
                 wnd.close();
                 window.location.href = '{{url('')}}' + '/logout';
+              }else{
+                wnd.close();
               }
             },
             error: function(){

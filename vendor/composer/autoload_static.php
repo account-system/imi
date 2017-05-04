@@ -324,6 +324,7 @@ class ComposerStaticInit65659f7ab30c552b2a7c4ac9140542b2
         'CitiesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CitiesTableSeeder.php',
         'CountriesTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CountriesTableSeeder.php',
         'CreateAccountTypesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_21_020542_create_account_types_table.php',
+        'CreateAccountsTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_02_062310_create_accounts_table.php',
         'CreateBranchesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_20_025503_create_branches_table.php',
         'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_031925_create_customers_table.php',
         'CreateDoctorsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_29_015646_create_doctors_table.php',

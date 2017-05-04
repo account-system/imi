@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountTypesTable extends Migration
+class CreateAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateAccountTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_types', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('class',['Bank', 'Assets', 'Equity', 'Expenses', 'Liabilities', 'Revenue']);
+            $table->integer('account_type_id')->unsigned();
+             $table->integer('parent_account_id')->unsigned()->nullable()->default(null);;
+            $table->string('code',10)->unique();
             $table->string('name',60);
             $table->string('description',200)->nullable()->default(null);
-            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
+            $table->enum('status',['Enabled','Disbled'])->default('Enabled');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();
@@ -32,6 +34,6 @@ class CreateAccountTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_types');
+        Schema::dropIfExists('accounts');
     }
 }

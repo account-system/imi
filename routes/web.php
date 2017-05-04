@@ -24,8 +24,6 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/chart-account', 'ChartAccountController@index');
-
 //Route customer
 Route::group(['prefix' => '/customer'], function () {
     Route::get('/', 'CustomerController@view');
@@ -162,6 +160,19 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/destroy', 'UserController@destroy');
     Route::post('/{id}/reset/password', 'UserController@resetPassword');
 });
+
+//Route account type
+Route::get('account-type/{option}', 'AccountantController@getAccountTypeList'); 
+
+//Route chart of account
+Route::group(['prefix' => 'chart-of-account'], function(){
+    Route::get('/', 'AccountantController@viewAccount');
+    Route::get('/get/{option}', 'AccountantController@getAccountList');    
+    Route::post('/store', 'AccountantController@storeAccount');
+    Route::post('/update', 'AccountantController@updateAccount');
+    Route::post('/destroy', 'AccountantController@destroyAccount');
+});
+
 
 
 

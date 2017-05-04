@@ -16,5 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesTableSeeder::class);
         $this->call(BranchesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+
+        /*Accounting system seeder*/
+        $this->call(AccountTypesTableSeeder::class);
     }
 }

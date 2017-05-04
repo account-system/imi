@@ -52,12 +52,18 @@ class UserController extends Controller
 
     /**
      * Get a listing of the resource.
-     *
+     * @param string $option
      * @return \Illuminate\Http\Response
      */
-    public function get()
+    public function get($option = null)
     {
-        $users = User::get()->sortByDesc('id')->values()->all();
+        $users = [];
+
+        if($option == 'dropdownlist'){
+            $users = User::get(['id','username', 'role'])->sortBy('username')->values()->all();
+        }elseif ($option == 'all') {
+            $users = User::get()->sortByDesc('id')->values()->all();
+        }
         return Response()->Json($users);
     }
 

@@ -43,7 +43,23 @@
 
     <!-- Global css use in this application -->
     <style type="text/css">
-
+      .user-info{
+        padding: 0px 5px 5px 15px;
+        line-height: 1;
+        position: absolute;
+        left: 55px;
+        color: #fff;
+      }
+      .user-info p{
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      .user-info a{
+        text-decoration: none;
+        padding-right: 5px;
+        margin-top: 3px;
+        font-size: 12px;
+      }
       .toolbar-search {
         float: right;
         margin-right: 12px;
@@ -301,6 +317,50 @@
         });
       }
 
+      /*Initailize popover branch*/
+      $(document).ready(function(){
+        if('{{auth::check()}}'){
+          /*Intialize branch popover*/
+          $('#popover-branch').popover({ title: "Default Branch", placement: "bottom", container: "body", html: true,  trigger: "focus" });
+
+          var branches = <?php echo (auth::check()) ? json_encode(Auth::user()->branches) : json_encode(array());?>;
+          var content = "";
+          $.each(branches,function(index,branch){
+              radioBranch = (index == 0) ? 
+                            "<div class='radio'>" +
+                              "<label>" +
+                                "<input type='radio' name='radioBranch' id='radioBranch' value='" + branch.value + "' checked='checked'>" + branch.text +
+                                "</label>" +
+                            "</div>"
+                            :
+                            "<div class='radio'>" +
+                              "<label>" +
+                                "<input type='radio'  name='radioBranch' id='radioBranch'  value='" + branch.value + "'>" + branch.text +
+                                "</label>" +
+                            "</div>";
+           
+            content+= radioBranch;
+          });
+
+          var popover = $('#popover-branch').data('bs.popover');
+          popover.options.content = content;
+        } 
+      });
+
+      /*Change default branch stand*/
+      $(document).on('change','#radioBranch',function(){
+        $('#popover-branch').html($(this).parent().text() + "&nbsp;<i class='fa fa-angle-down'>");
+        $(this).parent().parent().parent().find('input').filter("[checked='checked']").removeAttr('checked');
+        $(this).attr('checked','checked');
+        var popover = $('#popover-branch').data('bs.popover');
+        popover.options.content = $(this).parent().parent().parent().html(); 
+      });
+      
+      /*Get user stand on branch id*/
+      function getBranchId(){
+        return $('#radioBranch').parent().parent().parent().find('input').filter("[checked='checked']").val();
+      }  
+      
     </script>
 
     <!-- Create textbox multi search toolbar for input HTML element --> 
