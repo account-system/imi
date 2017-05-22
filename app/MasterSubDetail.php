@@ -12,7 +12,7 @@ class MasterSubDetail extends Model
      * @var array
      */
     protected $hidden = [
-        'master_type_id', 'created_by', 'updated_by', 'created_at', 'updated_at',
+        'master_type_id',
     ];
 
     /**

@@ -51,6 +51,9 @@ class DoctorController extends Controller
 		$cityController					= new cityController;
 		$this->data['cities']			= $cityController->getList('all')->content();
 
+		$userControler              =   new UserController;
+        $this->data['users']        =   $userControler->get('foriegnkeycolumn')->content(); 
+
 		return view('pages.doctors.doctor',$this->data);
 	}
 

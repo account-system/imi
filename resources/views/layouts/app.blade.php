@@ -241,7 +241,7 @@
       function initGenderDropDownList()
       {
         $("#gender").kendoDropDownList({
-          optionLabel: "Select gender...",
+          optionLabel: "--Select gender--",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: genderDataSource  
@@ -251,7 +251,7 @@
       /*Initialize branch dropdownlist*/ 
       function initBranchDropDownList(){
         $("#branch").kendoDropDownList({
-          optionLabel: "Select branch...",
+          optionLabel: "--Select branch--",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: {
@@ -271,7 +271,7 @@
         var countries = $("#country").kendoDropDownList({
           valuePrimitive: true,
           filter: "startswith",
-          optionLabel: "Select country...",
+          optionLabel: "--Select country--",
           dataTextField: "countryName",
           dataValueField: "countryId",
           dataSource: {
@@ -291,7 +291,7 @@
         $("#city").kendoDropDownList({
           valuePrimitive: true,
           filter: "startswith",
-          optionLabel: "Select province or city...",
+          optionLabel: "--Select province or city--",
           dataTextField: "cityName",
           dataValueField: "cityId",
           cascadeFrom: "country",
@@ -378,11 +378,11 @@
       <div class="row-1-12">
         <div class="col-1-12">
           <label for="name">Name</label>
-          <input type="text" name="Name" class="k-textbox" placeholder="Enter name" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/> 
+          <input type="text" name="Name" class="k-textbox" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/> 
         </div>
         <div class="col-1-12">
           <label for="description">Description</label>
-          <textarea class="k-textbox" name="Description" placeholder="Enter description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px"/></textarea> 
+          <textarea class="k-textbox" name="Description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px"/></textarea> 
         </div>
         <div class="col-1-6">
           <label for="status">Status</label>

@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Account;
 use App\AccountType;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Helpers\Status;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
-class AccountantController extends Controller
+class AccountController extends Controller
 {
     /**
      *The information we send to the view
@@ -36,16 +37,16 @@ class AccountantController extends Controller
     {
         $this->data['title']        =   'Chart of Account';
 
-        $accountTypes               =   $this->getAccountTypeList('dropdownlist');
+        $accountTypes               =   $this->getAccountTypeList('foriegnkeycolumn');
         $this->data['accountTypes'] =   $accountTypes->content();
 
-        $accounts                   =   $this->getAccountList('dropdownlist');
+        $accounts                   =   $this->getAccountList('foriegnkeycolumn');
         $this->data['accounts']     =   $accounts->content();
 
         $userControler              =   new UserController;
-        $this->data['users']        =   $userControler->get('dropdownlist')->content();
+        $this->data['users']        =   $userControler->get('foriegnkeycolumn')->content();
 
-        return view('pages.accountants.chart-of-account', $this->data);
+        return view('pages.accounts.account', $this->data);
     }
 
     /**
@@ -58,9 +59,11 @@ class AccountantController extends Controller
         $accounts = [];
 
         if($option == 'dropdownlist'){
-            $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->orderBy('accountName', 'asc')->get();
+            $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->where('accounts.status', Status::ENABLED)->orderBy('accountName', 'asc')->get();
+        }elseif($option == 'foriegnkeycolumn'){
+             $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->orderBy('accountName', 'asc')->get();
         }elseif($option == 'all'){
-            $accounts = Account::all()->sortByDesc('id')->values()->all();
+            $accounts = Account::all();
         }
 
         return Response()->Json($accounts);
@@ -184,12 +187,38 @@ class AccountantController extends Controller
         $accountTypes = [];
 
         if($option == 'dropdownlist'){
-            $accountTypes = AccountType::get(['id as accountTypeId','name as accountTypeName', 'class'])->sortBy('accountTypeName')->values()->all();
-     
+            $accountTypes = AccountType::where('status', Status::ENABLED)->get(['id as accountTypeId','name as accountTypeName', 'class'])->sortBy('accountTypeName')->values()->all();
+        }elseif($option == 'foriegnkeycolumn'){
+             $accountTypes = AccountType::get(['id as accountTypeId','name as accountTypeName', 'class'])->sortBy('accountTypeName')->values()->all();  
         }elseif ($option == 'all') {
             $accountTypes = AccountType::all()->sortBy('id')->values()->all(); 
         }
         
         return Response()->Json($accountTypes);
+    }
+
+    /**
+     * Validate account code.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function validatorCode(Request $request)
+    {   
+        $id     =   $request->input('id');
+        $code   =   $request->input('code');  
+
+        if (isset($id)) {
+            $count  =   Account::where('id', '<>', $id)->where('code',$code)->count();    
+        }else{
+            $count  =   Account::where('code', $code)->count();   
+        }
+        
+        if($count != 0)
+        {
+            return Response()->json(false);
+        }
+
+        return Response()->json(true);
     }
 }

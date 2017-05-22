@@ -140,14 +140,6 @@ class CitiesTableSeeder extends Seeder
         	)
     	);
 
-    	foreach ($cities as $key => $cities) {
-    		DB::table('master_sub_details')->insert([
-    			'master_type_id' 	=> 	$cities['master_type_id'],
-    			'master_detail_id' 	=> 	$cities['master_detail_id'],
-    			'name' 				=> 	$cities['name'],
-	            'created_at'		=> 	Carbon::now(), 
-	            'updated_at'		=> 	Carbon::now(),
-    		]);
-    	}
+    	DB::table('master_sub_details')->insert($cities);
     }
 }

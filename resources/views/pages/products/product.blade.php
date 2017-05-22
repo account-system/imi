@@ -8,11 +8,11 @@
 
 @section('header')
   <section class="content-header">
-    <h1>Item List</h1>
+    <h1>Product List</h1>
     <ol class="breadcrumb">
       <li class="active">{{ config('app.name') }}</li>
-      <li class="active">Item</li>
-      <li class="active">Item List</li>
+      <li class="active">Product</li>
+      <li class="active">Product List</li>
     </ol>
   </section>
 @endsection
@@ -32,34 +32,35 @@
 @section('after_scripts')     
   <script>
     /*Category data source*/
-    var categoryDataSource  =   <?php echo json_encode($categories) ?>;
-    categoryDataSource      =   JSON.parse(categoryDataSource);
+    var categoryDataSource  =   JSON.parse(<?php echo json_encode($categories) ?>); 
 
     /*Branch data source*/
-    var branchDataSource    =   <?php echo json_encode($branches) ?>;
-    branchDataSource        =   JSON.parse(branchDataSource);
+    var branchDataSource    =   JSON.parse(<?php echo json_encode($branches) ?>);
+
+    /*user data source*/
+    var userDataSource      =   JSON.parse(<?php echo json_encode($users) ?>);
 
     $(document).ready(function () {
       /*Product data source*/
       var gridDataSource = new kendo.data.DataSource({
         transport: {
           read: {
-            url: crudBaseUrl + "/item/get",
+            url: crudBaseUrl + "/product/get",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/item/update",
+            url: crudBaseUrl + "/product/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/item/destroy",
+            url: crudBaseUrl + "/product/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/item/store",
+            url: crudBaseUrl + "/product/store",
             type: "POST",
             dataType: "json"
           },
@@ -86,7 +87,11 @@
               discontinue: { type: "boolean" ,defaultValue: false},      
               description: { type: "string", nullable: true },  
               branch_id: { type: "number" }, 
-              status: { type: "string", defaultValue: "Enabled" }                
+              status: { type: "string", defaultValue: "Enabled" },
+              created_by: { type: "number", editable: false, nullable: true }, 
+              updated_by: { type: "number", editable: false, nullable: true },
+              created_at: { type: "date", editable: false, nullable: true }, 
+              updated_at: { type: "date", editable: false, nullable: true }                      
             }
           }
         }
@@ -102,11 +107,19 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create", text: "Add New Item" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ 
+          { name: "create", text: "Add New Product" },
+          { name: "excel", text: "Export to Excel" }, 
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
+        excel: {
+          fileName: "Product Report.xlsx",
+          filterable: true
+        },
         columns: [
           { field: "code", title: "Code" },
           { field: "name",title: "Name" },
-          { field: "category_id", title: "Type", values: categoryDataSource },
+          { field: "category_id", title: "Category", values: categoryDataSource },
           { field: "unit_price", title: "Unit Price", format: "{0:c}" },
           { field: "sale_price", title: "Sale Price", format: "{0:c}" },
           { field: "quantity", title: "Quantity" },
@@ -115,17 +128,21 @@
           { field: "description", title: "Description", hidden: true },
           { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
           { field: "status", title: "Status", values: statusDataSource, hidden: true },
+          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter } },
+          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter } },
+          { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
+          { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
-        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-vedor").html()) },
+        editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-product").html()) },
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-            e.container.data("kendoWindow").title('Add New Item');
+            e.container.data("kendoWindow").title('Add New Product');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-            e.container.data("kendoWindow").title('Edit Item');
+            e.container.data("kendoWindow").title('Edit Product');
           }
 
           //Call function  init form controll
@@ -158,15 +175,15 @@
 
     /*Initialize all form controller*/  
     function initFormControll(){
-      /*Initialize item type dropdownlist*/
+      /*Initialize category dropdownlist*/
       $("#type").kendoDropDownList({
-        optionLabel: "Select item type...",
+        optionLabel: "--Select category--",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
           transport: {
             read: {
-              url: crudBaseUrl + "/item/type/list/filter",
+              url: crudBaseUrl + "/product/category/list/filter",
               type: "GET",
               dataType: "json"
             }
@@ -176,7 +193,7 @@
 
       /*Initialize unit price NumericTextBox*/
       $("#unitPrice").kendoNumericTextBox({
-          placeholder: "Select a value",
+          placeholder: "--Select a value--",
           format: "c",
           min: 0,
           max: 99999999.99,
@@ -186,7 +203,7 @@
 
       /*Initialize sale price NumericTextBox*/
       $("#salePrice").kendoNumericTextBox({
-          placeholder: "Select a value",
+          placeholder: "--Select a value--",
           format: "c",
           min: 0,
           max: 99999999.99,
@@ -196,7 +213,7 @@
 
       /*Initialize quantity NumericTextBox*/
       $("#quantity").kendoNumericTextBox({
-          placeholder: "Select a value",
+          placeholder: "--Select a value--",
           format: "0",
           decimals: 0,
           min: 0,
@@ -216,24 +233,51 @@
       /*Initialize status dropdownlist*/
       initStatusDropDownList();
     }
+
+    /*Display text of created by or modified by foriegnkey column*/
+    function userColumn(userId) {
+      for (var i = 0; i < userDataSource.length; i++) {
+        if (userDataSource[i].id == userId) {
+          return userDataSource[i].username;
+        }
+      }
+    }
+
+    /*Created by and modified by foriegnkey column filter*/
+    function userColumnFilter(element) {
+      element.kendoDropDownList({
+        valuePrimitive: true,
+        optionLabel: "--Select Value--",
+        dataValueField: "id",
+        dataTextField: "username",
+        dataSource: { data: userDataSource, group: 'role' }
+      });
+    }
+
+    /*datetimepicker column filter*/
+    function dateTimePickerColumnFilter(element) {
+      element.kendoDateTimePicker({
+        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
+      });
+    }
   </script>
 
   <!-- Customize popup editor product --> 
-  <script type="text/x-kendo-template" id="popup-editor-vedor">
+  <script type="text/x-kendo-template" id="popup-editor-product">
     <div class="row-12">
       <div class="row-6">
         <div class="col-12">
           <label for="code">Code</label>
-            <input type="text" name="code" class="k-textbox" placeholder="Enter code" data-bind="value:code"  pattern=".{0,60}" validationMessage="The code may not be greater than 60 characters" style="width: 100%;"/>   
+            <input type="text" name="code" class="k-textbox" data-bind="value:code"  pattern=".{0,60}" validationMessage="The code may not be greater than 60 characters" style="width: 100%;"/>   
         </div>
 
         <div class="col-12">
           <label for="name">Name</label>
-            <input type="text" name="name" class="k-textbox" placeholder="Enter name" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/>   
+            <input type="text" name="name" class="k-textbox" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/>   
         </div>
 
         <div class="col-12">
-          <label for="category_id">Type</label>
+          <label for="category_id">Category</label>
           <input id="type" name="category_id" data-bind="value:category_id" required data-required-msg="The type field is required" style="width: 100%;" />
         </div> 
         
@@ -255,7 +299,7 @@
       <div class="row-6">
         <div class="col-12">
           <label for="quantity_per_unit">Quantity Per Unit</label>
-          <input type="text" class="k-textbox" name="quantity_per_unit" data-bind="value:quantity_per_unit" placeholder="Enter quantity per unit" pattern=".{0,60}" validationMessage="The quantity per unit may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="quantity_per_unit" data-bind="value:quantity_per_unit" pattern=".{0,60}" validationMessage="The quantity per unit may not be greater than 60 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
@@ -265,7 +309,7 @@
 
         <div class="col-12">
           <label for="description">Description</label>
-          <textarea class="k-textbox" name="description" placeholder="Enter description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
         </div>
         
         <div class="col-12">

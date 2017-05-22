@@ -33,18 +33,7 @@ class BranchesTableSeeder extends Seeder
         	)
     	);
 
-    	foreach ($branches as $key => $branch) {
-    		DB::table('branches')->insert([
-    			'name' 			=> 	$branch['name'],
-    			'phone' 		=> 	$branch['phone'],
-    			'email' 		=> 	$branch['email'],
-    			'website' 		=> 	$branch['website'],
-    			'country_id' 	=> 	$branch['country_id'],
-    			'city_id' 		=> 	$branch['city_id'],
-    			'address' 		=> 	$branch['address'],
-	            'created_at'		=> 	Carbon::now(), 
-	            'updated_at'		=> 	Carbon::now(),
-    		]);
-    	}
+    	DB::table('branches')->insert($branches);
+    	
     }
 }

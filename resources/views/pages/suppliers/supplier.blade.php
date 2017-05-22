@@ -32,20 +32,19 @@
 @section('after_scripts')     
   <script>
     /*Supplier type data source*/
-    var supplierTypeDataSource  =   <?php echo json_encode($supplierType) ?>;
-    supplierTypeDataSource      =   JSON.parse(supplierTypeDataSource);
+    var supplierTypeDataSource  =   JSON.parse(<?php echo json_encode($supplierType) ?>);
 
     /*Country data source*/
-    var countryDataSource       =   <?php echo json_encode($countries) ?>;
-    countryDataSource           =   JSON.parse(countryDataSource);
+    var countryDataSource       =   JSON.parse(<?php echo json_encode($countries) ?>);
 
     /*City data source*/
-    var cityDataSource          =   <?php echo json_encode($cities) ?>;
-    cityDataSource              =   JSON.parse(cityDataSource);
+    var cityDataSource          =   JSON.parse(<?php echo json_encode($cities) ?>);
 
     /*Branch data source*/
-    var branchDataSource        =   <?php echo json_encode($branches) ?>;
-    branchDataSource            =   JSON.parse(branchDataSource);
+    var branchDataSource        =   JSON.parse(<?php echo json_encode($branches) ?>);
+
+    /*user data source*/
+    var userDataSource          =   JSON.parse(<?php echo json_encode($users) ?>);
 
     $(document).ready(function () {
       /*Supplier data source*/
@@ -98,7 +97,11 @@
               address: { type: "string", nullable: true },
               detail: { type: "string", nullable: true },
               branch_id: { type: "number" },   
-              status: { type: "string", defaultValue: "Enabled" }                
+              status: { type: "string", defaultValue: "Enabled" },
+              created_by: { type: "number", editable: false, nullable: true }, 
+              updated_by: { type: "number", editable: false, nullable: true },
+              created_at: { type: "date", editable: false, nullable: true }, 
+              updated_at: { type: "date", editable: false, nullable: true }                  
             }
           }
         }
@@ -114,12 +117,20 @@
         sortable: { mode: "single", allowUnsort: false },
         pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
-        toolbar: [ { name: "create" ,text: "Add New Supplier" }, { template: kendo.template($("#textbox-multi-search").html()) } ],
+        toolbar: [ 
+          { name: "create", text: "Add New Supplier" }, 
+          { name: "excel", text: "Export to Excel" }, 
+          { template: kendo.template($("#textbox-multi-search").html()) } 
+        ],
+        excel: {
+          fileName: "Supplier Report.xlsx",
+          filterable: true
+        },
         columns: [
           { field: "company_name", title: "Company Name" },
           { field: "contact_name", title: "Contact Name" },
           { field: "contact_title",title: "Contact Title"  },
-          { field: "supplier_type_id", title: "Type", values: supplierTypeDataSource },
+          { field: "supplier_type_id", title: "Supplier Type", values: supplierTypeDataSource },
           { field: "gender",title: "Gender", values: genderDataSource  },
           { field: "phone",title: "Phone" },
           { field: "email",title: "Email" },
@@ -131,6 +142,10 @@
           { field: "detail",title: "Detail" ,hidden: true },
           { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
           { field: "status", title: "Status", values: statusDataSource ,hidden: true },
+          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter } },
+          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter } },
+          { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
+          { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { command: ["edit", "destroy"], title: "&nbsp;Action", menu: false }
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-supplier").html()) },
@@ -179,7 +194,7 @@
     function initFormControl(){
       /*Initialize supplier type dropdownlist*/
       $("#supplierType").kendoDropDownList({
-        optionLabel: "Select supplier type...",
+        optionLabel: "--Select supplier type--",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
@@ -208,6 +223,33 @@
       /*Initialize status dropdownlist*/
       initStatusDropDownList();
     }
+
+    /*Display text of created by or modified by foriegnkey column*/
+    function userColumn(userId) {
+      for (var i = 0; i < userDataSource.length; i++) {
+        if (userDataSource[i].id == userId) {
+          return userDataSource[i].username;
+        }
+      }
+    }
+
+    /*Created by and modified by foriegnkey column filter*/
+    function userColumnFilter(element) {
+      element.kendoDropDownList({
+        valuePrimitive: true,
+        optionLabel: "--Select Value--",
+        dataValueField: "id",
+        dataTextField: "username",
+        dataSource: { data: userDataSource, group: 'role' }
+      });
+    }
+
+    /*datetimepicker column filter*/
+    function dateTimePickerColumnFilter(element) {
+      element.kendoDateTimePicker({
+        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
+      });
+    } 
   </script>
 
   <!-- Customize popup editor supplier --> 
@@ -216,21 +258,21 @@
       <div class="row-6">
         <div class="col-12">
           <label for="compay_name">Company Name</label>
-          <input type="text" name="compay_name" class="k-textbox" placeholder="Enter company name" data-bind="value:company_name" required data-required-msg="The company name field is required" pattern=".{1,60}" validationMessage="The company name may not be greater than 60 characters" style="width: 100%;"/>   
+          <input type="text" name="compay_name" class="k-textbox" data-bind="value:company_name" required data-required-msg="The company name field is required" pattern=".{1,60}" validationMessage="The company name may not be greater than 60 characters" style="width: 100%;"/>   
         </div>
 
         <div class="col-12">
           <label for="contact_name">Contact Name</label>
-          <input type="text" class="k-textbox" name="contact_name" placeholder="Enter contact name" data-bind="value:contact_name" required data-required-msg="The contact name field is required" pattern=".{1,60}" validationMessage="The contact name may not be greater than 60 characters" style="width: 100%;"/>   
+          <input type="text" class="k-textbox" name="contact_name" data-bind="value:contact_name" required data-required-msg="The contact name field is required" pattern=".{1,60}" validationMessage="The contact name may not be greater than 60 characters" style="width: 100%;"/>   
         </div> 
 
         <div class="col-12">
           <label for="contact_title">Contact Title</label>
-          <input type="text" class="k-textbox" name="contact_title" placeholder="Enter contact title" data-bind="value:contact_title" required data-required-msg="The contact title field is required" pattern=".{1,60}" validationMessage="The contact title may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="contact_title" data-bind="value:contact_title" required data-required-msg="The contact title field is required" pattern=".{1,60}" validationMessage="The contact title may not be greater than 60 characters" style="width: 100%;"/>
         </div>
 
         <div class="col-12">
-          <label for="supplier_type_id">Type</label>
+          <label for="supplier_type_id">Supplier Type</label>
           <input id="supplierType" name="supplier_type_id" data-bind="value:supplier_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
         </div> 
 
@@ -241,12 +283,12 @@
 
         <div class="col-12">
           <label for="phone">Phone</label>
-          <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
+          <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
           <label for="email">Email</label>
-          <input type="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="email" class="k-textbox" name="email" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
         </div> 
 
          <div class="col-12">
@@ -262,22 +304,22 @@
       <div class="row-6">        
         <div class="col-12">
           <label for="region">Region</label>
-          <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The region may not be greater than 30 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="region" data-bind="value:region" pattern=".{0,30}" validationMessage="The region may not be greater than 30 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
           <label for="postal_code">Postal Code</label>
-          <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="postal_code" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
           <label for="address">Address</label>
-          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
         </div>
         
         <div class="col-12">
           <label for="detail">Detail</label>
-          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+          <textarea class="k-textbox" name="detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
         </div>
 
         <div class="col-12">

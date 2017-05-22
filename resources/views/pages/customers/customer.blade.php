@@ -32,20 +32,19 @@
 @section('after_scripts') 
   <script>
     /*Customer type data source*/
-    var customerTypeDataSource  =   <?php echo json_encode($customerTypes) ?>;
-    customerTypeDataSource      =   JSON.parse(customerTypeDataSource);
+    var customerTypeDataSource  =   JSON.parse(<?php echo json_encode($customerTypes) ?>);  
 
     /*Country data source*/
-    var countryDataSource       =   <?php echo json_encode($countries) ?>;
-    countryDataSource           =   JSON.parse(countryDataSource);
+    var countryDataSource       =   JSON.parse(<?php echo json_encode($countries) ?>);  
 
     /*City data source*/
-    var cityDataSource          =   <?php echo json_encode($cities) ?>;
-    cityDataSource              =   JSON.parse(cityDataSource);
+    var cityDataSource          =   JSON.parse(<?php echo json_encode($cities) ?>); 
 
     /*Branch data source*/
-    var branchDataSource        =   <?php echo json_encode($branches) ?>;
-    branchDataSource            =   JSON.parse(branchDataSource);
+    var branchDataSource        =   JSON.parse(<?php echo json_encode($branches) ?>);
+
+    /*user data source */
+    var userDataSource          =   JSON.parse(<?php echo json_encode($users) ?>);
 
     $(document).ready(function(){
       /*Customer data source*/
@@ -99,7 +98,11 @@
               address: { type: "string", nullable: true },  
               detail: { type: "string", nullable: true }, 
               branch_id: { type: "number" },
-              status: { field: "status", type: "string", defaultValue: "Enabled" }                
+              status: { field: "status", type: "string", defaultValue: "Enabled" },
+              created_by: { type: "number", editable: false, nullable: true }, 
+              updated_by: { type: "number", editable: false, nullable: true },
+              created_at: { type: "date", editable: false, nullable: true }, 
+              updated_at: { type: "date", editable: false, nullable: true }                
             }
           }
         }
@@ -117,11 +120,16 @@
         height: 550,
         toolbar: [ 
           { name: "create", text: "Add New Customer" },
+          { name: "excel", text: "Export to Excel" },
           { template: kendo.template($("#textbox-multi-search").html()) } 
         ],
+        excel: {
+          fileName: "Customer Report.xlsx",
+          filterable: true
+        },
         columns: [
           { field: "customer_name", title: "Cusotmer Name" },
-          { field: "customer_type_id", title: "Type ", values: customerTypeDataSource },
+          { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
           { field: "gender", title: "Gender", values: genderDataSource },
           { field: "date_of_birth", title: "Date Of Birth", format: "{0:yyyy/MM/dd}" },
           { field: "phone", title: "Phone" },
@@ -136,6 +144,10 @@
           { field: "detail", title: "Detail", hidden: true },
           { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
           { field: "status", title: "Status", values: statusDataSource, hidden: true },
+          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter } },
+          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter } },
+          { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
+          { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { command: ["edit", "destroy"], title: "Action", menu: false }
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-customer").html()) },
@@ -187,7 +199,7 @@
     function initFormControl(){
       /*Initailize customer type dropdownlist*/
       $("#customerTypes").kendoDropDownList({
-        optionLabel: "Select customer type...",
+        optionLabel: "--Select customer type--",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
@@ -222,6 +234,33 @@
       /*Initailize status dropdownlist*/
       initStatusDropDownList();
     }
+
+    /*Display text of created by or modified by foriegnkey column*/
+    function userColumn(userId) {
+      for (var i = 0; i < userDataSource.length; i++) {
+        if (userDataSource[i].id == userId) {
+          return userDataSource[i].username;
+        }
+      }
+    }
+
+    /*Created by and modified by foriegnkey column filter*/
+    function userColumnFilter(element) {
+      element.kendoDropDownList({
+        valuePrimitive: true,
+        optionLabel: "--Select Value--",
+        dataValueField: "id",
+        dataTextField: "username",
+        dataSource: { data: userDataSource, group: 'role' }
+      });
+    }
+
+    /*datetimepicker column filter*/
+    function dateTimePickerColumnFilter(element) {
+      element.kendoDateTimePicker({
+        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
+      });
+    } 
   </script>
 
   <!-- Customize popup editor customer --> 
@@ -230,11 +269,11 @@
       <div class="row-6">
         <div class="col-12">
           <label for="customer_name">Customer Name</label>
-          <input type="text" class="k-textbox" name="customer_name" placeholder="Enter customer name" data-bind="value:customer_name" required data-required-msg="The customer name field is required" pattern=".{1,60}" validationMessage="The customer name may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="customer_name" data-bind="value:customer_name" required data-required-msg="The customer name field is required" pattern=".{1,60}" validationMessage="The customer name may not be greater than 60 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
-            <label for="customer_type_id">Type</label>
+            <label for="customer_type_id">Customer Type</label>
             <input id="customerTypes" name="customer_type_id" data-bind="value:customer_type_id" required data-required-msg="The type field is required" style="width: 100%;" />
         </div> 
 
@@ -245,27 +284,27 @@
 
         <div class="col-12">
           <label for="date_of_birth">Date Of Birth</label>
-          <input type="text" data-type="date" id="dob" name="date_of_birth" placeholder="Select date of birth" data-bind="value:date_of_birth" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
+          <input type="text" data-type="date" id="dob" name="date_of_birth" data-bind="value:date_of_birth" data-role='datepicker' validationMessage="Date of birth is not valid date" style="width: 100%;"/>
         </div>
 
         <div class="col-12">
           <label for="phone">Phone</label>
-          <input type="tel" class="k-textbox" name="phone" placeholder="Enter phone number" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
+          <input type="tel" class="k-textbox" name="phone" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" data-bind="value:phone" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
           <label for="email">Email</label>
-          <input type="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="email" class="k-textbox" name="email" data-bind="value:email" data-email-msg="Email format is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" style="width: 100%;"/>
         </div>  
         
         <div class="col-12">
           <label for="relative_contact">Relative Contact</label>
-          <input type="text" class="k-textbox" name="relative_contact" placeholder="Enter relative contact" data-bind="value:relative_contact" pattern=".{0,60}" validationMessage="The relative contact may not be greater than 60 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="relative_contact" data-bind="value:relative_contact" pattern=".{0,60}" validationMessage="The relative contact may not be greater than 60 characters" style="width: 100%;"/>
         </div> 
       
         <div class="col-12">
           <label for="relative_phone">Relative Phone</label>
-          <input type="tel" class="k-textbox" name="relative_phone" placeholder="Enter relative phone number" data-bind="value:relative_phone" pattern="^[0-9\ \]{9,13}$" validationMessage="Relative phone munber format is not valid" style="width: 100%;"/>
+          <input type="tel" class="k-textbox" name="relative_phone" data-bind="value:relative_phone" pattern="^[0-9\ \]{9,13}$" validationMessage="Relative phone munber format is not valid" style="width: 100%;"/>
         </div> 
 
          <div class="col-12">
@@ -281,22 +320,22 @@
         
         <div class="col-12">
           <label for="region">Region</label>
-          <input type="text" class="k-textbox" name="Region" placeholder="Enter region" data-bind="value:region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="Region" data-bind="value:region" data-bind="value:region" pattern=".{0,30}" validationMessage="The Region may not be greater than 30 characters" style="width: 100%;"/>
         </div>
         
         <div class="col-12">
           <label for="postal_code">Postal Code</label>
-          <input type="text" class="k-textbox" name="postal_code" placeholder="Enter postal code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
+          <input type="text" class="k-textbox" name="postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" data-bind="value:postal_code" style="width: 100%;"/>
         </div>
 
         <div class="col-12">
           <label for="address">Address</label>
-          <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
+          <textarea class="k-textbox" name="address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
         </div>
         
         <div class="col-12">
           <label for="detail">Detail</label>
-          <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
+          <textarea class="k-textbox" name="detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
         </div>
 
          <div class="col-12">

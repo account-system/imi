@@ -53,6 +53,8 @@ class EmployeeController extends Controller
 		$branchController 				= 	new BranchController;
 		$this->data['branches'] 		= 	$branchController->getList('all')->content();
 		
+		$userControler              =   new UserController;
+        $this->data['users']        =   $userControler->get('foriegnkeycolumn')->content(); 
 
 		return view('pages.employees.employee', $this->data);
 	}

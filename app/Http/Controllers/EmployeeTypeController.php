@@ -41,6 +41,10 @@ class EmployeeTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Employee Type';
+        
+        $userControler              =   new UserController;
+        $this->data['users']        =   $userControler->get('foriegnkeycolumn')->content(); 
+
         return view('pages.employees.type',$this->data);
     }
 

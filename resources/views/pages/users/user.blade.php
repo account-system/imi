@@ -44,6 +44,9 @@
     /*City data source*/
     var cityDataSource      =   JSON.parse(<?php echo json_encode($cities) ?>);
 
+    /*user data source foriegnkey column or dropdownlist*/
+    var userDataSource        =   JSON.parse(<?php echo json_encode($users) ?>);
+
     /*Display column branches text in grid*/
     var multiSelectArrayToString = function(item){
       var branches = [];
@@ -105,7 +108,11 @@
               postal_code: { type: "string", nullable: true },
               address: { type: "string",  nullable: true },  
               detail: { type: "string",  nullable: true },
-              status: { type: "string", defaultValue: "Enabled" }             
+              status: { type: "string", defaultValue: "Enabled" },
+              created_by: { type: "number", editable: false, nullable: true }, 
+              updated_by: { type: "number", editable: false, nullable: true },
+              created_at: { type: "date", editable: false, nullable: true }, 
+              updated_at: { type: "date", editable: false, nullable: true }                
             }
           }
         }
@@ -139,6 +146,10 @@
           { field: "address", title: "Address", hidden: true },
           { field: "detail", title: "Detail", hidden: true },
           { field: "status", title: "Status", values: statusDataSource },
+          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter }, groupHeaderTemplate: "Created By: #= value == null ? '' : userColumn(value) #" },
+          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter }, groupHeaderTemplate: "Modified By: #= value == null ? '' : userColumn(value) #" },
+          { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
+          { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { command: [ "edit", { text: "Reset Password", imageClass: "k-i-gear", iconClass: "k-icon", click:resetPassword } ], title: "&nbsp;Action", menu: false }
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-user").html()) },
@@ -377,7 +388,7 @@
 
       /*Initialize role dropdownlist*/
       $("#role").kendoDropDownList({
-        optionLabel: "Select role...",
+        optionLabel: "--Select role--",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: roleDataSource 
@@ -385,7 +396,7 @@
 
       /*Initialize branches multiselect*/
       $("#branches").kendoMultiSelect({
-        placeholder: "Select branches...",
+        placeholder: "--Select branches--",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: branchDataSource,
@@ -409,6 +420,33 @@
       wnd.center().open();
     }
 
+    /*Display text of created by or modified by foriegnkey column*/
+    function userColumn(userId) {
+      for (var i = 0; i < userDataSource.length; i++) {
+        if (userDataSource[i].id == userId) {
+          return userDataSource[i].username;
+        }
+      }
+    }
+
+    /*Created by and modified by foriegnkey column filter*/
+    function userColumnFilter(element) {
+      element.kendoDropDownList({
+        valuePrimitive: true,
+        optionLabel: "--Select Value--",
+        dataValueField: "id",
+        dataTextField: "username",
+        dataSource: { data: userDataSource, group: 'role' }
+      });
+    }
+
+    /*datetimepicker column filter*/
+    function dateTimePickerColumnFilter(element) {
+      element.kendoDateTimePicker({
+        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
+      });
+    }
+
   </script>
   <!-- Customize popup editor reset password --> 
   <script type="text/x-kendo-template" id="reset-password">
@@ -418,11 +456,11 @@
       <div class="row-1-12">
         <div class="col-1-12">
           <label for="password">Password</label>
-          <input type="password" class="k-textbox" name="password" id="password" placeholder="Enter password" required data-required-msg="Password is required" pattern=".{6,}" validationMessage="The password must be at least 6 characters" style="width: 100%;" />
+          <input type="password" class="k-textbox" name="password" id="password" required data-required-msg="Password is required" pattern=".{6,}" validationMessage="The password must be at least 6 characters" style="width: 100%;" />
         </div>
         <div class="col-1-12">
           <label for="confirm-password">Confirm Password</label>
-          <input type="password" class="k-textbox" name="confirm-password" id="confirm-password" placeholder="Confirm password"  required data-required-msg="You must confirm your password" data-matches="\\#password" data-matches-msg="The passwords do not match" style="width: 100%;" />
+          <input type="password" class="k-textbox" name="confirm-password" id="confirm-password"  required data-required-msg="You must confirm your password" data-matches="\\#password" data-matches-msg="The passwords do not match" style="width: 100%;" />
         </div>
       </div>
       <div class="k-edit-buttons k-state-default">
@@ -444,7 +482,7 @@
         <div class="row-6">
           <div class="col-12">
             <label for="username">User Name</label>
-            <input type="text" class="k-textbox" name="username" placeholder="Enter user name" data-bind="value:username" required data-required-msg="The user name field is required" pattern=".{1,30}" validationMessage="The user name may not be greater than 30 characters" style="width: 100%;"/>
+            <input type="text" class="k-textbox" name="username" data-bind="value:username" required data-required-msg="The user name field is required" pattern=".{1,30}" validationMessage="The user name may not be greater than 30 characters" style="width: 100%;"/>
           </div>
 
           <div class="col-12">
@@ -464,12 +502,12 @@
 
           <div class="col-12">
             <label for="phone">Phone</label>
-            <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" placeholder="Enter phone number" validationMessage="Phone number format is not valid" style="width: 100%;"/>
+            <input type="tel" class="k-textbox" name="phone" data-bind="value:phone" required data-required-msg="The phone field is required" pattern="^[0-9\ \]{9,13}$" validationMessage="Phone number format is not valid" style="width: 100%;"/>
           </div>
           
           <div class="col-12">
             <label for="email">Email</label>
-            <input type="email" id="email" class="k-textbox" name="email" placeholder="e.g. myname@example.net" data-bind="value:email" data-email-msg="Email is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" data-available data-available-url="{{url('')}}/user/validate" data-available-msg="The email has already been taken" style="width: 100%;"/>
+            <input type="email" id="email" class="k-textbox" name="email" data-bind="value:email" data-email-msg="Email is not valid" pattern=".{0,60}" validationMessage="The email may not be greater than 60 characters" data-available data-available-url="{{url('')}}/user/validate" data-available-msg="The email has already been taken" style="width: 100%;"/>
           </div> 
 
            <div class="col-12">
@@ -485,22 +523,22 @@
 
           <div class="col-12">
             <label for="region">Region</label>
-            <input type="text" class="k-textbox" name="region" placeholder="Enter region" data-bind="value:region" pattern=".{0,30}" validationMessage="The region may not be greater than 30 characters" style="width: 100%;"/>
+            <input type="text" class="k-textbox" name="region" data-bind="value:region" pattern=".{0,30}" validationMessage="The region may not be greater than 30 characters" style="width: 100%;"/>
           </div>
           
           <div class="col-12">
             <label for="postal_code">Postal Code</label>
-            <input type="text" class="k-textbox" name="postal_code" placeholder="Enter city" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
+            <input type="text" class="k-textbox" name="postal_code" data-bind="value:postal_code" pattern=".{0,30}" validationMessage="The postal code may not be greater than 30 characters" style="width: 100%;"/>
           </div>
           
           <div class="col-12">
             <label for="address">Address</label>
-            <textarea class="k-textbox" name="address" placeholder="Enter address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+            <textarea class="k-textbox" name="address" data-bind="value:address" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
           </div>
           
           <div class="col-12">
             <label for="detail">Detail</label>
-            <textarea class="k-textbox" name="detail" placeholder="Enter detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
+            <textarea class="k-textbox" name="detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"/></textarea> 
           </div>
 
           <div class="col-12">

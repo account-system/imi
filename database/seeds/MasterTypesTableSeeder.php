@@ -37,12 +37,6 @@ class MasterTypesTableSeeder extends Seeder
 
     	);
 
-    	foreach ($masterTypes as $key => $masterType) {
-    		DB::table('master_types')->insert([
-    			'name' => $masterType['name'],
-	            'created_at'=> Carbon::now(), 
-	            'updated_at'=> Carbon::now(),
-    		]);
-    	}
+    	DB::table('master_types')->insert($masterTypes);
     }
 }

@@ -42,7 +42,10 @@ class CountryController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Setup Country & Citry';
+        $this->data['title']    =   'Setup Country & Citry';
+
+        $userControler          =   new UserController;
+        $this->data['users']    =   $userControler->get('foriegnkeycolumn')->content(); 
 
         return view('pages.country-city',$this->data);
     }

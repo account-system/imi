@@ -40,7 +40,11 @@ class CategoryController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Category List';
+        $this->data['title']    =   'Category';
+
+        $userControler          =   new UserController;
+        $this->data['users']    =   $userControler->get('foriegnkeycolumn')->content(); 
+
         return view('pages.products.category',$this->data);
     }
 

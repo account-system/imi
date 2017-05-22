@@ -45,6 +45,10 @@ class DoctorTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Doctor Type';
+
+        $userControler              =   new UserController;
+        $this->data['users']        =   $userControler->get('foriegnkeycolumn')->content();
+        
         return view('pages.doctors.type',$this->data);
     }
 

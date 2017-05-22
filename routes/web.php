@@ -63,7 +63,7 @@ Route::group(['prefix' => '/doctor'], function () {
 });
 
 //Route employee
-Route::group(['prefix' => 'employee'], function () {
+Route::group(['prefix' => '/employee'], function () {
     Route::get('/', 'EmployeeController@view');
     Route::get('/get', 'EmployeeController@get');
     Route::post('/store', 'EmployeeController@store');
@@ -71,7 +71,7 @@ Route::group(['prefix' => 'employee'], function () {
     Route::post('/destroy', 'EmployeeController@destroy');
 
     //Route employee type
-    Route::group(['prefix' => 'type'], function () {
+    Route::group(['prefix' => '/type'], function () {
     Route::get('/', 'EmployeeTypeController@view');
     Route::get('/get', 'EmployeeTypeController@get');
     Route::get('/list/{option}', 'EmployeeTypeController@getList');
@@ -101,15 +101,15 @@ Route::group(['prefix' => '/supplier'], function () {
 });
 
 //Route product
-Route::group(['prefix' => '/item'], function () {
+Route::group(['prefix' => '/product'], function () {
     Route::get('/', 'ProductController@view');
     Route::get('/get', 'ProductController@get');
     Route::post('/store', 'ProductController@store');
     Route::post('/update', 'ProductController@update');
     Route::post('/destroy', 'ProductController@destroy');
 
-    //Route product type
-    Route::group(['prefix' => '/type'], function () {
+    //Route category
+    Route::group(['prefix' => '/category'], function () {
     Route::get('/', 'CategoryController@view');
     Route::get('/get', 'CategoryController@get');
     Route::get('/list/{option}', 'CategoryController@getList');
@@ -120,7 +120,7 @@ Route::group(['prefix' => '/item'], function () {
 });
 
 //Route branch
-Route::group(['prefix' => 'branch'], function () {
+Route::group(['prefix' => '/branch'], function () {
     Route::get('/', 'BranchController@view');
     Route::get('/get', 'BranchController@get');
     Route::get('/list/{option}', 'BranchController@getList');
@@ -130,7 +130,7 @@ Route::group(['prefix' => 'branch'], function () {
 });
 
 //Route country
-Route::group(['prefix' => 'country'], function () {
+Route::group(['prefix' => '/country'], function () {
     Route::get('/', 'CountryController@view');
     Route::get('/get', 'CountryController@get');
     Route::get('/list/{option}', 'CountryController@getList');
@@ -140,7 +140,7 @@ Route::group(['prefix' => 'country'], function () {
 });
 
 //Route city
-Route::group(['prefix' => 'city'], function () {
+Route::group(['prefix' => '/city'], function () {
     //Route::get('/', 'CityController@view');
     //Route::get('/get', 'CityController@get');
     Route::get('/list/{option}', 'CityController@getList');
@@ -151,9 +151,9 @@ Route::group(['prefix' => 'city'], function () {
 });
 
 //Route user
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => '/user'], function () {
     Route::get('/', 'UserController@view');
-    Route::get('/get', 'UserController@get');
+    Route::get('/get/{option}', 'UserController@get');
     Route::get('/validate', 'UserController@validatorEmail');
     Route::post('/store', 'UserController@store');
     Route::post('/update', 'UserController@update');
@@ -161,16 +161,20 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/{id}/reset/password', 'UserController@resetPassword');
 });
 
-//Route account type
-Route::get('account-type/{option}', 'AccountantController@getAccountTypeList'); 
-
 //Route chart of account
-Route::group(['prefix' => 'chart-of-account'], function(){
-    Route::get('/', 'AccountantController@viewAccount');
-    Route::get('/get/{option}', 'AccountantController@getAccountList');    
-    Route::post('/store', 'AccountantController@storeAccount');
-    Route::post('/update', 'AccountantController@updateAccount');
-    Route::post('/destroy', 'AccountantController@destroyAccount');
+Route::group(['prefix' => '/account'], function(){
+    Route::get('/', 'AccountController@viewAccount');
+    Route::get('/get/{option}', 'AccountController@getAccountList');  
+    Route::post('/store', 'AccountController@storeAccount');
+    Route::post('/update', 'AccountController@updateAccount');
+    Route::post('/destroy', 'AccountController@destroyAccount');
+    Route::get('/validate', 'AccountController@validatorCode');
+    
+    //Route account type
+    Route::group(['prefix' => '/type'], function () {
+        Route::get('get/{option}', 'AccountController@getAccountTypeList'); 
+  
+    });
 });
 
 

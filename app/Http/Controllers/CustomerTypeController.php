@@ -40,6 +40,10 @@ class CustomerTypeController extends Controller
     public function view()
     {
         $this->data['title'] = 'Customer Type';
+
+        $userControler              =   new UserController;
+        $this->data['users']        =   $userControler->get('foriegnkeycolumn')->content();
+        
         return view('pages.customers.type',$this->data);
     }
 

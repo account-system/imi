@@ -23,13 +23,6 @@ class CountriesTableSeeder extends Seeder
         	)
     	);
 
-    	foreach ($countries as $key => $country) {
-    		DB::table('master_details')->insert([
-    			'master_type_id' 	=> 	$country['master_type_id'],
-    			'name' 				=> 	$country['name'],
-	            'created_at'		=> 	Carbon::now(), 
-	            'updated_at'		=> 	Carbon::now(),
-    		]);
-    	}
+    	DB::table('master_details')->insert($countries);
     }
 }

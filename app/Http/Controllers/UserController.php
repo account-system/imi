@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\Helpers\Data;
+use App\Http\Controllers\Helpers\Status;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,9 @@ class UserController extends Controller
         $cityController             =   new CityController;
         $this->data['cities']       =   $cityController->getList('all')->content();
 
+        $users                      =   $this->get('foriegnkeycolumn');
+        $this->data['users']        =   $users->content();
+
         return view('pages.users.user',$this->data);
     }
 
@@ -60,6 +64,8 @@ class UserController extends Controller
         $users = [];
 
         if($option == 'dropdownlist'){
+            $users = User::where('status', Status::ENABLED)->get(['id','username', 'role'])->sortBy('username')->values()->all();
+        }elseif($option == 'foriegnkeycolumn'){
             $users = User::get(['id','username', 'role'])->sortBy('username')->values()->all();
         }elseif ($option == 'all') {
             $users = User::get()->sortByDesc('id')->values()->all();

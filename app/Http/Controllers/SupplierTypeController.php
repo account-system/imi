@@ -43,7 +43,10 @@ class SupplierTypeController extends Controller
      */
     public function view()
     {
-        $this->data['title'] = 'Supplier Type';
+        $this->data['title']    =   'Supplier Type';
+
+        $userControler          =   new UserController;
+        $this->data['users']    =   $userControler->get('foriegnkeycolumn')->content(); 
 
         return view('pages.suppliers.type',$this->data);
     }
