@@ -73,10 +73,10 @@ class CityController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = enabled contains(value, text)
-            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::ENABLED)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
         }elseif ($option == 'cascade') {
             //Get all city records filter status = enabled contains(countryId, cityId, cityName)
-            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::ENABLED)->get(['master_detail_id as countryId', 'id as cityId','name as cityName'])->sortBy('cityName')->values()->all(); 
+            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::ACTIVE)->get(['master_detail_id as countryId', 'id as cityId','name as cityName'])->sortBy('cityName')->values()->all(); 
         }elseif ($option == 'all') {
             //Get all city records contains(value, text)
             $cities = MasterType::find($this->cityTable)->cityRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
@@ -96,7 +96,7 @@ class CityController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = enabled
-            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::ENABLED)->get()->sortByDesc('id')->values()->all();
+            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::ACTIVE)->get()->sortByDesc('id')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all city records

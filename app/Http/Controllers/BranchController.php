@@ -63,7 +63,7 @@ class BranchController extends Controller
 
         if($option == 'filter'){
             //Get all branch records filter status = enabled
-            $branchs = Branch::where('status',Status::ENABLED)->whereIn('id',array_column(auth::user()->branches, 'value'))->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $branchs = Branch::where('status',Status::ACTIVE)->whereIn('id',array_column(auth::user()->branches, 'value'))->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all branch records

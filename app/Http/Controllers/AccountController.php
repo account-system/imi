@@ -59,7 +59,7 @@ class AccountController extends Controller
         $accounts = [];
 
         if($option == 'dropdownlist'){
-            $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->where('accounts.status', Status::ENABLED)->orderBy('accountName', 'asc')->get();
+            $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->where('accounts.status', Status::ACTIVE)->orderBy('accountName', 'asc')->get();
         }elseif($option == 'foriegnkeycolumn'){
              $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->orderBy('accountName', 'asc')->get();
         }elseif($option == 'all'){
@@ -187,13 +187,10 @@ class AccountController extends Controller
         $accountTypes = [];
 
         if($option == 'dropdownlist'){
-            $accountTypes = AccountType::where('status', Status::ENABLED)->get(['id as accountTypeId','name as accountTypeName', 'class'])->sortBy('accountTypeName')->values()->all();
+            $accountTypes = AccountType::where('status', Status::ACTIVE)->get(['id as accountTypeId','name as accountTypeName'])->all();
         }elseif($option == 'foriegnkeycolumn'){
-             $accountTypes = AccountType::get(['id as accountTypeId','name as accountTypeName', 'class'])->sortBy('accountTypeName')->values()->all();  
-        }elseif ($option == 'all') {
-            $accountTypes = AccountType::all()->sortBy('id')->values()->all(); 
+             $accountTypes = AccountType::get(['id as value','name as text'])->all();  
         }
-        
         return Response()->Json($accountTypes);
     }
 

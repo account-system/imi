@@ -13,94 +13,47 @@ class AccountTypesTableSeeder extends Seeder
     {
     	$accountTypes = array(
             array(
-                'class' =>  'Assets',   
-                'name'  =>  'Current Asset',
+                'name'  =>  'Bank',
             ),
             array(
-                'class' =>  'Assets',  
-                'name' =>   'Fixed Asset',
+                'name' =>   'Accounts receivalbe',
             ),
             array(
-                'class' =>  'Assets',
-                'name'  =>  'Inventory Asset',    
+                'name'  =>  'Other Current Asset',    
             ),
             array(
-                'class' =>  'Assets', 
-                'name'  =>  'Non-current Asset',
+                'name'  =>  'Fixed Asset',
             ),
             array(
-                'class' =>  'Assets',  
-                'name'  =>  'Prepayment',
+                'name'  =>  'Other Asset',
             ),
     		array(
-    			'class'	=>	'Bank',	
-	            'name'	=>	'Bank',	
+	            'name'	=>	'Accounts Payable',	
         	),
             array(
-                'class' =>  'Equity', 
+                'name'  =>  'Other Current Liability',
+            ),
+            array(
+                'name'  =>  'Long Term Liability', 
+            ),
+            array( 
                 'name'  =>  'Equity',
             ),
             array(
-                'class' =>  'Expenses',
-                'name'  =>  'Depreciation', 
+                'name'  =>  'Income',
             ),
             array(
-                'class' =>  'Expenses',  
-                'name'  =>  'Direct Costs',
+                'name'  =>  'Cost of Goods Sold',
             ),
             array(
-                'class' =>  'Expenses',  
                 'name'  =>  'Expense',
             ),
             array(
-                'class' =>  'Expenses',
-                'name'  =>  'Overhead',
-            ),
-            array(
-                'class' =>  'Expenses',
-                'name'  =>  'Superannuation Expense',
-            ),
-            array(
-                'class' =>  'Expenses',
-                'name'  =>  'Wages Expense',
+                'name'  =>  'Other Income',
             ),
         	array(
-        		'class'	=>	'Liabilities',
-	            'name' 	=> 	'Current Liability',
-        	),
-        	array(
-        		'class'	=>	'Liabilities',
-	            'name' 	=> 	'Liability',
-        	),
-            array(
-                'class' =>  'Liabilities',
-                'name'  =>  'Non-current Liability',
-            ),
-            array(
-                'class' =>  'Liabilities',
-                'name'  =>  'PAYG Liability', 
-            ),
-            array(
-                'class' =>  'Liabilities',
-                'name'  =>  'Superannuation Liability',
-            ),
-            array(
-                'class' =>  'Liabilities',
-                'name'  =>  'Wages Payable Liability',
-            ),
-        	array(
-        		'class'	=>	'Revenue',
-	            'name' 	=> 'Other Income',
-        	),
-        	array(
-        		'class'	=>	'Revenue',
-	            'name' 	=> 	'Revenue',
-        	),
-        	array(
-        		'class'	=>	'Revenue',
-	            'name' 	=> 	'Sale',
-        	)
-        	
+	            'name' 	=> 	'Other Expense',
+        	)	
     	);
 
     	DB::table('account_types')->insert($accountTypes);

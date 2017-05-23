@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Helpers;
 
 class Status
 {
-   const ENABLED = "Enabled";
-   const DISABLED = "Disabled";
+   const ACTIVE = "Active";
+   const INACTIVE = "Inactive";
 
 }

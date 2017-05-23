@@ -20,7 +20,7 @@ class CreateTransactionDetailsTable extends Migration
             $table->decimal('debit', 10, 2);
             $table->decimal('credit', 10, 2);
             $table->string('description',200)->nullable()->default(null);
-            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
+            $table->enum('status',['Active','Inactive'])->default('Active');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();

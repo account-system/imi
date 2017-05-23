@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->boolean('discontinue')->default(0);
             $table->string('description',200)->nullable()->default(null);
             $table->integer('branch_id')->unsigned();
-            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
+            $table->enum('status',['Active','Inactive'])->default('Active');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();

@@ -201,8 +201,8 @@
 
       /*It's status data*/
       var statusDataSource = [
-        {value: "Enabled", text: "Enabled"},
-        {value: "Disabled", text: "Disabled"}
+        {value: "Active", text: "Active"},
+        {value: "Inactive", text: "Inactive"}
       ];
 
       /*It's gender data*/
@@ -241,7 +241,7 @@
       function initGenderDropDownList()
       {
         $("#gender").kendoDropDownList({
-          optionLabel: "--Select gender--",
+          optionLabel: "-Select gender-",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: genderDataSource  
@@ -251,7 +251,7 @@
       /*Initialize branch dropdownlist*/ 
       function initBranchDropDownList(){
         $("#branch").kendoDropDownList({
-          optionLabel: "--Select branch--",
+          optionLabel: "-Select branch-",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: {
@@ -271,7 +271,7 @@
         var countries = $("#country").kendoDropDownList({
           valuePrimitive: true,
           filter: "startswith",
-          optionLabel: "--Select country--",
+          optionLabel: "-Select country-",
           dataTextField: "countryName",
           dataValueField: "countryId",
           dataSource: {
@@ -291,7 +291,7 @@
         $("#city").kendoDropDownList({
           valuePrimitive: true,
           filter: "startswith",
-          optionLabel: "--Select province or city--",
+          optionLabel: "-Select province or city-",
           dataTextField: "cityName",
           dataValueField: "cityId",
           cascadeFrom: "country",
@@ -314,6 +314,13 @@
           dataValueField: "value",
           dataTextField: "text",
           dataSource: statusDataSource  
+        });
+      }
+ 
+      /*datetimepicker column filter*/
+      function dateTimePickerColumnFilter(element) {
+        element.kendoDateTimePicker({
+          format: "{0: yyyy/MM/dd HH:mm:ss tt}",
         });
       }
 

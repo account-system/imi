@@ -69,7 +69,7 @@ class EmployeeTypeController extends Controller
         
         if ($option == 'filter') {
 
-            $employeeType = $employeeType->where('status',Status::ENABLED);
+            $employeeType = $employeeType->where('status',Status::ACTIVE);
         }
         $employeeType = $employeeType->get(['id as value','name as text'])->sortBy('text')->values()->all();
         

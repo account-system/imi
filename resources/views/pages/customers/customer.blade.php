@@ -98,7 +98,7 @@
               address: { type: "string", nullable: true },  
               detail: { type: "string", nullable: true }, 
               branch_id: { type: "number" },
-              status: { field: "status", type: "string", defaultValue: "Enabled" },
+              status: { field: "status", type: "string", defaultValue: "Active" },
               created_by: { type: "number", editable: false, nullable: true }, 
               updated_by: { type: "number", editable: false, nullable: true },
               created_at: { type: "date", editable: false, nullable: true }, 
@@ -127,6 +127,39 @@
           fileName: "Customer Report.xlsx",
           filterable: true
         },
+        excelExport: function(e) {
+          var grid = $("#grid").data("kendoGrid");
+          if (grid) {
+            // get the date columns from the datasource
+            var dateColumnList = [];
+            var fields = grid.dataSource.options.schema.model.fields;
+            // only check visible columns
+            var visibleColumns = grid.columns.filter(function(col) { return col.hidden !== true });
+            visibleColumns.forEach(function (col, index) {
+              var fieldName = col.field;
+              // find matching model
+              var match = fields[fieldName];
+              // determine if this is a date column that will need a date/time format
+              if (match && match.type === 'date') {
+                // give each column a format from the grid settings or a default format
+                dateColumnList.push(
+                {
+                i: index, 
+                format: col.exportFormat ? col.exportFormat : "yyyy-MM-dd"
+                });
+              }
+            });
+            var sheet = e.workbook.sheets[0];
+            for (var rowIndex = 1; rowIndex < sheet.rows.length; rowIndex++) {
+              var row = sheet.rows[rowIndex];
+              // apply the format to the columns found
+              for (var cellIndex = 0; cellIndex < dateColumnList.length; cellIndex++) {
+                var index = dateColumnList[cellIndex].i;
+                row.cells[index].format = dateColumnList[cellIndex].format;
+              }
+            }
+          }
+        },
         columns: [
           { field: "customer_name", title: "Cusotmer Name" },
           { field: "customer_type_id", title: "Customer Type ", values: customerTypeDataSource },
@@ -144,10 +177,10 @@
           { field: "detail", title: "Detail", hidden: true },
           { field: "branch_id", title: "Branch", values: branchDataSource, hidden: true },
           { field: "status", title: "Status", values: statusDataSource, hidden: true },
-          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter } },
-          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter } },
-          { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
-          { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
+          { field: "created_by", title: "Created By", values: userDataSource, hidden: true },
+          { field: "updated_by", title: "Modified By", values: userDataSource, hidden: true },
+          { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", exportFormat: "yyyy/MM/dd h:mm:ss AM/PM", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
+          { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", exportFormat: "yyyy/MM/dd h:mm:ss AM/PM", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { command: ["edit", "destroy"], title: "Action", menu: false }
         ],
         editable: { mode: "popup", window: { width: "600px" }, template: kendo.template($("#popup-editor-customer").html()) },
@@ -199,7 +232,7 @@
     function initFormControl(){
       /*Initailize customer type dropdownlist*/
       $("#customerTypes").kendoDropDownList({
-        optionLabel: "--Select customer type--",
+        optionLabel: "-Select customer type-",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: {
@@ -234,33 +267,6 @@
       /*Initailize status dropdownlist*/
       initStatusDropDownList();
     }
-
-    /*Display text of created by or modified by foriegnkey column*/
-    function userColumn(userId) {
-      for (var i = 0; i < userDataSource.length; i++) {
-        if (userDataSource[i].id == userId) {
-          return userDataSource[i].username;
-        }
-      }
-    }
-
-    /*Created by and modified by foriegnkey column filter*/
-    function userColumnFilter(element) {
-      element.kendoDropDownList({
-        valuePrimitive: true,
-        optionLabel: "--Select Value--",
-        dataValueField: "id",
-        dataTextField: "username",
-        dataSource: { data: userDataSource, group: 'role' }
-      });
-    }
-
-    /*datetimepicker column filter*/
-    function dateTimePickerColumnFilter(element) {
-      element.kendoDateTimePicker({
-        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
-      });
-    } 
   </script>
 
   <!-- Customize popup editor customer --> 

@@ -69,7 +69,7 @@ class CategoryController extends Controller
 
         if($option == 'filter'){
             //Get all category records filter status = enabled
-            $categories = MasterType::find($this->categoryTable)->categoryRecords()->where('status',Status::ENABLED)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $categories = MasterType::find($this->categoryTable)->categoryRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all category records

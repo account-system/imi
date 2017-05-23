@@ -108,7 +108,7 @@
               postal_code: { type: "string", nullable: true },
               address: { type: "string",  nullable: true },  
               detail: { type: "string",  nullable: true },
-              status: { type: "string", defaultValue: "Enabled" },
+              status: { type: "string", defaultValue: "Active" },
               created_by: { type: "number", editable: false, nullable: true }, 
               updated_by: { type: "number", editable: false, nullable: true },
               created_at: { type: "date", editable: false, nullable: true }, 
@@ -146,8 +146,8 @@
           { field: "address", title: "Address", hidden: true },
           { field: "detail", title: "Detail", hidden: true },
           { field: "status", title: "Status", values: statusDataSource },
-          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter }, groupHeaderTemplate: "Created By: #= value == null ? '' : userColumn(value) #" },
-          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter }, groupHeaderTemplate: "Modified By: #= value == null ? '' : userColumn(value) #" },
+          { field: "created_by", title: "Created By", values: userDataSource, hidden: true },
+          { field: "updated_by", title: "Modified By", values: userDataSource, hidden: true },
           { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true },
           { command: [ "edit", { text: "Reset Password", imageClass: "k-i-gear", iconClass: "k-icon", click:resetPassword } ], title: "&nbsp;Action", menu: false }
@@ -388,7 +388,7 @@
 
       /*Initialize role dropdownlist*/
       $("#role").kendoDropDownList({
-        optionLabel: "--Select role--",
+        optionLabel: "-Select role-",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: roleDataSource 
@@ -396,7 +396,7 @@
 
       /*Initialize branches multiselect*/
       $("#branches").kendoMultiSelect({
-        placeholder: "--Select branches--",
+        placeholder: "-Select branches-",
         dataValueField: "value",
         dataTextField: "text",
         dataSource: branchDataSource,
@@ -419,34 +419,6 @@
       wnd.content(resetTemplate(dataItem));
       wnd.center().open();
     }
-
-    /*Display text of created by or modified by foriegnkey column*/
-    function userColumn(userId) {
-      for (var i = 0; i < userDataSource.length; i++) {
-        if (userDataSource[i].id == userId) {
-          return userDataSource[i].username;
-        }
-      }
-    }
-
-    /*Created by and modified by foriegnkey column filter*/
-    function userColumnFilter(element) {
-      element.kendoDropDownList({
-        valuePrimitive: true,
-        optionLabel: "--Select Value--",
-        dataValueField: "id",
-        dataTextField: "username",
-        dataSource: { data: userDataSource, group: 'role' }
-      });
-    }
-
-    /*datetimepicker column filter*/
-    function dateTimePickerColumnFilter(element) {
-      element.kendoDateTimePicker({
-        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
-      });
-    }
-
   </script>
   <!-- Customize popup editor reset password --> 
   <script type="text/x-kendo-template" id="reset-password">

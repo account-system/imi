@@ -17,7 +17,7 @@ class CreateTransactionTypesTable extends Migration
             $table->increments('id');
             $table->string('name',60);
             $table->string('description',200)->nullable()->default(null);
-            $table->enum('status',['Enabled','Disbled'])->default('Enabled');
+            $table->enum('status',['Active','Inactive'])->default('Active');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();

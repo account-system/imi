@@ -88,7 +88,7 @@
               code: { type: "string" },  
               name: { type: "string" },
               description: { type: "string", nullable: true }, 
-              status: { field: "status", type: "string", defaultValue: "Enabled" },
+              status: { field: "status", type: "string", defaultValue: "Active" },
               created_by: { type: "number", editable: false, nullable: true }, 
               updated_by: { type: "number", editable: false, nullable: true },
               created_at: { type: "date", editable: false, nullable: true }, 
@@ -114,14 +114,14 @@
           { template: kendo.template($("#textbox-multi-search").html()) } 
         ],
         columns: [
-          { field: "account_type_id", title: "Account Type", template: "#= account_type_id == null ? '' : accountTypeColumn(account_type_id) #", filterable: { ui: accountTypeColumnFilter }, groupHeaderTemplate: "Account Type: #= accountTypeColumn(value) #" },
+          { field: "account_type_id", title: "Account Type", values: accountTypeDataSource },
           { field: "parent_account_id", title: "Sub of Account",  template: "#= parent_account_id == null ? '' : subOfAccountColumn(parent_account_id) #", filterable: { ui: subOfAccountColumnFilter }, groupHeaderTemplate: "Account Type: #= value == null ? '' : subOfAccountColumn(value) #" },
           { field: "code", title: "Code", groupable: false },
           { field: "name", title: "Name ", groupable: false },
           { field: "description", title: "Description", groupable: false },
           { field: "status", title: "Status", values: statusDataSource },
-          { field: "created_by", title: "Created By", hidden: true, template: "#= created_by == null ? '' : userColumn(created_by) #", filterable: { ui: userColumnFilter }, groupHeaderTemplate: "Created By: #= value == null ? '' : userColumn(value) #" },
-          { field: "updated_by", title: "Modified By", hidden: true, template: "#= updated_by == null ? '' : userColumn(updated_by) #", filterable: { ui: userColumnFilter }, groupHeaderTemplate: "Modified By: #= value == null ? '' : userColumn(value) #" },
+          { field: "created_by", title: "Created By", values: userDataSource, hidden: true },
+          { field: "updated_by", title: "Modified By", values: userDataSource, hidden: true },
           { field: "created_at", title: "Created At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true, groupable: false },
           { field: "updated_at", title: "Modified At", format: "{0:yyyy/MM/dd h:mm:ss tt}", filterable: { ui: dateTimePickerColumnFilter }, hidden: true, groupable: false },
           { command: ["edit", "destroy"], title: "Action", menu: false }
@@ -296,7 +296,7 @@
       /*Initailize account type dropdownlist*/
       $("#accountType").kendoDropDownList({
         valuePrimitive: true,
-        optionLabel: "--Select account type--",
+        optionLabel: "-Select account type-",
         dataValueField: "accountTypeId",
         dataTextField: "accountTypeName",
         dataSource: { 
@@ -306,15 +306,14 @@
               type: "GET",
               dataType: "json"
             }
-          },
-          group: { field: "class" }
+          }
         }
       });
 
        /*Initailize sub of dropdownlist*/
       $("#subOf").kendoDropDownList({
         valuePrimitive: true,
-        optionLabel: "--Select sub of account--",
+        optionLabel: "-Select sub of account-",
         dataValueField: "accountId",
         dataTextField: "accountName",
         valueTemplate: "#: data.accountCode +' - '+ data.accountName #",
@@ -335,50 +334,25 @@
       initStatusDropDownList();
     }
 
-    /*Display text of created by or modified by foriegnkey column*/
-    function userColumn(userId) {
-      for (var i = 0; i < userDataSource.length; i++) {
-        if (userDataSource[i].id == userId) {
-          return userDataSource[i].username;
-        }
-      }
-    }
-
-    /*Display text of account type foriegnkey column*/
-    function accountTypeColumn(accountTypeId) {
-      for (var i = 0; i < accountTypeDataSource.length; i++) {
-        if (accountTypeDataSource[i].accountTypeId == accountTypeId) {
-          return accountTypeDataSource[i].accountTypeName;
-        }
-      }
-    }
-
     /*Display text of sub of foriegnkey column*/
     function subOfAccountColumn(parentAccountId) {
       for (var i = 0; i < accountDataSource.length; i++) {
         if (accountDataSource[i].accountId == parentAccountId) {
-          return accountDataSource[i].accountName;
+          return accountDataSource[i].accountCode + ' - ' +accountDataSource[i].accountName;
         }
       }
     }
 
-    /*Account type foriegnkey column filter*/
-    function accountTypeColumnFilter(element) {
-      element.kendoDropDownList({
-        optionLabel: "--Select Value--",
-        dataValueField: "accountTypeId",
-        dataTextField: "accountTypeName",
-        dataSource: { data: accountTypeDataSource, group: 'class' }
-      });
-    }
 
     /*Sub of foriegnkey column filter*/
     function subOfAccountColumnFilter(element) {
       element.kendoDropDownList({
         valuePrimitive: true,
-        optionLabel: "--Select Value--",
+        optionLabel: "-Select value-",
         dataValueField: "accountId",
         dataTextField: "accountName",
+        valueTemplate: "#: data.accountCode +' - '+ data.accountName #",
+        template: "#: data.accountCode +' - '+ data.accountName #",
         dataSource: { 
           transport: {
             read: {
@@ -391,24 +365,6 @@
         }
       });
     }
-
-    /*Created by and modified by foriegnkey column filter*/
-    function userColumnFilter(element) {
-      element.kendoDropDownList({
-        valuePrimitive: true,
-        optionLabel: "--Select Value--",
-        dataValueField: "id",
-        dataTextField: "username",
-        dataSource: { data: userDataSource, group: 'role' }
-      });
-    }
-
-    /*datetimepicker column filter*/
-    function dateTimePickerColumnFilter(element) {
-      element.kendoDateTimePicker({
-        format: "{0: yyyy/MM/dd HH:mm:ss tt}",
-      });
-    } 
 
     /*Reload account data source*/
     function reloadAccountDataSource(){

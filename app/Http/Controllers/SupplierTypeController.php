@@ -73,8 +73,8 @@ class SupplierTypeController extends Controller
         $supplierTypes = [];
 
         if($option == 'filter'){
-            //Get all city records filter status = enabled
-            $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->where('status',Status::ENABLED)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            //Get all city records filter status = ACTIVE
+            $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all city records

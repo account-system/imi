@@ -15,10 +15,9 @@ class CreateAccountTypesTable extends Migration
     {
         Schema::create('account_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('class',['Bank', 'Assets', 'Equity', 'Expenses', 'Liabilities', 'Revenue']);
             $table->string('name',60);
             $table->string('description',200)->nullable()->default(null);
-            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
+            $table->enum('status',['Active','Inactive'])->default('Active');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();

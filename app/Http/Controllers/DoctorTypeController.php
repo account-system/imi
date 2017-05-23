@@ -71,7 +71,7 @@ class DoctorTypeController extends Controller
     {
         $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords();
          if($option == 'filter'){
-            $doctorType = $doctorType->where('status',Status::ENABLED); 
+            $doctorType = $doctorType->where('status',Status::ACTIVE); 
         }
         
         $doctorType = $doctorType->get(['id as value','name as text'])->sortBy('text')->values()->all();

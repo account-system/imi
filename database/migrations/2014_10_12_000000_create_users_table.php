@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('postal_code',30)->nullable()->default(null);
             $table->string('address',200)->nullable()->default(null);
             $table->string('detail',200)->nullable()->default(null);
-            $table->enum('status',['Enabled','Disabled'])->default('Enabled');
+            $table->enum('status',['Active','Inactive'])->default('Active');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);
             $table->timestamps();

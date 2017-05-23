@@ -64,9 +64,9 @@ class UserController extends Controller
         $users = [];
 
         if($option == 'dropdownlist'){
-            $users = User::where('status', Status::ENABLED)->get(['id','username', 'role'])->sortBy('username')->values()->all();
+            $users = User::where('status', Status::ACTIVE)->get(['id','username', 'role'])->sortBy('username')->values()->all();
         }elseif($option == 'foriegnkeycolumn'){
-            $users = User::get(['id','username', 'role'])->sortBy('username')->values()->all();
+            $users = User::get(['id as value','username as text'])->sortBy('text')->values()->all();
         }elseif ($option == 'all') {
             $users = User::get()->sortByDesc('id')->values()->all();
         }

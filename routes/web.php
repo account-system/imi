@@ -121,12 +121,12 @@ Route::group(['prefix' => '/product'], function () {
 
 //Route branch
 Route::group(['prefix' => '/branch'], function () {
-    Route::get('/', 'BranchController@view');
-    Route::get('/get', 'BranchController@get');
+    //Route::get('/', 'BranchController@view');
+    //Route::get('/get', 'BranchController@get');
     Route::get('/list/{option}', 'BranchController@getList');
-    Route::post('/store', 'BranchController@store');
-    Route::post('/update', 'BranchController@update');
-    Route::post('/destroy', 'BranchController@destroy');
+    //Route::post('/store', 'BranchController@store');
+    //Route::post('/update', 'BranchController@update');
+    //Route::post('/destroy', 'BranchController@destroy');
 });
 
 //Route country
