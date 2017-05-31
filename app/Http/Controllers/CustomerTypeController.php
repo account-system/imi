@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Helpers\Status;
 use Illuminate\Http\Request;
-use App\MasterType;
 use App\MasterDetail;
 
 class CustomerTypeController extends Controller
@@ -54,7 +53,7 @@ class CustomerTypeController extends Controller
      */
     public function get()
     {
-        $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->get()->sortByDesc('id')->values()->all();
+        $customerTypes = MasterDetail::where('master_type_id', $this->customerTypeTable)->get()->sortByDesc('id')->values()->all();
         return Response()->Json($customerTypes);
     }
 
@@ -69,11 +68,11 @@ class CustomerTypeController extends Controller
 
         if($option == 'filter'){
             //Get all customer type records filter status = enabled
-            $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $customerTypes = MasterDetail::where('master_type_id', $this->customerTypeTable)->where('status', Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all customer type records
-            $customerTypes = MasterType::find($this->customerTypeTable)->customerTypeRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $customerTypes = MasterDetail::where('master_type_id', $this->customerTypeTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
         return Response()->Json($customerTypes);

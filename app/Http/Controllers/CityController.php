@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
-use App\MasterDetail;
 use App\MasterSubDetail;
-use App\MasterType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -55,7 +53,7 @@ class CityController extends Controller
      */
     public function get()
     {
-        $cities = MasterType::find($this->cityTable)->cityRecords()->get()->sortByDesc('id')->values()->all();
+        $cities = MasterSubDetail::where('master_type_id',$this->cityTable)->get()->sortByDesc('id')->values()->all();
         
         return Response()->Json($cities);
     }
@@ -73,13 +71,13 @@ class CityController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = enabled contains(value, text)
-            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $cities = MasterSubDetail::where('master_type_id',$this->cityTable)->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
         }elseif ($option == 'cascade') {
             //Get all city records filter status = enabled contains(countryId, cityId, cityName)
-            $cities = MasterType::find($this->cityTable)->cityRecords()->where('status',Status::ACTIVE)->get(['master_detail_id as countryId', 'id as cityId','name as cityName'])->sortBy('cityName')->values()->all(); 
+            $cities = MasterSubDetail::where('master_type_id',$this->cityTable)->where('status',Status::ACTIVE)->get(['master_detail_id as countryId', 'id as cityId','name as cityName'])->sortBy('cityName')->values()->all(); 
         }elseif ($option == 'all') {
             //Get all city records contains(value, text)
-            $cities = MasterType::find($this->cityTable)->cityRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $cities = MasterSubDetail::where('master_type_id',$this->cityTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
         return Response()->Json($cities);
@@ -96,11 +94,11 @@ class CityController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = enabled
-            $cities = MasterDetail::find($countryId)->cityRecords()->where('status',Status::ACTIVE)->get()->sortByDesc('id')->values()->all();
+            $cities = MasterSubDetail::where('master_type_id', $this->cityTable)->where('master_detail_id', $countryId)->where('status', Status::ACTIVE)->get()->sortByDesc('id')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all city records
-            $cities = MasterDetail::find($countryId)->cityRecords()->get()->sortByDesc('id')->values()->all(); 
+            $cities = MasterSubDetail::where('master_type_id', $this->cityTable)->where('master_detail_id', $countryId)->get()->sortByDesc('id')->values()->all(); 
         }
         
         return Response()->Json($cities);

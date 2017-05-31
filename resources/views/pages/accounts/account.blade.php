@@ -83,12 +83,14 @@
             id: "id",
             fields: {
               id: { editable: false, nullable: true },
-              account_type_id: { type: "number", defaultValue: null },
+              account_type_id: { type: "number" },
               parent_account_id: { type: "number", nullable: true },
-              code: { type: "string" },  
+              code: { type: "number", defaultValue: null },  
               name: { type: "string" },
               description: { type: "string", nullable: true }, 
               status: { field: "status", type: "string", defaultValue: "Active" },
+              opening_balance_amount: { field: "opening_balance_amount", type: "number", defaultValue: null },
+              as_of_date: { field: "as_of_date", type: "date", defaultValue: null },
               created_by: { type: "number", editable: false, nullable: true }, 
               updated_by: { type: "number", editable: false, nullable: true },
               created_at: { type: "date", editable: false, nullable: true }, 
@@ -114,11 +116,11 @@
           { template: kendo.template($("#textbox-multi-search").html()) } 
         ],
         columns: [
+          { field: "code", title: "Account Code", groupable: false },
+          { field: "name", title: "Account Name ", groupable: false },
+          { field: "description", title: "Description", groupable: false },
           { field: "account_type_id", title: "Account Type", values: accountTypeDataSource },
           { field: "parent_account_id", title: "Sub of Account",  template: "#= parent_account_id == null ? '' : subOfAccountColumn(parent_account_id) #", filterable: { ui: subOfAccountColumnFilter }, groupHeaderTemplate: "Account Type: #= value == null ? '' : subOfAccountColumn(value) #" },
-          { field: "code", title: "Code", groupable: false },
-          { field: "name", title: "Name ", groupable: false },
-          { field: "description", title: "Description", groupable: false },
           { field: "status", title: "Status", values: statusDataSource },
           { field: "created_by", title: "Created By", values: userDataSource, hidden: true },
           { field: "updated_by", title: "Modified By", values: userDataSource, hidden: true },
@@ -132,7 +134,8 @@
           if (e.model.isNew()) {
             e.container.data("kendoWindow").title('Add New Account');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
-
+            /*Call function  init form control*/
+            initFormControl();
             /*Validate code available*/
             var validator = $("#frmAccount").kendoValidator({
               errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation"' +
@@ -204,6 +207,15 @@
           }
           else {
             e.container.data("kendoWindow").title('Edit Account');
+            /*Call function  init form control*/
+            initFormControl();
+            /*Disable account type*/
+            var accountType = $('#accountType').data('kendoDropDownList');
+            accountType.enable(false);
+            /*Hide controls*/
+            $('#amount').parent().parent().parent().hide();
+            $('#as-of-date').parent().parent().parent().hide();
+
             /*Validate code available*/
             var validator = $("#frmAccount").kendoValidator({
               errorTemplate: '<div class="k-widget k-tooltip k-tooltip-validation"' +
@@ -273,9 +285,6 @@
               }
             };
           }
-
-          /*Call function  init form control*/
-          initFormControl(); 
         }
       }); 
 
@@ -307,17 +316,78 @@
               dataType: "json"
             }
           }
+        },
+        dataBound: function(){
+          //Get object account type
+          var accountType           = this.dataItem();
+          //List id of account type with opening balance account 
+          var ListAccountTypeId     = [1, 3, 4, 9]; 
+          //Initalize object controls
+          var codeNumericTextBox    = $('#code').data("kendoNumericTextBox");
+          var amountNumericTextBox  = $('#amount').data('kendoNumericTextBox');
+          var asOfDateDatePicker    = $('#as-of-date').data('kendoDatePicker');   
+          
+          if (accountType.accountTypeId == '') {
+            //Remove attribute from element code numerictextbox
+            codeNumericTextBox.element.removeAttr('placeholder');
+            //Disable controls 
+            amountNumericTextBox.enable(false);
+            asOfDateDatePicker.enable(false);
+          }else{
+            //Add attribute to element code numerictextbox
+            codeNumericTextBox.element.attr('placeholder', accountType.minCode + ' - ' + accountType.maxCode);
+            if (ListAccountTypeId.indexOf(accountType.accountTypeId) != -1) {
+              amountNumericTextBox.enable();
+              asOfDateDatePicker.enable(); 
+            }else{
+              amountNumericTextBox.enable(false);
+              asOfDateDatePicker.enable(false);
+            }
+          }
+          $("#code").parents('span').parents('span').attr('style','width:100%;');
+        },
+        change: function(){
+           //Get object account type
+          var accountType           = this.dataItem();
+          //List id of account type with opening balance account 
+          var ListAccountTypeId     = [1, 3, 4, 9]; 
+          //Initalize object controls
+          var codeNumericTextBox    = $('#code').data("kendoNumericTextBox");
+          var amountNumericTextBox  = $('#amount').data('kendoNumericTextBox');
+          var asOfDateDatePicker    = $('#as-of-date').data('kendoDatePicker');   
+
+          if (accountType.accountTypeId == '') {
+            //Remove attribute from element code numerictextbox
+            codeNumericTextBox.element.removeAttr('placeholder');
+            codeNumericTextBox.value('');
+            //Disable controls 
+            amountNumericTextBox.enable(false);
+            asOfDateDatePicker.enable(false);
+          }else{
+            //Add attribute to element code numerictextbox
+            codeNumericTextBox.element.attr('placeholder', accountType.minCode + ' - ' + accountType.maxCode);
+            codeNumericTextBox.value('');
+
+            if (ListAccountTypeId.indexOf(accountType.accountTypeId) != -1) {
+              amountNumericTextBox.enable();
+              asOfDateDatePicker.enable(); 
+            }else{
+              amountNumericTextBox.enable(false);
+              asOfDateDatePicker.enable(false);
+            }
+          }
+          $("#code").parents('span').parents('span').attr('style','width:100%;');
         }
       });
 
-       /*Initailize sub of dropdownlist*/
+      /*Initailize sub of account dropdownlist*/
       $("#subOf").kendoDropDownList({
         valuePrimitive: true,
         optionLabel: "-Select sub of account-",
         dataValueField: "accountId",
         dataTextField: "accountName",
-        valueTemplate: "#: data.accountCode +' - '+ data.accountName #",
-        template: "#: data.accountCode +' - '+ data.accountName #",
+        valueTemplate: "#: data.accountCode + '.' + data.accountName #",
+        template: "#: data.accountCode + '.' + data.accountName #",
         cascadeFrom: "accountType",
         dataSource: {
           transport: {
@@ -330,19 +400,63 @@
         }
       });
 
+      /*Call account code NumericTextBox*/
+      initAccountCodeNumericTextBox();
+
       /*Initailize status dropdownlist*/
       initStatusDropDownList();
+
+      /*Initialize amount NumericTextBox*/
+      $("#amount").kendoNumericTextBox({
+          format: "c",
+          min: 0,
+          max: 99999999.99,
+          decimals: 2,
+          round: false,
+          change:function(){
+            /*Call requird as of date numerictextbox*/
+            requiredAsOfDate();
+          }
+      });
+
+      /*Initailize as of datepicker*/
+      $("#as-of-date").kendoDatePicker({
+        parseFormats: ["dd/MM/yyyy", "yyyy/MM/dd"],
+        format: "yyyy/MM/dd" 
+      });
+    }
+
+    /*Requird as of date datepicker*/
+    function requiredAsOfDate(){
+      var amount    = $('#amount').data('kendoNumericTextBox');
+      var asOfDate  = $('#as-of-date').data('kendoDatePicker');  
+      if (amount.value() > 0) {
+        asOfDate.element.attr('required','required');
+        asOfDate.element.attr('data-required-msg', 'The as of date field is required');  
+      }else{
+        asOfDate.element.removeAttr('required');
+        asOfDate.element.removeAttr('data-required-msg');  
+      }
+    }
+
+    /*Initialize account code NumericTextBox*/
+    function initAccountCodeNumericTextBox(){
+      $("#code").kendoNumericTextBox({
+          format: "0",
+          min: 0,
+          max: 10000000,
+          decimals: 0,
+      }); 
     }
 
     /*Display text of sub of foriegnkey column*/
     function subOfAccountColumn(parentAccountId) {
       for (var i = 0; i < accountDataSource.length; i++) {
         if (accountDataSource[i].accountId == parentAccountId) {
-          return accountDataSource[i].accountCode + ' - ' +accountDataSource[i].accountName;
+          return accountDataSource[i].accountCode + '.' +accountDataSource[i].accountName;
         }
       }
     }
-
 
     /*Sub of foriegnkey column filter*/
     function subOfAccountColumnFilter(element) {
@@ -351,8 +465,8 @@
         optionLabel: "-Select value-",
         dataValueField: "accountId",
         dataTextField: "accountName",
-        valueTemplate: "#: data.accountCode +' - '+ data.accountName #",
-        template: "#: data.accountCode +' - '+ data.accountName #",
+        valueTemplate: "#: data.accountCode + '.' + data.accountName #",
+        template: "#: data.accountCode + '.' + data.accountName #",
         dataSource: { 
           transport: {
             read: {
@@ -396,15 +510,15 @@
               <input id="subOf" data-bind="value:parent_account_id"  style="width: 100%;" />
           </div> 
           <div class="col-12">
-            <label for="code">Code</label>
-            <input type="text" id="code" class="k-textbox" name="code" data-bind="value:code" required data-required-msg="The code field is required" pattern=".{1,10}" validationMessage="The code may not be greater than 10 characters" data-available data-available-url="{{url('')}}/account/validate" data-available-msg="The code is not avalible" style="width: 100%;"/>
+            <label for="code">Account Code</label>
+            <input type="number" id="code" name="code" data-bind="value:code" required data-required-msg="The account code field is required" data-available data-available-url="{{url('')}}/account/validate" data-available-msg="The code is not avalible" style="width: 100%;"/>
+          </div> 
+          <div class="col-12">
+            <label for="name">Account Name</label>
+            <input type="text" class="k-textbox" name="name" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/>
           </div>  
         </div>
         <div class="row-6"> 
-          <div class="col-12">
-            <label for="name">Name</label>
-            <input type="text" class="k-textbox" name="name" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/>
-          </div> 
           <div class="col-12">
             <label for="description">Description</label>
             <textarea class="k-textbox" name="description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
@@ -413,6 +527,14 @@
               <label for="status">Status</label>
               <input id="status" data-bind="value:status"  style="width: 100%;" />
           </div>
+          <div class="col-12">
+            <label for="amount">Opening Balance Amount</label>
+            <input id="amount" type="number" name="amount" data-bind="value:amount" style="width: 100%;"/>
+          </div>
+          <div class="col-12">
+            <label for="as_of_date">As of Date</label>
+            <input type="text" data-type="date" id="as-of-date" name="as_of_date" data-bind="value:as_of_date" data-role='datepicker' validationMessage="The as of date is not valid date" style="width: 100%;"/>
+          </div>  
         </div>
       </div>
     </form>

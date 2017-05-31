@@ -33,8 +33,13 @@ class MasterTypesTableSeeder extends Seeder
             ),
             array(
                 'name' => 'cities',
+            ),
+            array(
+                'name' => 'measures',
+            ),
+            array(
+                'name' => 'item_types',
             )
-
     	);
 
     	DB::table('master_types')->insert($masterTypes);

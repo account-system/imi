@@ -12,6 +12,15 @@ class AccountType extends Model
 	 * @var array
 	 */
 	protected $hidden = [
-	    'created_by', 'updated_by', 'created_at', 'updated_at',
+	    
 	];
+
+	/**
+     * Get accounts belong to account type.
+     */
+    public function accounts()
+    {
+        return $this->hasMany('App\account');
+    }
+
 }

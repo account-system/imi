@@ -251,7 +251,6 @@
       /*Initialize branch dropdownlist*/ 
       function initBranchDropDownList(){
         $("#branch").kendoDropDownList({
-          optionLabel: "-Select branch-",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: {

@@ -13,46 +13,74 @@ class AccountTypesTableSeeder extends Seeder
     {
     	$accountTypes = array(
             array(
-                'name'  =>  'Bank',
+                'min_code'  =>  11000,
+                'max_code'  =>  11999,
+                'name'      =>  'Bank',
             ),
             array(
-                'name' =>   'Accounts receivalbe',
+                'min_code'  =>  12000,
+                'max_code'  =>  12999,
+                'name'      =>  'Accounts Receivable',
             ),
             array(
-                'name'  =>  'Other Current Asset',    
+                'min_code'  =>  13000,
+                'max_code'  =>  13999,
+                'name'      =>  'Other Current Asset',    
             ),
             array(
-                'name'  =>  'Fixed Asset',
+                'min_code'  =>  14000,
+                'max_code'  =>  14999,
+                'name'      =>  'Fixed Asset',
             ),
             array(
-                'name'  =>  'Other Asset',
+                'min_code'  =>  15000,
+                'max_code'  =>  15999,
+                'name'      =>  'Other Asset',
             ),
     		array(
-	            'name'	=>	'Accounts Payable',	
+                'min_code'  =>  21000,
+                'max_code'  =>  21999,
+	            'name'	    =>	'Accounts Payable',	
         	),
             array(
-                'name'  =>  'Other Current Liability',
+                'min_code'  =>  22000,
+                'max_code'  =>  22999,
+                'name'      =>  'Other Current Liability',
             ),
             array(
+                'min_code'  =>  23000,
+                'max_code'  =>  23999,
                 'name'  =>  'Long Term Liability', 
             ),
-            array( 
-                'name'  =>  'Equity',
+            array(
+                'min_code'  =>  30000,
+                'max_code'  =>  39999, 
+                'name'      =>  'Equity',
             ),
             array(
-                'name'  =>  'Income',
+                'min_code'  =>  50000,
+                'max_code'  =>  59999,
+                'name'      =>  'Income',
             ),
             array(
-                'name'  =>  'Cost of Goods Sold',
+                'min_code'  =>  60000,
+                'max_code'  =>  69999,
+                'name'      =>  'Cost of Goods Sold',
             ),
             array(
-                'name'  =>  'Expense',
+                'min_code'  =>  70000,
+                'max_code'  =>  79999,
+                'name'      =>  'Expense',
             ),
             array(
-                'name'  =>  'Other Income',
+                'min_code'  =>  80000,
+                'max_code'  =>  89999,
+                'name'      =>  'Other Income',
             ),
         	array(
-	            'name' 	=> 	'Other Expense',
+                'min_code'  =>  90000,
+                'max_code'  =>  99999,
+	            'name' 	   => 	'Other Expense',
         	)	
     	);
 

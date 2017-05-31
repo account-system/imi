@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use App\Http\Controllers\Helpers\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -92,7 +93,7 @@ trait AuthenticatesUsers
     protected function credentials(Request $request)
     {
         $credentials = $request->only($this->username(), 'password');
-        $credentials['status'] = 'Enabled';
+        $credentials['status'] = Status::ACTIVE;
         return $credentials;
     }
 

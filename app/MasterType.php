@@ -69,4 +69,20 @@ class MasterType extends Model
     {
         return $this->hasMany('App\MasterSubDetail');
     }
+
+    /**
+     * Get all measure records belong to measure table.
+     */
+    public function measureRecords()
+    {
+        return $this->hasMany('App\MasterDetail');
+    }
+
+    /**
+     * Get all item type records belong to item type table.
+     */
+    public function itemTypeRecords()
+    {
+        return $this->hasMany('App\MasterDetail');
+    }
 }

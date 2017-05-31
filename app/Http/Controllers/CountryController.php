@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
-use App\MasterType;
 use App\MasterDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +56,7 @@ class CountryController extends Controller
      */
     public function get()
     {
-        $countries = MasterType::find($this->countryTable)->countryRecords()->get()->sortByDesc('id')->values()->all();
+        $countries = MasterDetail::where('master_type_id', $this->countryTable)->get()->sortByDesc('id')->values()->all();
 
         return Response()->Json($countries);
     }
@@ -74,14 +73,14 @@ class CountryController extends Controller
 
         if($option == 'filter'){
             //Get all country records filter status = enabled contains(value, text) 
-            $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $countries = MasterDetail::where('master_type_id', $this->countryTable)->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
         }elseif ($option == 'cascade') {
             //Get all country records filter status = enabled contains(countryId, countryName)
-            $countries = MasterType::find($this->countryTable)->countryRecords()->where('status',Status::ACTIVE)->get(['id as countryId','name as countryName'])->sortBy('text')->values()->all();
+            $countries = MasterDetail::where('master_type_id', $this->countryTable)->where('status',Status::ACTIVE)->get(['id as countryId','name as countryName'])->sortBy('text')->values()->all();
         }
         elseif ($option == 'all') {
             //Get all country records contains(value, text)
-            $countries = MasterType::find($this->countryTable)->countryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $countries = MasterDetail::where('master_type_id', $this->countryTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
         return Response()->Json($countries);

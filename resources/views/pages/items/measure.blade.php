@@ -8,11 +8,11 @@
 
 @section('header')
     <section class="content-header">
-      <h1>Category</h1>
+      <h1>Measure</h1>
       <ol class="breadcrumb">
         <li class="active">{{ config('app.name') }}</li>
-        <li class="active">Product</li>
-        <li class="active">Category</li>
+        <li class="active">Item</li>
+        <li class="active">Measure</li>
       </ol>
     </section>
 @endsection
@@ -39,28 +39,28 @@
       var dataSource = new kendo.data.DataSource({
         transport: {
           read:  {
-            url: crudBaseUrl + "/product/category/get",
+            url: crudBaseUrl + "/item/measure/list/all",
             type: "GET",
             dataType: "json"
           },
           update: {
-            url: crudBaseUrl + "/product/category/update",
+            url: crudBaseUrl + "/item/measure/update",
             type: "POST",
             dataType: "json"
           },
           destroy: {
-            url: crudBaseUrl + "/product/category/destroy",
+            url: crudBaseUrl + "/item/measure/destroy",
             type: "POST",
             dataType: "json"
           },
           create: {
-            url: crudBaseUrl + "/product/category/store",
+            url: crudBaseUrl + "/item/measure/store",
             type: "POST",
             dataType: "json"
           },
           parameterMap: function(options, operation) {
               if (operation !== "read" && options.models) {
-                  return {categories: kendo.stringify(options.models)};
+                  return {measures: kendo.stringify(options.models)};
               }
           }
         },
@@ -94,7 +94,7 @@
         pageable: { refresh: true, pageSizes: true, buttonCount: 5 },
         height: 550,
         toolbar: [
-          { name: "create" ,text: "Add New Category" },
+          { name: "create" ,text: "Add New Measure" },
           { template: kendo.template($("#textbox-multi-search").html()) } 
         ],
         columns: [
@@ -111,11 +111,11 @@
         edit: function (e) {
           //Customize popup title and button label 
           if (e.model.isNew()) {
-            e.container.data("kendoWindow").title('Add New Category');
+            e.container.data("kendoWindow").title('Add New Measure');
             $(".k-grid-update").html('<span class="k-icon k-i-check"></span>Save');
           }
           else {
-            e.container.data("kendoWindow").title('Edit Category');
+            e.container.data("kendoWindow").title('Edit Measure');
           }
 
           /*Initialize status dropdownlist*/

@@ -16,8 +16,8 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('account_type_id')->unsigned();
-             $table->integer('parent_account_id')->unsigned()->nullable()->default(null);;
-            $table->string('code',10)->unique();
+            $table->integer('parent_account_id')->unsigned()->nullable()->default(null);;
+            $table->integer('code')->unsigned()->unique();
             $table->string('name',60);
             $table->string('description',200)->nullable()->default(null);
             $table->enum('status',['Active','Inactive'])->default('Active');

@@ -7,7 +7,6 @@ use App\Http\Controllers\Helpers\Status;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\MasterDetail;
-use App\MasterType;
 
 class CategoryController extends Controller
 {
@@ -45,19 +44,9 @@ class CategoryController extends Controller
         $userControler          =   new UserController;
         $this->data['users']    =   $userControler->get('foriegnkeycolumn')->content(); 
 
-        return view('pages.products.category',$this->data);
+        return view('pages.items.category',$this->data);
     }
 
-    /**
-     * Get a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function get()
-    {
-        $categories = MasterType::find($this->categoryTable)->categoryRecords()->get()->sortByDesc('id')->values()->all();
-        return Response()->Json($categories);
-    }
     /**
      * Get a listing of the resource that contains(value, text)
      *
@@ -67,13 +56,12 @@ class CategoryController extends Controller
     {
         $categories = [];
 
-        if($option == 'filter'){
-            //Get all category records filter status = enabled
-            $categories = MasterType::find($this->categoryTable)->categoryRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
-     
+        if ($option == 'dropdownlist') {
+            $categories = MasterDetail::where('master_type_id', $this->categoryTable)->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+        }elseif ($option == 'foriegnkeycolumn') {
+            $categories = MasterDetail::where('master_type_id', $this->categoryTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }elseif ($option == 'all') {
-            //Get all category records
-            $categories = MasterType::find($this->categoryTable)->categoryRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $categories = MasterDetail::where('master_type_id', $this->categoryTable)->get()->sortByDesc('id')->values()->all();
         }
         
         return Response()->Json($categories);

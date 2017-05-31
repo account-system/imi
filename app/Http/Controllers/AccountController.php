@@ -54,6 +54,26 @@ class AccountController extends Controller
      * @param string $option
      * @return \Illuminate\Http\Response
      */
+    public function getAccountListByAccountType($id = null, $option = null)
+    {
+        $accounts = [];
+
+        if ($option == 'dropdownlist') {
+            $accounts = Account::where('account_type_id', $id)->where('status',Status::ACTIVE)->get(['id', 'code', 'name'])->sortBy('code')->values()->all();
+        }elseif ($option == 'foriegnkeycolumn') {
+            $accounts = Account::where('account_type_id', $id)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+        }elseif ($option == 'all') {
+            $accounts = Account::where('account_type_id', $id)->get()->sortByDesc('id')->values()->all();
+        }
+        
+        return Response()->Json($accounts);
+    }
+
+    /**
+     * Get a listing of chart of account.
+     * @param string $option
+     * @return \Illuminate\Http\Response
+     */
     public function getAccountList($option = null)
     {
         $accounts = [];
@@ -63,20 +83,10 @@ class AccountController extends Controller
         }elseif($option == 'foriegnkeycolumn'){
              $accounts = DB::table('accounts')->join('account_types', 'accounts.account_type_id', '=', 'account_types.id')->select('accounts.id as accountId', 'accounts.code as accountCode', 'Accounts.name as accountName', 'Accounts.account_type_id as accountTypeId', 'account_types.name as accountTypeName')->orderBy('accountName', 'asc')->get();
         }elseif($option == 'all'){
-            $accounts = Account::all();
+            $accounts = Account::all()->sortByDesc('id')->values()->all();;
         }
 
         return Response()->Json($accounts);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -187,7 +197,7 @@ class AccountController extends Controller
         $accountTypes = [];
 
         if($option == 'dropdownlist'){
-            $accountTypes = AccountType::where('status', Status::ACTIVE)->get(['id as accountTypeId','name as accountTypeName'])->all();
+            $accountTypes = AccountType::where('status', Status::ACTIVE)->get(['id as accountTypeId', 'min_code as minCode', 'max_code as maxCode', 'name as accountTypeName'])->all();
         }elseif($option == 'foriegnkeycolumn'){
              $accountTypes = AccountType::get(['id as value','name as text'])->all();  
         }

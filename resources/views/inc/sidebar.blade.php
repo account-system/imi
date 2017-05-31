@@ -73,10 +73,11 @@
           </li>
           <!-- ====== Setup Item ================================ -->
           <li class="treeview">
-              <a href="#"><i class="icon fa fa-cubes"></i><span>Product</span> <i class="fa fa-angle-left pull-right"></i></a>
+              <a href="#"><i class="icon fa fa-cubes"></i><span>Item</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('').'/product/category' }}"><span>Category</span></a></li>
-                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/product' }}"><span>Product List</span></a></li>
+                <li><a href="{{ url('').'/item/measure' }}"><span>Measure</span></a></li>
+                <li><a href="{{ url('').'/item/category' }}"><span>Category</span></a></li>
+                <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/item' }}"><span>Item List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/sale') }}"><span>Sale</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/setup-service') }}"><span>Setup Service</span></a></li>
               </ul>
@@ -85,9 +86,9 @@
           <li class="treeview">
               <a href="#"><i class="fa fa-usd"></i><span>Account</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                  <li><a href="{{ url('').'/account' }}"><span>Setup Chart of Account</span></a></li>
-                  <li><a href="{{ url('').'/account/income/type' }}"><span>Setup Income Type</span></a></li>
-                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/account/expense/type' }}"><span>Setup Expense Type</span></a></li>
+                  <li><a href="{{ url('').'/account' }}"><span>Chart of Account</span></a></li>
+                  <li><a href="{{ url('').'/account/income/type' }}"><span>Income Type</span></a></li>
+                  <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/account/expense/type' }}"><span>Expense Type</span></a></li>
                   <li><a href="{{ url('').'/account/journal' }}"><span>Post Journal Entry</span></a></li>
                   <li><a href="{{ url('').'/account/income' }}"><span>Post Income</span></a></li>
                   <li><a href="{{ url('').'/account/expense' }}"><span>Post Expense</span></a></li>  

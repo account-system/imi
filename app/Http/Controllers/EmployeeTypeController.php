@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\MasterDetail;
-use App\MasterType;
 
 class EmployeeTypeController extends Controller
 {
@@ -55,7 +54,7 @@ class EmployeeTypeController extends Controller
      */
     public function get()
     {
-        $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords()->get()->sortByDesc('id')->values()->all();
+        $employeeType = MasterDetail::where('master_type_id', $this->employeeTypeTable)->get()->sortByDesc('id')->values()->all();
         return Response()->Json($employeeType);
     }
     /**
@@ -65,14 +64,17 @@ class EmployeeTypeController extends Controller
      */
     public function getList($option = null)
     {
-        $employeeType = MasterType::find($this->employeeTypeTable)->employeeTypeRecords();
-        
-        if ($option == 'filter') {
+        $employeeType = [];
 
-            $employeeType = $employeeType->where('status',Status::ACTIVE);
+        if($option == 'filter'){
+            //Get all customer type records filter status = enabled
+            $employeeType = MasterDetail::where('master_type_id', $this->employeeTypeTable)->where('status', Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+     
+        }elseif ($option == 'all') {
+            //Get all customer type records
+            $employeeType = MasterDetail::where('master_type_id', $this->employeeTypeTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
-        $employeeType = $employeeType->get(['id as value','name as text'])->sortBy('text')->values()->all();
-        
+
         return Response()->Json($employeeType);
     }
     /**

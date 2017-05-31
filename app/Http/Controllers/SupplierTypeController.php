@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
 use App\MasterDetail;
-use App\MasterType;
 
 class SupplierTypeController extends Controller
 {
@@ -58,7 +57,7 @@ class SupplierTypeController extends Controller
      */
     public function get()
     {
-        $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->get()->sortByDesc('id')->values()->all();
+        $supplierTypes = MasterDetail::where('master_type_id', $this->supplierTypeTable)->get()->sortByDesc('id')->values()->all();
         
         return Response()->Json($supplierTypes);
     }
@@ -74,11 +73,11 @@ class SupplierTypeController extends Controller
 
         if($option == 'filter'){
             //Get all city records filter status = ACTIVE
-            $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+            $supplierTypes = MasterDetail::where('master_type_id', $this->supplierTypeTable)->where('status',Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
         }elseif ($option == 'all') {
             //Get all city records
-            $supplierTypes = MasterType::find($this->supplierTypeTable)->supplierTypeRecords()->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
+            $supplierTypes = MasterDetail::where('master_type_id', $this->supplierTypeTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
         
         return Response()->Json($supplierTypes);

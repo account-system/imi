@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Helpers\Status;
 use App\Http\Controllers\Controller;
 use App\MasterDetail;
-use App\MasterType;
-
-
 
 class DoctorTypeController extends Controller
 {
@@ -59,7 +56,7 @@ class DoctorTypeController extends Controller
      */
     public function get()
     {
-        $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords()->get()->sortByDesc('id')->values()->all();
+        $doctorType = MasterDetail::where('master_type_id', $this->doctorTypeTable)->get()->sortByDesc('id')->values()->all();
         return Response()->Json($doctorType);
     }
     /**
@@ -69,12 +66,16 @@ class DoctorTypeController extends Controller
      */
     public function getList($option = null)
     {
-        $doctorType = MasterType::find($this->doctorTypeTable)->doctorTypeRecords();
-         if($option == 'filter'){
-            $doctorType = $doctorType->where('status',Status::ACTIVE); 
+        $doctorType = [];
+
+        if($option == 'filter'){
+            //Get all customer type records filter status = enabled
+            $doctorType = MasterDetail::where('master_type_id', $this->doctorTypeTable)->where('status', Status::ACTIVE)->get(['id as value','name as text'])->sortBy('text')->values()->all();
+     
+        }elseif ($option == 'all') {
+            //Get all customer type records
+            $doctorType = MasterDetail::where('master_type_id', $this->doctorTypeTable)->get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }
-        
-        $doctorType = $doctorType->get(['id as value','name as text'])->sortBy('text')->values()->all();
         return Response()->Json($doctorType);
     }
     /**

@@ -78,4 +78,20 @@ class MasterDetail extends Model
     {
         return $this->hasMany('App\MasterSubDetail');
     }
+
+    /**
+     * Get the measure table that owns the measure record.
+     */
+    public function measureTable()
+    {
+        return $this->belongsTo('App\MasterType');
+    }
+
+    /**
+     * Get the item type table that owns the item type record.
+     */
+    public function itemTypeTable()
+    {
+        return $this->belongsTo('App\MasterType');
+    }
 }

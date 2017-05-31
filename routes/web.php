@@ -100,18 +100,55 @@ Route::group(['prefix' => '/supplier'], function () {
     });
 });
 
-//Route product
-Route::group(['prefix' => '/product'], function () {
-    Route::get('/', 'ProductController@view');
-    Route::get('/get', 'ProductController@get');
-    Route::post('/store', 'ProductController@store');
-    Route::post('/update', 'ProductController@update');
-    Route::post('/destroy', 'ProductController@destroy');
+//Route item
+Route::group(['prefix' => '/item'], function () {
+    //Route inventory
+    Route::group(['prefix' => '/inventory'], function () {
+    Route::get('/create', 'InventoryController@create');
+    Route::post('/store', 'InventoryController@store');
+    Route::get('/{id}/edit', 'InventoryController@edit');
+    Route::post('/{id}/update', 'InventoryController@update');
+    Route::post('/{id}/destroy', 'InventoryController@destroy');
+    });
+
+     //Route service
+    Route::group(['prefix' => '/service'], function () {
+    Route::get('/create', 'ServiceController@create');
+    Route::post('/store', 'ServiceController@store');
+    Route::get('/{id}/edit', 'ServiceController@edit');
+    Route::post('/{id}/update', 'ServiceController@update');
+    Route::post('/{id}/destroy', 'ServiceController@destroy');
+    });
+
+    Route::get('/create', 'ItemController@create');
+    Route::get('/', 'ItemController@view');
+    Route::get('/get', 'ItemController@get');
+    Route::post('/store', 'ItemController@store');
+    Route::post('/update', 'ItemController@update');
+    Route::post('/destroy', 'ItemController@destroy');
+
+    //Route type
+    Route::group(['prefix' => '/type'], function () {
+    // Route::get('/', 'ItemTypeController@view');
+    // Route::get('/get', 'ItemTypeController@get');
+    Route::get('/list/{option}', 'ItemTypeController@getList');
+    // Route::post('/store', 'ItemTypeController@store');
+    // Route::post('/update', 'ItemTypeController@update');
+    // Route::post('/destroy', 'ItemTypeController@destroy');
+    });
+
+    //Route measure
+    Route::group(['prefix' => '/measure'], function () {
+    Route::get('/', 'MeasureController@view');
+    Route::get('/list/{option}', 'MeasureController@getList');
+    Route::post('/store', 'MeasureController@store');
+    Route::post('/update', 'MeasureController@update');
+    Route::post('/destroy', 'MeasureController@destroy');
+    });
 
     //Route category
     Route::group(['prefix' => '/category'], function () {
     Route::get('/', 'CategoryController@view');
-    Route::get('/get', 'CategoryController@get');
     Route::get('/list/{option}', 'CategoryController@getList');
     Route::post('/store', 'CategoryController@store');
     Route::post('/update', 'CategoryController@update');
@@ -173,7 +210,7 @@ Route::group(['prefix' => '/account'], function(){
     //Route account type
     Route::group(['prefix' => '/type'], function () {
         Route::get('get/{option}', 'AccountController@getAccountTypeList'); 
-  
+        Route::get('{id}/account/{option}', 'AccountController@getAccountListByAccountType'); 
     });
 });
 
