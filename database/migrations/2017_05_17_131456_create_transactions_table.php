@@ -15,11 +15,14 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('no',60)->unique();
             $table->integer('transaction_type_id')->unsigned();
+            $table->decimal('amount', 10, 2)->nullable()->default(null);
             $table->dateTime('date');
-            $table->decimal('amount', 10, 2);
-            $table->string('description',200)->nullable()->default(null);
+            $table->string('memo',200)->nullable()->default(null);
+            $table->string('reference_number',60)->nullable()->default(null);
+            $table->dateTime('due_date')->nullable()->default(null);
+            $table->integer('name_id')->unsigned()->nullable()->default(null);
+            $table->integer('branch_id')->unsigned();
             $table->enum('status',['Active','Inactive'])->default('Active');
             $table->integer('created_by')->unsigned()->nullable()->default(null);
             $table->integer('updated_by')->unsigned()->nullable()->default(null);

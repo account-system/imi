@@ -14,7 +14,7 @@ class ItemTypesTableSeeder extends Seeder
         $itemTypes = array(
     		array(
     			'master_type_id' => 9,
-	            'name' => 'Inventory Part',
+	            'name' => 'Inventory',
         	),
         	array(
         		'master_type_id' => 9,

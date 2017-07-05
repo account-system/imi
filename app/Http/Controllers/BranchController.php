@@ -61,11 +61,11 @@ class BranchController extends Controller
     {
         $branchs = [];
 
-        if($option == 'filter'){
+        if($option == 'dropdownlist'){
             //Get all branch records filter status = enabled
             $branchs = Branch::where('status',Status::ACTIVE)->whereIn('id',array_column(auth::user()->branches, 'value'))->get(['id as value','name as text'])->sortBy('text')->values()->all();
      
-        }elseif ($option == 'all') {
+        }elseif ($option == 'foriegnkeycolumn') {
             //Get all branch records
             $branchs = Branch::get(['id as value','name as text'])->sortBy('text')->values()->all(); 
         }

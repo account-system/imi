@@ -44,7 +44,7 @@ class ItemTypeController extends Controller
         $userControler          =   new UserController;
         $this->data['users']    =   $userControler->get('foriegnkeycolumn')->content(); 
 
-        return view('pages.items.type',$this->data);
+        return view('pages.items.type', $this->data);
     }
 
     /**

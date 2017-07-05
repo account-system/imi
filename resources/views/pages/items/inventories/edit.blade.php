@@ -6,23 +6,28 @@
 </style>
 @endsection
 
+<?php
+  $expireDate = str_replace('-', '/', $expire_date);
+  $asOfDate   = str_replace('-', '/', $as_of_date);
+?>
+
 @section('header')
   <section class="content-header">
     <h1>
-      Add <span class="text-lowercase">item</span>
+      Edit <span class="text-lowercase">item</span>
     </h1>
     <ol class="breadcrumb">
     <li><a href="{{ url('').'/dashboard' }}">{{ config('app.name') }}</a></li>
-      <li><a href="{{ url('').'/item' }}" class="text-capitalize">item ist</a></li>
-      <li class="active">Add</li>
+      <li><a href="{{ url('').'/item' }}" class="text-capitalize">items</a></li>
+      <li class="active">Edit</li>
     </ol>
   </section>
-@endsection 
+@endsection
 
 @section('content')
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
-      <a href="{{ url('').'/item' }}"><i class="fa fa-angle-double-left"></i> Back to  <span class="text-lowercase">item list</span></a><br><br>
+      <a href="{{ url('').'/item' }}"><i class="fa fa-angle-double-left"></i> Back to all  <span class="text-lowercase">items</span></a><br><br>
       @if(count($errors) > 0)
         <div class="callout callout-danger">
           <h4>Please fix the following errors:</h4>
@@ -33,17 +38,17 @@
           </ul>
         </div>
       @endif
-      <form id="frmInventory" method="POST" action="{{ url('').'/item/inventory/store' }}" accept-charset="UTF-8">
+      <form id="frmInventory" method="POST" action="{{ url('').'/item/inventory/'.$id.'/update' }}" accept-charset="UTF-8">
         {{ csrf_field() }}
         <div class="box">
           <div class="box-header with-border">
-            <h3 class="box-title">Add a new item (inventory)</h3>
+            <h3 class="box-title">Edit item (inventory)</h3>
           </div>
           <div class="box-body row">
             <div class="col-sm-12">
               <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                 <label for="name">Name*</label>
-                <input id="name" type="text" name="name" value="{{ old('name') }}" class="k-textbox form-control" style="width: 100%">
+                <input id="name" type="text" name="name" value="{{ $name or old('name') }}" class="k-textbox form-control" style="width: 100%">
                 @if ($errors->has('name'))
                   <span class="help-block">
                     <strong>{{ $errors->first('name') }}</strong>
@@ -52,7 +57,7 @@
               </div>
               <div class="form-group{{ $errors->has('code_barcode') ? ' has-error' : '' }}">
                 <label for="code_barcode">Code / Barcode</label>
-                <input id="codeBarcode" type="text" name="code_barcode" value="{{ old('code_barcode') }}" class="k-textbox form-control" style="width: 100%">
+                <input id="codeBarcode" type="text" name="code_barcode" value="{{ $code_barcode or old('code_barcode') }}" class="k-textbox form-control" style="width: 100%">
                 @if ($errors->has('code_barcode'))
                   <span class="help-block">
                     <strong>{{ $errors->first('code_barcode') }}</strong>
@@ -61,7 +66,7 @@
               </div>
               <div class="form-group{{ $errors->has('qr_code') ? ' has-error' : '' }}">
                 <label for="qr_code">QR code</label>
-                <input id="qrCode" type="text" name="qr_code" value="{{ old('qr_code') }}" class="k-textbox form-control" style="width: 100%">
+                <input id="qrCode" type="text" name="qr_code" value="{{ $qr_code or old('qr_code') }}" class="k-textbox form-control" style="width: 100%">
                 @if ($errors->has('qr_code'))
                   <span class="help-block">
                     <strong>{{ $errors->first('qr_code') }}</strong>
@@ -70,7 +75,7 @@
               </div>
               <div class="form-group{{ $errors->has('lot_number') ? ' has-error' : '' }}">
                 <label for="lot_number">Lot number</label>
-                <input id="lotNumber" type="text" name="lot_number" value="{{ old('lot_number') }}" class="k-textbox form-control" style="width: 100%">
+                <input id="lotNumber" type="text" name="lot_number" value="{{ $lot_number or old('lot_number') }}" class="k-textbox form-control" style="width: 100%">
                 @if ($errors->has('lot_number'))
                   <span class="help-block">
                     <strong>{{ $errors->first('lot_number') }}</strong>
@@ -79,7 +84,7 @@
               </div>
               <div class="form-group{{ $errors->has('sku') ? ' has-error' : '' }}">
                 <label for="sku">SKU</label>
-                <input id="sku" type="text" name="sku" value="{{ old('sku') }}" class="k-textbox form-control" style="width: 100%">
+                <input id="sku" type="text" name="sku" value="{{ $sku or old('sku') }}" class="k-textbox form-control" style="width: 100%">
                 @if ($errors->has('sku'))
                   <span class="help-block">
                     <strong>{{ $errors->first('sku') }}</strong>
@@ -88,7 +93,7 @@
               </div>
               <div class="form-group{{ $errors->has('expire_date') ? ' has-error' : '' }}">
                 <label for="expire_date">Expire date</label>
-                <input id="expireDate" type="text" name="expire_date" value="{{ old('expire_date') }}" data-type="date" data-role='datepicker' class="form-control" style="width: 100%;">
+                <input id="expireDate" type="text" name="expire_date" value="{{ $expireDate or old('expireDate') }}" data-type="date" data-role='datepicker' class="form-control" style="width: 100%;">
                 @if ($errors->has('expire_date'))
                   <span class="help-block">
                     <strong>{{ $errors->first('expire_date') }}</strong>
@@ -97,7 +102,7 @@
               </div>
               <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
                 <label for="image">Image</label>
-                <input id="image" type="file" name="image" accept="image/*" value="{{ old('image') }} " class="form-control"> 
+                <input id="image" type="file" name="image" accept="image/*" value="{{ $image or old('image') }} " class="form-control"> 
                 @if ($errors->has('image'))
                   <span class="help-block">
                     <strong>{{ $errors->first('image') }}</strong>
@@ -106,7 +111,7 @@
               </div>
               <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                 <label for="category_id">category</label>
-                <input id="category" type="text" name="category_id" value="{{ old('category_id') }}" class="form-control" style="width: 100%">
+                <input id="category" type="text" name="category_id" value="{{ $category_id or old('category_id') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('category_id'))
                   <span class="help-block">
                     <strong>{{ $errors->first('category_id') }}</strong>
@@ -115,7 +120,7 @@
               </div>
               <div class="form-group{{ $errors->has('measure_id') ? ' has-error' : '' }}">
                 <label for="measure_id">Unit of measure</label>
-                <input id="measure" type="text" name="measure_id" value="{{ old('measure_id') }}" class="form-control" style="width: 100%">
+                <input id="measure" type="text" name="measure_id" value="{{ $measure_id or old('measure_id') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('measure_id'))
                   <span class="help-block">
                     <strong>{{ $errors->first('measure_id') }}</strong>
@@ -124,7 +129,7 @@
               </div>
                <div class="form-group{{ $errors->has('discontinue') ? ' has-error' : '' }}">
                 <label for="discontinue">Discontinue</label>
-                <input id="discontinue" type="text" name="discontinue" value="{{ old('discontinue') }}" class="form-control" style="width: 100%">
+                <input id="discontinue" type="text" name="discontinue" value="{{ $discontinue or old('discontinue') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('discontinue'))
                   <span class="help-block">
                     <strong>{{ $errors->first('discontinue') }}</strong>
@@ -134,7 +139,7 @@
               <hr style="border-top: 1px solid #dcdcdc;">
               <div class="form-group{{ $errors->has('on_hand') ? ' has-error' : '' }}">
                 <label for="on_hand">Initial quantity on hand*</label>
-                <input id="onHand" type="number" name="on_hand" value="{{ old('on_hand') }}" style="width: 100%">
+                <input id="onHand" type="number" name="on_hand" value="{{ $on_hand or old('on_hand') }}" style="width: 100%">
                 @if ($errors->has('on_hand'))
                   <span class="help-block">
                     <strong>{{ $errors->first('on_hand') }}</strong>
@@ -143,7 +148,7 @@
               </div> 
               <div class="form-group{{ $errors->has('as_of_date') ? ' has-error' : '' }}">
                 <label for="as_of_date">As of date*</label>
-                 <input id="asOfDate" type="text" name="as_of_date" value="{{ old('as_of_date') }}" data-type="date" data-role='datepicker' class="form-control" style="width: 100%;"/>
+                 <input id="asOfDate" type="text" name="as_of_date" value="{{ $asOfDate or old('as_of_date') }}" data-type="date" data-role='datepicker' class="form-control" style="width: 100%;"/>
                  @if ($errors->has('as_of_date'))
                   <span class="help-block">
                     <strong>{{ $errors->first('as_of_date') }}</strong>
@@ -152,7 +157,7 @@
               </div> 
               <div class="form-group{{ $errors->has('reorder_point') ? ' has-error' : '' }}">
                 <label for="reorder_point">Reorder point</label>
-                <input id="reorderPoint" type="number" name="reorder_point" value="{{ old('reorder_point') }}"  style="width: 100%">
+                <input id="reorderPoint" type="number" name="reorder_point" value="{{ $reorder_point or old('reorder_point') }}"  style="width: 100%">
                 @if ($errors->has('reorder_point'))
                   <span class="help-block">
                     <strong>{{ $errors->first('reorder_point') }}</strong>
@@ -162,7 +167,7 @@
               <hr style="border-top: 1px solid #dcdcdc;">
               <div class="form-group{{ $errors->has('inventory_account_id') ? ' has-error' : '' }}">
                 <label for="inventory_account_id">Inventory asset account</label>
-                <input id="inventoryAccount" type="text" name="inventory_account_id" value="{{ old('inventory_account_id') }}" class="form-control" style="width: 100%">
+                <input id="inventoryAccount" type="text" name="inventory_account_id" value="{{ $inventory_account_id or old('inventory_account_id') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('inventory_account_id'))
                   <span class="help-block">
                     <strong>{{ $errors->first('inventory_account_id') }}</strong>
@@ -172,7 +177,7 @@
               <hr style="border-top: 1px solid #dcdcdc;">
               <div class="form-group{{ $errors->has('sale_description') ? ' has-error' : '' }}">
                 <label for="sale_description">Sale description</label>
-                <textarea id="saleDescription" name="sale_description" class="k-textbox form-control" style="width: 100%">{{ old('sale_description') }}</textarea>
+                <textarea id="saleDescription" name="sale_description" class="k-textbox form-control" style="width: 100%">{{ $sale_description or old('sale_description') }}</textarea>
                 @if ($errors->has('sale_description'))
                   <span class="help-block">
                     <strong>{{ $errors->first('sale_description') }}</strong>
@@ -181,7 +186,7 @@
               </div>
               <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                 <label for="price">Price</label>
-                <input id="price" type="number" name="price" value="{{ old('price') }}" style="width: 100%">
+                <input id="price" type="number" name="price" value="{{ $price or old('price') }}" style="width: 100%">
                 @if ($errors->has('price'))
                   <span class="help-block">
                     <strong>{{ $errors->first('price') }}</strong>
@@ -190,7 +195,7 @@
               </div>
               <div class="form-group{{ $errors->has('income_account_id') ? ' has-error' : '' }}">
                 <label for="income_account_id">Income account</label>
-                <input id="incomeAccount" type="text" name="income_account_id" value="{{ old('income_account_id') }}" class="form-control" style="width: 100%">
+                <input id="incomeAccount" type="text" name="income_account_id" value="{{ $income_account_id or old('income_account_id') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('income_account_id'))
                   <span class="help-block">
                     <strong>{{ $errors->first('income_account_id') }}</strong>
@@ -200,7 +205,7 @@
               <hr style="border-top: 1px solid #dcdcdc;">
               <div class="form-group{{ $errors->has('purchase_description') ? ' has-error' : '' }}">
                 <label for="purchase_description">Purchase description</label>
-                <textarea id="purchaseDescription" name="purchase_description" class="k-textbox form-control" style="width: 100%;">{{ old('purchase_description') }}</textarea>
+                <textarea id="purchaseDescription" name="purchase_description" class="k-textbox form-control" style="width: 100%;">{{ $purchase_description or old('purchase_description') }}</textarea>
                 @if ($errors->has('purchase_description'))
                   <span class="help-block">
                     <strong>{{ $errors->first('purchase_description') }}</strong>
@@ -209,7 +214,7 @@
               </div> 
               <div class="form-group{{ $errors->has('cost') ? ' has-error' : '' }}">
                 <label for="cost">Cost</label>
-                <input id="cost" type="number" name="cost" value="{{ old('income_account_id') }}" style="width: 100%">
+                <input id="cost" type="number" name="cost" value="{{ $income_account_id or old('income_account_id') }}" style="width: 100%">
                 @if ($errors->has('cost'))
                   <span class="help-block">
                     <strong>{{ $errors->first('cost') }}</strong>
@@ -218,7 +223,7 @@
               </div>
               <div class="form-group{{ $errors->has('expense_account_id') ? ' has-error' : '' }}">
                 <label for="expense_account_id">Expanse account</label>
-                <input id="expenseAccount" type="text" name="expense_account_id" value="{{ old('expense_account_id') }}" class="form-control" style="width: 100%">
+                <input id="expenseAccount" type="text" name="expense_account_id" value="{{ $expense_account_id or old('expense_account_id') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('expense_account_id'))
                   <span class="help-block">
                     <strong>{{ $errors->first('expense_account_id') }}</strong>
@@ -228,7 +233,7 @@
               <hr style="border-top: 1px solid #dcdcdc;">
               <div class="form-group{{ $errors->has('branch_id') ? ' has-error' : '' }}">
                 <label for="branch_id">Branch</label>
-                <input id="branch" type="text" name="branch_id" value="{{ old('branch_id') }}" class="form-control" style="width: 100%">
+                <input id="branch" type="text" name="branch_id" value="{{ $branch_id or old('branch_id') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('branch_id'))
                   <span class="help-block">
                     <strong>{{ $errors->first('branch_id') }}</strong>
@@ -237,7 +242,7 @@
               </div>
               <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                 <label for="status">Status</label>
-                <input id="status" type="text" name="status" value="{{ old('status') }}" class="form-control" style="width: 100%">
+                <input id="status" type="text" name="status" value="{{ $status or old('status') }}" class="form-control" style="width: 100%">
                 @if ($errors->has('status'))
                   <span class="help-block">
                     <strong>{{ $errors->first('status') }}</strong>

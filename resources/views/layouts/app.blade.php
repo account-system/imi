@@ -116,6 +116,17 @@
         padding-bottom: 1px;
         min-height: 2.15em;
       }
+      .action, .toolbar {
+        border-style: none;
+      }
+      .action .k-split-button {
+        margin-left: 0px;
+      }
+      .image-preview {
+        position: relative;
+        vertical-align: top;
+        height: 45px;
+      }
     </style>
 
     @yield('after_styles')
@@ -217,6 +228,82 @@
         {value: true, text: "True"}
       ];
 
+      /*It's date macro data source*/
+      var dateMacroDataSource =[
+        {value: "all", text: "All Dates"},
+        {value: "custom", text: "Custom"},
+        {value: "today", text: "Today"},
+        {value: "thisweek", text: "This Week"},
+        {value: "thisweektodate", text: "This Week-to-date"},
+        {value: "thismonth", text: "This Month"},
+        {value: "thismonthtodate", text: "This Month-to-date"},
+        {value: "thisquarter", text: "This Quarter"},
+        {value: "thisquartertodate", text: "This Quarter-to-date"},
+        {value: "thisyear", text: "This Year"},
+        {value: "thisyeartodate", text: "This Year-to-date"},
+        {value: "yesterday", text: "Yesterday"},
+        {value: "recent", text: "Recent"},
+        {value: "lastweek", text: "Last Week"},
+        {value: "lastweektodate", text: "Last Week-to-date"},
+        {value: "lastmonth", text: "Last Month"},
+        {value: "lastmonthtodate", text: "Last Month-to-date"},
+        {value: "lastquarter", text: "Last Quarter"},
+        {value: "lastquartertodate", text: "Last Quarter-to-date"},
+        {value: "lastyear", text: "Last Year"},
+        {value: "lastyeartodate", text: "Last Year-to-date"},
+        {value: "since30daysago", text: "Since 30 Days Ago"},
+        {value: "since60daysago", text: "Since 60 Days Ago"},
+        {value: "since90daysago", text: "Since 90 Days Ago"},
+        {value: "since365daysago", text: "Since 365 Days Ago"},
+        {value: "nextweek", text: "Next Week"},
+        {value: "nextfourweeks", text: "Next 4 Weeks"},
+        {value: "nextmonth", text: "Next Month"},
+        {value: "nextquarter", text: "Next Quarter"},
+        {value: "nextyear", text: "Next Year"},
+      ];
+
+      /*It's category data source*/
+      var categoryDropDownListDataSource = new kendo.data.DataSource({
+        batch: true,
+        transport: {
+          read: {
+            url: crudBaseUrl + "/item/category/list/dropdownlist",
+            type: "GET",
+            dataType: "json"
+          },
+          create: {
+            url: crudBaseUrl + "/item/category/store",
+            type: "POST",
+            dataType: "json",
+            complete: function(result){
+              var data = result.responseJSON[0];
+              $("#category").data('kendoDropDownList').dataSource.read().then(function(){
+                var category =  $("#category").data('kendoDropDownList');
+                category.select(function(dataItem){
+                  return dataItem.value === data.id;
+                });
+              });
+            }
+          },
+          parameterMap: function(options, operation) {
+            if (operation !== "read" && options.models) {
+              return {categories: kendo.stringify(options.models)};
+            }
+          }
+        },
+        schema: {
+          model: {
+            id: "id",
+            fields: {
+              id: { type: "number" },
+              name: { type: "string" },
+              description: { type: "string", nullable: true },
+              status: { field: "status", type: "string", defaultValue: "Active" }
+            }
+          }
+        }
+      });
+
       /*To make Pace works on Ajax calls*/
       $(document).ajaxStart(function() { Pace.restart(); });
 
@@ -237,6 +324,48 @@
         }
       });
 
+      /*Initialize category dropdownlist*/
+      function initCategoryDropDownList(){
+        $("#category").kendoDropDownList({
+          filter: "startswith",
+          optionLabel: "-Select category-",
+          dataValueField: "value",
+          dataTextField: "text",
+          dataSource: categoryDropDownListDataSource,
+          noDataTemplate: $("#noDataTemplate").html()
+        });
+      }
+
+      /*Initialize image upload*/
+      function initImageUpload(){
+        $("#image").kendoUpload({
+          multiple: false,
+          validation: {
+            allowedExtensions: [".gif", ".jpg", ".png"]
+          },
+          select: function(e) {
+            var file    = e.files[0];
+            var wrapper = this.wrapper;
+            setTimeout(function(){
+              /*Preview image file*/
+              var raw   = file.rawFile;
+              var reader= new FileReader();
+
+              if (raw) {
+                reader.onloadend = function () {
+                  var preview = $("<img class='img-thumbnail image-preview'>").attr("src", this.result);
+
+                  wrapper.find(".k-file[data-uid='" + file.uid + "'] .k-file-extension-wrapper")
+                    .replaceWith(preview);
+                };
+
+                reader.readAsDataURL(raw);
+              }
+            });
+          }
+        });
+      }
+      
       /*Initialize gender dropdownlist*/ 
       function initGenderDropDownList()
       {
@@ -251,12 +380,13 @@
       /*Initialize branch dropdownlist*/ 
       function initBranchDropDownList(){
         $("#branch").kendoDropDownList({
+          optionLabel: "-Select branch-",
           dataValueField: "value",
           dataTextField: "text",
           dataSource: {
             transport: {
               read: {
-                url: crudBaseUrl+"/branch/list/filter",
+                url: crudBaseUrl+"/branch/list/dropdownlist",
                 type: "GET",
                 dataType: "json"
               }
@@ -323,6 +453,27 @@
         });
       }
 
+      /*Add new dropdownlist*/
+      function addNew(widgetId, value) {
+        var widget = $("#" + widgetId).getKendoDropDownList();
+        var dataSource = widget.dataSource;
+
+        if (confirm("Are you sure?")) {
+          dataSource.add({
+            id: 0,
+            name: value,
+            description: null,
+            status: "Active"
+          });
+
+          dataSource.one("sync", function() {
+            widget.select(dataSource.view().length - 1);
+          });
+
+          dataSource.sync();
+        }
+      };
+
       /*Initailize popover branch*/
       $(document).ready(function(){
         if('{{auth::check()}}'){
@@ -331,7 +482,7 @@
 
           var branches = <?php echo (auth::check()) ? json_encode(Auth::user()->branches) : json_encode(array());?>;
           var content = "";
-          $.each(branches,function(index,branch){
+          $.each(branches, function(index,branch){
               radioBranch = (index == 0) ? 
                             "<div class='radio'>" +
                               "<label>" +
@@ -367,6 +518,15 @@
         return $('#radioBranch').parent().parent().parent().find('input').filter("[checked='checked']").val();
       }  
       
+    </script>
+
+    <!-- Template add new dropdownlist -->
+    <script id="noDataTemplate" type="text/x-kendo-tmpl">
+      <div>
+          No data found. Do you want to add new item - '#: instance.filterInput.val() #' ?
+      </div>
+      <br />
+      <button class="k-button" onclick="addNew('#: instance.element[0].id #', '#: instance.filterInput.val() #')">Add new item</button>
     </script>
 
     <!-- Create textbox multi search toolbar for input HTML element --> 

@@ -344,7 +344,7 @@
           <textarea class="k-textbox" name="detail" data-bind="value:detail" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
         </div>
 
-         <div class="col-12">
+        <div class="col-12">
             <label for="branch_id">Branch</label>
             <input id="branch" name="branch_id" data-bind="value:branch_id" required data-required-msg="The branch field is required" style="width: 100%;" />
         </div>

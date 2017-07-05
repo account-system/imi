@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
 
         /*Accounting system seeder*/
         $this->call(AccountTypesTableSeeder::class);
+        $this->call(TransactionTypesTableSeeder::class);
     }
+
 }

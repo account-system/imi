@@ -84,13 +84,14 @@
             fields: {
               id: { editable: false, nullable: true },
               account_type_id: { type: "number" },
-              parent_account_id: { type: "number", nullable: true },
               code: { type: "number", defaultValue: null },  
               name: { type: "string" },
-              description: { type: "string", nullable: true }, 
+              description: { type: "string", nullable: true },
+              parent_account_id: { type: "number", nullable: true }, 
               status: { field: "status", type: "string", defaultValue: "Active" },
-              opening_balance_amount: { field: "opening_balance_amount", type: "number", defaultValue: null },
-              as_of_date: { field: "as_of_date", type: "date", defaultValue: null },
+              balance: { field: "balance", type: "number", defaultValue: null },
+              balance_date: { field: "balance_date", type: "date" },
+              branch_id: { type: "number" }, 
               created_by: { type: "number", editable: false, nullable: true }, 
               updated_by: { type: "number", editable: false, nullable: true },
               created_at: { type: "date", editable: false, nullable: true }, 
@@ -213,8 +214,10 @@
             var accountType = $('#accountType').data('kendoDropDownList');
             accountType.enable(false);
             /*Hide controls*/
-            $('#amount').parent().parent().parent().hide();
-            $('#as-of-date').parent().parent().parent().hide();
+            $('#balance').parent().parent().parent().remove();
+            $('#balance-date').parent().parent().parent().remove();
+            $('#branch').parent().parent().remove();
+
 
             /*Validate code available*/
             var validator = $("#frmAccount").kendoValidator({
@@ -320,29 +323,16 @@
         dataBound: function(){
           //Get object account type
           var accountType           = this.dataItem();
-          //List id of account type with opening balance account 
-          var ListAccountTypeId     = [1, 3, 4, 9]; 
+          
           //Initalize object controls
           var codeNumericTextBox    = $('#code').data("kendoNumericTextBox");
-          var amountNumericTextBox  = $('#amount').data('kendoNumericTextBox');
-          var asOfDateDatePicker    = $('#as-of-date').data('kendoDatePicker');   
           
           if (accountType.accountTypeId == '') {
             //Remove attribute from element code numerictextbox
             codeNumericTextBox.element.removeAttr('placeholder');
-            //Disable controls 
-            amountNumericTextBox.enable(false);
-            asOfDateDatePicker.enable(false);
           }else{
             //Add attribute to element code numerictextbox
             codeNumericTextBox.element.attr('placeholder', accountType.minCode + ' - ' + accountType.maxCode);
-            if (ListAccountTypeId.indexOf(accountType.accountTypeId) != -1) {
-              amountNumericTextBox.enable();
-              asOfDateDatePicker.enable(); 
-            }else{
-              amountNumericTextBox.enable(false);
-              asOfDateDatePicker.enable(false);
-            }
           }
           $("#code").parents('span').parents('span').attr('style','width:100%;');
         },
@@ -350,30 +340,31 @@
            //Get object account type
           var accountType           = this.dataItem();
           //List id of account type with opening balance account 
-          var ListAccountTypeId     = [1, 3, 4, 9]; 
+          var ListAccountTypeId     = [1, 3, 4, 5, 7, 8, 9]; 
           //Initalize object controls
-          var codeNumericTextBox    = $('#code').data("kendoNumericTextBox");
-          var amountNumericTextBox  = $('#amount').data('kendoNumericTextBox');
-          var asOfDateDatePicker    = $('#as-of-date').data('kendoDatePicker');   
+          var codeNumericTextBox    = $('#code').data("kendoNumericTextBox"); 
 
           if (accountType.accountTypeId == '') {
             //Remove attribute from element code numerictextbox
             codeNumericTextBox.element.removeAttr('placeholder');
             codeNumericTextBox.value('');
             //Disable controls 
-            amountNumericTextBox.enable(false);
-            asOfDateDatePicker.enable(false);
+            $('#balance').parent().parent().parent().hide();
+            $('#balance-date').parent().parent().parent().hide();
+            $('#branch').parent().parent().hide();
           }else{
             //Add attribute to element code numerictextbox
             codeNumericTextBox.element.attr('placeholder', accountType.minCode + ' - ' + accountType.maxCode);
             codeNumericTextBox.value('');
 
             if (ListAccountTypeId.indexOf(accountType.accountTypeId) != -1) {
-              amountNumericTextBox.enable();
-              asOfDateDatePicker.enable(); 
+              $('#balance').parent().parent().parent().show();
+              $('#balance-date').parent().parent().parent().show();
+              $('#branch').parent().parent().show();
             }else{
-              amountNumericTextBox.enable(false);
-              asOfDateDatePicker.enable(false);
+              $('#balance').parent().parent().parent().hide();
+              $('#balance-date').parent().parent().parent().hide();
+              $('#branch').parent().parent().hide();
             }
           }
           $("#code").parents('span').parents('span').attr('style','width:100%;');
@@ -407,7 +398,7 @@
       initStatusDropDownList();
 
       /*Initialize amount NumericTextBox*/
-      $("#amount").kendoNumericTextBox({
+      $("#balance").kendoNumericTextBox({
           format: "c",
           min: 0,
           max: 99999999.99,
@@ -415,27 +406,35 @@
           round: false,
           change:function(){
             /*Call requird as of date numerictextbox*/
-            requiredAsOfDate();
+            requiredFields();
           }
       });
 
       /*Initailize as of datepicker*/
-      $("#as-of-date").kendoDatePicker({
+      $("#balance-date").kendoDatePicker({
         parseFormats: ["dd/MM/yyyy", "yyyy/MM/dd"],
         format: "yyyy/MM/dd" 
       });
+
+      /*Initailize branch dropdownlist*/
+      initBranchDropDownList();
     }
 
     /*Requird as of date datepicker*/
-    function requiredAsOfDate(){
-      var amount    = $('#amount').data('kendoNumericTextBox');
-      var asOfDate  = $('#as-of-date').data('kendoDatePicker');  
-      if (amount.value() > 0) {
-        asOfDate.element.attr('required','required');
-        asOfDate.element.attr('data-required-msg', 'The as of date field is required');  
+    function requiredFields(){
+      var balance     = $('#balance').data('kendoNumericTextBox');
+      var balanceDate = $('#balance-date').data('kendoDatePicker');
+      var branch      = $('#branch').data('kendoDropDownList');  
+      if (balance.value() > 0) {
+        balanceDate.element.attr('required','required');
+        balanceDate.element.attr('data-required-msg', 'The as of field is required'); 
+        branch.element.attr('required','required');
+        branch.element.attr('data-required-msg', 'The branch field is required'); 
       }else{
-        asOfDate.element.removeAttr('required');
-        asOfDate.element.removeAttr('data-required-msg');  
+        balanceDate.element.removeAttr('required');
+        balanceDate.element.removeAttr('data-required-msg');  
+        branch.element.removeAttr('required');
+        branch.element.removeAttr('data-required-msg');  
       }
     }
 
@@ -506,35 +505,39 @@
               <input id="accountType" name="account_type_id" data-bind="value:account_type_id" required data-required-msg="The account type field is required" style="width: 100%;" />
           </div> 
           <div class="col-12">
-              <label for="parent_account_id">Sub Of Account</label>
-              <input id="subOf" data-bind="value:parent_account_id"  style="width: 100%;" />
-          </div> 
-          <div class="col-12">
             <label for="code">Account Code</label>
             <input type="number" id="code" name="code" data-bind="value:code" required data-required-msg="The account code field is required" data-available data-available-url="{{url('')}}/account/validate" data-available-msg="The code is not avalible" style="width: 100%;"/>
           </div> 
           <div class="col-12">
             <label for="name">Account Name</label>
             <input type="text" class="k-textbox" name="name" data-bind="value:name" required data-required-msg="The name field is required" pattern=".{1,60}" validationMessage="The name may not be greater than 60 characters" style="width: 100%;"/>
+          </div>
+          <div class="col-12">
+            <label for="description">Description</label>
+            <textarea class="k-textbox" name="description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
+          </div> 
+          <div class="col-12">
+              <label for="parent_account_id">Sub Of Account</label>
+              <input id="subOf" data-bind="value:parent_account_id"  style="width: 100%;" />
           </div>  
         </div>
         <div class="row-6"> 
           <div class="col-12">
-            <label for="description">Description</label>
-            <textarea class="k-textbox" name="description" data-bind="value:description" maxlength="200" style="width: 100%; height: 97px;"></textarea> 
-          </div>
-          <div class="col-12">
               <label for="status">Status</label>
               <input id="status" data-bind="value:status"  style="width: 100%;" />
           </div>
-          <div class="col-12">
-            <label for="amount">Opening Balance Amount</label>
-            <input id="amount" type="number" name="amount" data-bind="value:amount" style="width: 100%;"/>
+          <div class="col-12" style="display: none;">
+            <label for="balance">Balance</label>
+            <input id="balance" type="number" name="balance" data-bind="value:balance" style="width: 100%;"/>
           </div>
-          <div class="col-12">
-            <label for="as_of_date">As of Date</label>
-            <input type="text" data-type="date" id="as-of-date" name="as_of_date" data-bind="value:as_of_date" data-role='datepicker' validationMessage="The as of date is not valid date" style="width: 100%;"/>
-          </div>  
+          <div class="col-12" style="display: none;">
+            <label for="balance_date">As of</label>
+            <input type="text" data-type="date" id="balance-date" name="balance_date" data-bind="value:balance_date" data-role='datepicker' validationMessage="The as of field is not valid date" style="width: 100%;"/>
+          </div> 
+          <div class="col-12" style="display: none;">
+            <label for="branch_id">Branch</label>
+            <input id="branch" name="branch_id" data-bind="value:branch_id" style="width: 100%;"/>
+          </div> 
         </div>
       </div>
     </form>

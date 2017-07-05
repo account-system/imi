@@ -9,12 +9,12 @@
 @section('header')
   <section class="content-header">
     <h1>
-      Add <span class="text-lowercase">item</span>
+      Edit <span class="text-lowercase">item</span>
     </h1>
     <ol class="breadcrumb">
     <li><a href="{{ url('').'/dashboard' }}">{{ config('app.name') }}</a></li>
       <li><a href="{{ url('').'/item' }}" class="text-capitalize">items</a></li>
-      <li class="active">Add</li>
+      <li class="active">Edit</li>
     </ol>
   </section>
 @endsection
@@ -33,17 +33,17 @@
           </ul>
         </div>
       @endif
-      <form id="frmService" method="POST" action="{{ url('').'/item/service/store' }}" accept-charset="UTF-8">
+      <form id="frmService" method="POST" action="{{ url('').'/item/service/'.$id.'/update' }}" accept-charset="UTF-8">
         {{ csrf_field() }}
         <div class="box">
           <div class="box-header with-border">
-            <h3 class="box-title">Add a new item (service)</h3>
+            <h3 class="box-title">Edit item (service)</h3>
           </div>
           <div class="box-body row">
               <div class="col-sm-12">
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                   <label for="name">Name*</label>
-                  <input id="name" name="name" value="{{ old('name') }}" class="k-textbox form-control" style="width: 100%">
+                  <input id="name" name="name" value="{{ $name or old('name') }}" class="k-textbox form-control" style="width: 100%">
                   @if ($errors->has('name'))
                     <span class="help-block">
                       <strong>{{ $errors->first('name') }}</strong>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('sku') ? ' has-error' : '' }}">
                   <label for="sku">SKU</label>
-                  <input id="sku" name="sku" value="{{ old('sku') }}" class="k-textbox form-control" style="width: 100%">
+                  <input id="sku" name="sku" value="{{ $sku or old('sku') }}" class="k-textbox form-control" style="width: 100%">
                   @if ($errors->has('sku'))
                     <span class="help-block">
                       <strong>{{ $errors->first('sku') }}</strong>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
                   <label for="image">Image</label>
-                  <input id="image" name="image" accept="image/*" value="{{ old('image') }}" type="file" class="form-control" style="width: 100%"> 
+                  <input id="image" name="image" accept="image/*" value="{{ $image or old('image') }}" type="file" class="form-control" style="width: 100%"> 
                   @if ($errors->has('image'))
                     <span class="help-block">
                       <strong>{{ $errors->first('image') }}</strong>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
                   <label for="category_id">Category</label>
-                  <input id="category" name="category_id" value="{{ old('category_id') }}" class="form-control" style="width: 100%">
+                  <input id="category" name="category_id" value="{{$category_id or old('category_id') }}" class="form-control" style="width: 100%">
                   @if ($errors->has('category_id'))
                     <span class="help-block">
                       <strong>{{ $errors->first('category_id') }}</strong>
@@ -80,7 +80,7 @@
                 <hr style="border-top: 1px solid #dcdcdc;">
                 <div class="form-group{{ $errors->has('sale_description') ? ' has-error' : '' }}">
                   <label for="sale_description">Sale description</label>
-                  <textarea id="saleDescription" name="sale_description" class="k-textbox" style="width: 100%">{{ old('sale_description') }}</textarea>
+                  <textarea id="saleDescription" name="sale_description" class="k-textbox" style="width: 100%">{{ $sale_description or old('sale_description') }}</textarea>
                   @if ($errors->has('sale_description'))
                     <span class="help-block">
                       <strong>{{ $errors->first('sale_description') }}</strong>
@@ -89,7 +89,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                   <label for="price">Price</label>
-                  <input id="price" name="price" value="{{ old('price') }}" type="number"  style="width: 100%">
+                  <input id="price" name="price" value="{{ $price or old('price') }}" type="number"  style="width: 100%">
                   @if ($errors->has('price'))
                     <span class="help-block">
                       <strong>{{ $errors->first('price') }}</strong>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('income_account_id') ? ' has-error' : '' }}">
                   <label for="income_account_id">Income account</label>
-                  <input id="incomeAccount" name="income_account_id" value="{{ old('income_account_id') }}" class="form-control" style="width: 100%">
+                  <input id="incomeAccount" name="income_account_id" value="{{ $income_account_id or old('income_account_id') }}" class="form-control" style="width: 100%">
                   @if ($errors->has('income_account_id'))
                     <span class="help-block">
                       <strong>{{ $errors->first('income_account_id') }}</strong>
@@ -108,7 +108,7 @@
                 <hr style="border-top: 1px solid #dcdcdc;">
                 <div class="form-group{{ $errors->has('branch') ? ' has-error' : '' }}">
                   <label for="branch">Branch</label>
-                  <input id="branch" name="branch_id" value="{{ old('branch_id') }}" class="form-control" style="width: 100%">
+                  <input id="branch" name="branch_id" value="{{ $branch_id or old('branch_id') }}" class="form-control" style="width: 100%">
                   @if ($errors->has('branch'))
                     <span class="help-block">
                       <strong>{{ $errors->first('branch') }}</strong>
@@ -117,7 +117,7 @@
                 </div>
                 <div class="form-group{{ $errors->has('status') ? ' has-error' : '' }}">
                   <label for="status">Status</label>
-                  <input id="status" name="status" value="{{ old('status') }}" class="form-control" style="width: 100%">
+                  <input id="status" name="status" value="{{ $status or old('status') }}" class="form-control" style="width: 100%">
                   @if ($errors->has('status'))
                     <span class="help-block">
                       <strong>{{ $errors->first('status') }}</strong>

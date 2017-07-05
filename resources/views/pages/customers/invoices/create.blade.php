@@ -9,11 +9,11 @@
 @section('header')
   <section class="content-header">
     <h1>
-      Add <span class="text-lowercase">item</span>
+      Add <span class="text-lowercase">invoice</span>
     </h1>
     <ol class="breadcrumb">
     <li><a href="{{ url('').'/dashboard' }}">{{ config('app.name') }}</a></li>
-      <li><a href="{{ url('').'/item' }}" class="text-capitalize">item ist</a></li>
+      <li><a href="{{ url('').'/invoice' }}" class="text-capitalize">invoice</a></li>
       <li class="active">Add</li>
     </ol>
   </section>
@@ -22,7 +22,6 @@
 @section('content')
   <div class="row">
     <div class="col-md-offset-2 col-md-8">
-      <a href="{{ url('').'/item' }}"><i class="fa fa-angle-double-left"></i> Back to  <span class="text-lowercase">item list</span></a><br><br>
       @if(count($errors) > 0)
         <div class="callout callout-danger">
           <h4>Please fix the following errors:</h4>

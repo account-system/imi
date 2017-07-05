@@ -6,6 +6,9 @@ use App\Account;
 use App\AccountType;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\Status;
+use App\Transaction;
+use App\TransactionDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -99,6 +102,21 @@ class AccountController extends Controller
     {
         $accountsRequest = json_decode($request->input('accounts'));
 
+        /*Transaction type id(Journal Entry)*/
+        $journalEntryTransactionTypeId = 11;
+
+        /*Opening balance equity account id*/
+        $openingBalanceEquityAccountId = 1;
+
+        /*Account type ids(Bank, Other Current Asset, Fixed Asset, Other Asset) in debit value*/
+        $debitInAccountTypeIds = [1, 3, 4, 5];
+
+        /*Account type ids(Other Current Liability, Long Term Liability, Equity) in credit value*/
+        $creditInAccountTypeIds=  [7, 8, 9];
+
+        /*Account type ids debit and credit value*/
+        $accountIds = array_merge($debitInAccountTypeIds, $creditInAccountTypeIds);
+
         foreach ($accountsRequest as $key => $accountRequest) {
             try {
 
@@ -114,6 +132,56 @@ class AccountController extends Controller
                 $accountObject->updated_by          =   auth::id();
 
                 $accountObject->save();
+
+                /*Check account type can be opening balance*/
+                if(in_array($accountRequest->account_type_id, $accountIds)) {
+                    /*Check balance is greater than zero*/
+                    if($accountRequest->balance > 0){
+
+                        $transaction = New Transaction();
+
+                        $transaction->transaction_type_id   =   $journalEntryTransactionTypeId;
+                        $transaction->amount                =   $accountRequest->balance;
+                        $transaction->date                  =   Carbon::parse($accountRequest->balance_date)->addDay();
+                         $transaction->branch_id            =   $accountRequest->branch_id;
+                        $transaction->created_by            =   auth::id();
+                        $transaction->updated_by            =   auth::id();
+
+                        $transaction->save();
+
+                        $journalEntryData   =   array(
+                            array( 
+                                'transaction_id'    =>  $transaction->id,
+                                'account_id'        =>  $accountObject->id,
+                                'amount'            =>  $accountRequest->balance,
+                                'memo'              =>  "Opening Balance",
+                                'created_by'        =>  auth::id(),
+                                'updated_by'        =>  auth::id()
+                            ),
+                            array(
+                                'transaction_id'    =>  $transaction->id,
+                                'account_id'        =>  $openingBalanceEquityAccountId,
+                                'amount'            =>  $accountRequest->balance,
+                                'memo'              =>  "Opening Balance",
+                                'created_by'        =>  auth::id(),
+                                'updated_by'        =>  auth::id()
+                            )
+                        );
+
+                        if (in_array($accountRequest->account_type_id, $debitInAccountTypeIds)) {
+                            $journalEntryData[0]['debit'] = $accountRequest->balance;
+                            $journalEntryData[1]['credit'] = $accountRequest->balance;
+                        }elseif (in_array($accountRequest->account_type_id, $creditInAccountTypeIds)) {
+                            $journalEntryData[0]['credit'] = $accountRequest->balance;
+                            $journalEntryData[1]['debit'] = $accountRequest->balance;  
+                        }
+
+                        TransactionDetail::create($journalEntryData[0]);
+                        TransactionDetail::create($journalEntryData[1]);
+                    }
+
+                }
+                
 
                 $accountsResponse[] = $accountObject;
 

@@ -41,6 +41,16 @@ Route::group(['prefix' => '/customer'], function () {
     Route::post('/update', 'CustomerTypeController@update');
     Route::post('/destroy', 'CustomerTypeController@destroy');
     });
+
+    //Route customer type
+    Route::group(['prefix' => '/invoice'], function () {
+    Route::get('/', 'CustomerInvoiceController@view');
+    Route::get('/create', 'CustomerInvoiceController@create');
+    Route::get('/list/{option}', 'CustomerInvoiceController@getList');
+    Route::post('/store', 'CustomerInvoiceController@store');
+    Route::post('/update', 'CustomerInvoiceController@update');
+    Route::post('/destroy', 'CustomerInvoiceController@destroy');
+    });
 });
 
 // Route doctor
@@ -212,6 +222,12 @@ Route::group(['prefix' => '/account'], function(){
         Route::get('get/{option}', 'AccountController@getAccountTypeList'); 
         Route::get('{id}/account/{option}', 'AccountController@getAccountListByAccountType'); 
     });
+});
+
+//Route chart of account
+Route::group(['prefix' => '/report'], function(){
+    Route::get('/journal', 'ReportController@journal');
+    
 });
 
 

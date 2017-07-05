@@ -40,7 +40,7 @@
                 <li style="border-bottom: 2px inset #ecf0f5;"><a href="{{ url('').'/customer' }}"><span>Customer List</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/receipt-payment') }}"><span>Receipt Payment</span></a></li>
                 <li><a href="{{ url(config('backpack.base.route_prefix').'/appointment') }}"><span>Appointment</span></a></li>
-                <li><a href="{{ url(config('backpack.base.route_prefix').'/create-invoice') }}"><span>Create Invoice</span></a></li>
+                <li><a href="{{ url('').'/customer/invoice' }}"><span>Create Invoice</span></a></li>
               </ul>
           </li>
           <!-- ==== Setup Staff ==================================== -->
@@ -127,7 +127,7 @@
                 <li style="border-bottom: 2px inset #ecf0f5;"><a href="#"><span>Financial</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/balance-sheet') }}"><span>Balance Sheet</span></a></li>
-                  <li><a href="{{ url(config('backpack.base.route_prefix').'/journal') }}"><span>Journal</span></a></li>
+                  <li><a href="{{ url('').'/report/journal' }}"><span>Journal</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/cashflow') }}"><span>Cash Flow</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/general-ledger') }}"><span>General Ledger</span></a></li>
                   <li><a href="{{ url(config('backpack.base.route_prefix').'/income-statement') }}"><span>Income Statement</span></a></li>
