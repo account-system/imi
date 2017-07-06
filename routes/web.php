@@ -226,8 +226,10 @@ Route::group(['prefix' => '/account'], function(){
 
 //Route chart of account
 Route::group(['prefix' => '/report'], function(){
-    Route::get('/journal', 'ReportController@journal');
-    
+    Route::group(['prefix' => '/journal'], function () {
+        Route::get('/', 'ReportController@journal'); 
+        Route::get('/get', 'ReportController@getJournal'); 
+    });
 });
 
 

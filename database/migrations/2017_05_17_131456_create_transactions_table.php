@@ -17,7 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('transaction_type_id')->unsigned();
             $table->decimal('amount', 10, 2)->nullable()->default(null);
-            $table->dateTime('date');
+            $table->date('date');
             $table->string('memo',200)->nullable()->default(null);
             $table->string('reference_number',60)->nullable()->default(null);
             $table->dateTime('due_date')->nullable()->default(null);

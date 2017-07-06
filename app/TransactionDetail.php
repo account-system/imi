@@ -23,4 +23,12 @@ class TransactionDetail extends Model
     {
         return $this->belongsTo('App\Transaction');
     }
+
+    /**
+     * Get the account that owns the transaction detail.
+     */
+    public function account()
+    {
+        return $this->belongsTo('App\Account');
+    }
 }

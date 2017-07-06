@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Transaction;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -25,8 +26,6 @@ class ReportController extends Controller
     /**
      * Display a listing of the journal resport.
      *
-     * @param  \Illuminate\Http\Request  $request
-     *
      * @return \Illuminate\Http\Response
      */
     public function journal(Request $request)
@@ -34,5 +33,69 @@ class ReportController extends Controller
         $this->data['title'] = 'Journal';
 
         return view('pages.reports.journal', $this->data);
+    }
+
+    /**
+     * Get a listing of the journal resport.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getJournal(Request $request)
+    {
+        $dateMacro 	=	$request->input('date_macro');
+        $lowDate	= 	$request->input('low_date');
+        $highDate	=	$request->input('high_date');
+
+        if($dateMacro == 'all'){
+        	$journals = Transaction::all();	
+        }else{
+        	$journals = Transaction::where('date', '>=', $lowDate)->where('date', '<=', $highDate)->get();
+        }
+        
+        $journalReports = $journalReport = [];
+
+        foreach ($journals as $key => $journal) {
+
+            $journalDetails = $journal->transactionDetails()->get();
+
+            foreach ($journalDetails as $key => $journalDetail) {
+                if($key == 0){
+                    $journalReport['id']                =   $journal->id;
+                    $journalReport['date']              =   $journal->date;
+                    $journalReport['transactionType']   =   $journal->TransactionType->name;
+                    $journalReport['referenceNumber']   =   $journal->reference_number;
+                    $journalReport['name']              =   null;
+                    $journalReport['memo']              =   $journal->memo;
+                    $journalReport['account']           =   $journalDetail->account->name;
+                    $journalReport['debit']             =   $journalDetail->debit;
+                    $journalReport['credit']            =   $journalDetail->credit;
+                    $journalReport['createdBy']         =   null;
+                    $journalReport['updatedBy']         =   null;
+                    $journalReport['createdAt']         =   $journal->created_at;
+                    $journalReport['updatedAt']         =   $journal->updated_at;
+                    
+                }else{
+                    $journalReport['id']                =   $journalDetail->transaction_id;
+                    $journalReport['date']              =   null;
+                    $journalReport['transactionType']   =   null;
+                    $journalReport['referenceNumber']   =   null;
+                    $journalReport['name']              =   null;
+                    $journalReport['memo']              =   $journalDetail->memo;
+                    $journalReport['account']           =   $journalDetail->account->name;
+                    $journalReport['debit']             =   $journalDetail->debit;
+                    $journalReport['credit']            =   $journalDetail->credit;
+                    $journalReport['createdBy']         =   null;
+                    $journalReport['updatedBy']         =   null;
+                    $journalReport['createdAt']         =   null;
+                    $journalReport['updatedAt']         =   null;  
+                }
+
+                $journalReports[] = $journalReport;
+            }
+        }
+
+        return Response()->Json($journalReports);
     }
 }

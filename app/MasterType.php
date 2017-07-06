@@ -22,9 +22,9 @@ class MasterType extends Model
         return $this->hasMany('App\MasterDetail');
     }
 
-     /**
-     * Get all doctor type records belong to doctor type table.
-     */
+    /**
+    * Get all doctor type records belong to doctor type table.
+    */
     public function doctorTypeRecords()
     {
         return $this->hasMany('App\MasterDetail');
