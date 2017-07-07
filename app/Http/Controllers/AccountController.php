@@ -142,7 +142,7 @@ class AccountController extends Controller
 
                         $transaction->transaction_type_id   =   $journalEntryTransactionTypeId;
                         $transaction->amount                =   $accountRequest->balance;
-                        $transaction->date                  =   Carbon::parse($accountRequest->balance_date)->addDay();
+                        $transaction->date                  =   Carbon::parse($accountRequest->balance_date);
                          $transaction->branch_id            =   $accountRequest->branch_id;
                         $transaction->created_by            =   auth::id();
                         $transaction->updated_by            =   auth::id();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -45,8 +46,8 @@ class ReportController extends Controller
     public function getJournal(Request $request)
     {
         $dateMacro 	=	$request->input('date_macro');
-        $lowDate	= 	$request->input('low_date');
-        $highDate	=	$request->input('high_date');
+        $lowDate	= 	Carbon::parse($request->input('low_date'))->format('Y-m-d');
+        $highDate	=	Carbon::parse($request->input('high_date'))->format('Y-m-d');
 
         if($dateMacro == 'all'){
         	$journals = Transaction::all();	

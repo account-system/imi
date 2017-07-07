@@ -11,6 +11,12 @@
     .k-widget > span.k-invalid,input.k-invalid {
       border: 1px solid red !important;
     }
+    .k-grouping-row {
+      display: none;
+    }
+    .k-grid tr td {
+    border-bottom: 0;
+}
   </style>
 @endsection
 
@@ -34,9 +40,9 @@
                 <label>Report period</label>
               <div>
                 <input id="dateMacro" name="date_macro" />&nbsp;&nbsp;
-                <input type="text" data-role='datepicker' id="lowDate" name="low_date" data-type="date" required="required" />&nbsp;&nbsp;
+                <input data-role='datepicker' id="lowDate" name="low_date" data-type="date" required="required" />&nbsp;&nbsp;
                  <label>to</label>&nbsp;&nbsp;
-                <input type="text" data-role='datepicker' id="highDate" name="high_date" data-type="date" required="required" data-greaterdate-field="low_date" data-greaterdate-msg='Retire date should be after Hire date' />&nbsp;&nbsp;
+                <input data-role='datepicker' id="highDate" name="high_date" data-type="date" required="required" />&nbsp;&nbsp;
               </div>
             </form>
             </br>
@@ -60,8 +66,6 @@
         errorTemplate: errorTemplate
       }).data("kendoValidator");
 
-      $("#age").kendoNumericTextBox();
-
       var tooltip = $("#frmJournalReport").kendoTooltip({
         filter: ".k-invalid",
         content: function(e) {
@@ -75,33 +79,33 @@
         }
       });
 
-      $("#dateMacro").kendoDropDownList({
+      var dateMacro = $("#dateMacro").kendoDropDownList({
           value: "thismonthtodate",
           dataTextField: "text",
           dataValueField: "value",
           dataSource: dateMacroDataSource,
+          dataBound: function(){
+            journalReportSubmit();
+          },
           change: function(){
+            var date      = new Date(),
+            firstDate     = lastDate = quarter = yesterday = null,
+            dateMacroValue= this.value(),
+            lowDate       = $("#lowDate").data('kendoDatePicker'),
+            highDate      = $("#highDate").data('kendoDatePicker'); 
 
-            var date  = new Date(),
-            firstDate = lastDate = quarter = yesterday = null,
-            dateMacro = this.value(),
-            lowDate   = $("#lowDate").data('kendoDatePicker'),
-            highDate  = $("#highDate").data('kendoDatePicker'); 
-
-            switch(dateMacro){
+            switch(dateMacroValue){
               case "all":
                 lowDate.enable(false);
                 lowDate.value("");
                 highDate.enable(false);
                 highDate.value("");
-                journalReportSubmit();
                 break;
               case 'custom':
                 lowDate.enable();
                 lowDate.value("");
                 highDate.enable();
                 highDate.value("");
-                journalReportSubmit();
                 break;
               case 'today':
                 lowDate.enable();
@@ -317,21 +321,27 @@
                 highDate.value(lastDate);
                 break;
             }
+
+            journalReportSubmit();
           }
-      });
+      }).data("kendoDropDownList");
     
       var start = $("#lowDate").kendoDatePicker({
         value: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
         format: "dd/MM/yyyy",
+        parseFormats: ["yyyy-MM-dd"],
         change: function(){
-
+          dateMacro.value('custom');
+          journalReportSubmit();
         }
       }).data("kendoDatePicker");
 
       var end = $("#highDate").kendoDatePicker({
         value: new Date(),
         format: "dd/MM/yyyy",
+        parseFormats: ["yyyy-MM-dd"],
         change: function(){
+          dateMacro.value('custom');
           journalReportSubmit();
         }
       }).data("kendoDatePicker");
@@ -363,10 +373,9 @@
             dataSource: {
               data: data,
               schema: {
-                id: "id",
                 model: {
                   fields: {
-                    id: { editable: false, nullable: true },
+                    id: { type : 'number' },
                     date: { type: "date" },
                     transactionType: { type: "string" },
                     referenceNumer: { type: "string" },
@@ -382,29 +391,34 @@
                   }
                 }
               },
-              pageSize: 20
+              group: {
+                field: "id", aggregates: [
+                  { field: "debit", aggregate: "sum" },
+                  { field: "credit", aggregate: "sum" }
+                ]
+              },
+              aggregate: [ 
+                { field: "debit", aggregate: "sum" },
+                { field: "credit", aggregate: "sum" }
+              ]
             },
+            groupable: { enabled: false, staticHeaders: false },
             columnMenu: true,
             scrollable: true,
             sortable: true,
-            filterable: true,
-            pageable: {
-                input: true,
-                numeric: false
-            },
             columns: [
-                { field: "date", title: "DATE", format: "{0:dd/MM/yyyy}" },
-                { field: "transactionType", title: "TRANSACTION TYPE" },
-                { field: "referenceNumber", title: "NO." },
-                { field: "name", title: "NAME" },
-                { field: "memo", title: "MEMO/DESCRIPTION" },
-                { field: "account", title: "ACCOUNT" },
-                { field: "debit", title: "DEBIT", format: "{0:c}" },
-                { field: "credit", title: "CREDIT", format: "{0:c}" },
-                { field: "createdAt", title: "CREATED", format: "{0:dd/MM/yyyy h:mm:ss tt}", hidden: true },
-                { field: "createdBy", title: "CREATED BY", hidden: true },
-                { field: "updatedAt", title: "LAST MODIFIED", format: "{0:dd/MM/yyyy h:mm:ss tt}", hidden: true },
-                { field: "updatedBy", title: "LAST MODIFIED BY", hidden: true },
+              { field: "date", title: "DATE", format: "{0:dd/MM/yyyy}" },
+              { field: "transactionType", title: "TRANSACTION TYPE" },
+              { field: "referenceNumber", title: "NO." },
+              { field: "name", title: "NAME" },
+              { field: "memo", title: "MEMO/DESCRIPTION" },
+              { field: "account", title: "ACCOUNT" },
+              { field: "debit", title: "DEBIT", format: "{0:c}", aggregates: ["sum"],  groupFooterTemplate: "#=kendo.toString(sum, 'c')#", footerTemplate: "TOTAL: #=kendo.toString(sum, 'c')#" },
+              { field: "credit", title: "CREDIT", format: "{0:c}", aggregates: ["sum"],  groupFooterTemplate: "#=kendo.toString(sum, 'c')#", footerTemplate: "TOTAL: #=kendo.toString(sum, 'c')#" },
+              { field: "createdAt", title: "CREATED", format: "{0:dd/MM/yyyy h:mm:ss tt}", hidden: true },
+              { field: "createdBy", title: "CREATED BY", hidden: true },
+              { field: "updatedAt", title: "LAST MODIFIED", format: "{0:dd/MM/yyyy h:mm:ss tt}", hidden: true },
+              { field: "updatedBy", title: "LAST MODIFIED BY", hidden: true },
             ]
         });
       }
